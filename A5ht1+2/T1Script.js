@@ -200,7 +200,6 @@ else if(index == 2){
  showAllProducts()
 }
 else if(index == 3){
-
 const discountMapping = disArr.reduce((acc, dis) => {
 acc[dis.percentage] = dis.value;
 return acc;
@@ -223,7 +222,7 @@ products.sort((a, b) => a.delivery.localeCompare(b.delivery));
 showAllProducts()
 }
 }
-
+//Added this line
 
 // Call the function to generate the table on page load
 function show2nd() {
