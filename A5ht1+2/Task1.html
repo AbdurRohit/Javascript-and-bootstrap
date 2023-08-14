@@ -28,7 +28,15 @@
     }
   </style>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div id="init">
+
+  </div>
+
+  <!-- Sample JSON array -->
+  <script>
+    init()
+    function init(){
+      let str = `<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="#">Store System</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -60,10 +68,9 @@
   <!-- Main content -->
   <div class="container mt-4" id="main-content">
 
-  </div>
-
-  <!-- Sample JSON array -->
-  <script>
+  </div>`
+  document.getElementById('init').innerHTML = str
+    }
     const products = [
       { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' },
       { name: 'Product B', price: 39.95, discount: '5%', supplier: 'Supplier B', delivery: 'Available' },
@@ -111,30 +118,30 @@ const puProd = [
     function makeinput(label, type, value, id, ph) {
       return str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>`
     }
-    function editProductForm(index) {
-      let obj = products[index]
-      let str = `<h1>Update product</h1>
+    // function editProductForm(index) {
+    //   let obj = products[index]
+    //   let str = `<h1>Update product</h1>
     
-    <form id="product-form">
-      <div class="mb-3">
-      `+ makeinput('Product name', 'text', obj.name, 'product-name', 'Enter name') +
-        `
-      <div class="mb-3">
-        `+ makeinput('Price', 'number', obj.price, 'product-price', 'Enter price') + `
-      </div>
-      <div class="mb-3">
-        `+ makeinput('Discount', 'number', obj.discount, 'product-discount', 'Enter discount') + `
-      </div>
-      <div class="mb-3">
-        `+ makeinput('Supplier', 'text', obj.supplier, 'product-supplier', 'Enter supplier') + `
-      </div>
-      <div class="mb-3">
-        `+ makeinput('Delivery', 'text', obj.delivery, 'product-delivery', 'Enter delivery') + `
-      </div>
-      <button type="submit" class="btn btn-primary" onclick="editProd(`+ index + `)">Submit</button>
-    </form>`
-      main.innerHTML = str
-    }
+    // <form id="product-form">
+    //   <div class="mb-3">
+    //   `+ makeinput('Product name', 'text', obj.name, 'product-name', 'Enter name') +
+    //     `
+    //   <div class="mb-3">
+    //     `+ makeinput('Price', 'number', obj.price, 'product-price', 'Enter price') + `
+    //   </div>
+    //   <div class="mb-3">
+    //     `+ makeinput('Discount', 'number', obj.discount, 'product-discount', 'Enter discount') + `
+    //   </div>
+    //   <div class="mb-3">
+    //     `+ makeDD(suppliers, "Supplier","supplierDD") + `
+    //   </div>
+    //   <div class="mb-3">
+    //     `+ makeinput('Delivery', 'text', obj.delivery, 'product-delivery', 'Enter delivery') + `
+    //   </div>
+    //   <button type="submit" class="btn btn-primary" onclick="editProd(`+ index + `)">Submit</button>
+    // </form>`
+    //   main.innerHTML = str
+    // }
     function editProd(index) {
       let productName = document.getElementById('product-name').value
       let productPrice = document.getElementById('product-price').value
@@ -218,7 +225,6 @@ const puProd = [
             <th>Discount</th>
             <th>Supplier</th>
             <th>Delivery</th>
-            <th>Update</th>
           </tr>
         </thead>
         <tbody id="product-table-body">
@@ -260,8 +266,6 @@ const puProd = [
           <td>`+ product.discount + `</td>
           <td>`+ product.supplier + `</td>
           <td>`+ product.delivery + `</td>
-          <td><button onclick="editProductForm(`+ index + `)" class="btn btn-dark">Edit</button>
-            <button onclick = "removeProduct(`+ index + `)"class="btn btn-danger">Remove</button></td>
         </tr>
       `;
       });
@@ -322,11 +326,11 @@ const puProd = [
     let str1 = `<div class="container mt-5">
     <h1>Purchase Table</h1>
     <table class="table">
-      <thead>\\why not working?????\\\\
+      <thead>
           <th onclick ="sortByProduct()">Product</th>
-          <th onclick ='sortByQuantity(purchase)'>Quantity</th>
-          <th onclick ='sortByPrice1(purchase)'>Price</th>
-          <th onclick ='sortBySupplier(purchase)'>Supplier</th>
+          <th onclick ='sortByQuantity()'>Quantity</th>
+          <th onclick ='sortByPrice1()'>Price</th>
+          <th onclick ='sortBySupplier()'>Supplier</th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -334,12 +338,7 @@ const puProd = [
     </table>
   </div>`
   contentDiv.innerHTML = str1
-  stockView2()
-  }
-  function stockView2(){
-  
   let table = document.getElementById("tableBody");
-  
   let str2 = purchase.map(item =>
       "<tr>" +
         "<td  >" + item.Product + "</td>" +
@@ -348,30 +347,32 @@ const puProd = [
         "<td  >" + item.Supplier + "</td>" +
       "</tr>"
     ).join(''); 
-  console.log(str2)
   table.innerHTML = str2
   }
 // Function to sort by Product
 function sortByProduct() {
-  [...purchase].sort((a, b) => a.Product.localeCompare(b.Product));
+  console.log("Array")
+  purchase.sort((a, b) => {
+    return a.Product.localeCompare(b.Product)
+  });
   stockView()
 }
 
 // Function to sort by Quantity
-function sortByQuantity(arr) {
-  return [...arr].sort((a, b) => a.Quantity - b.Quantity);
+function sortByQuantity() {
+  purchase.sort((a, b) => a.Quantity - b.Quantity);
   stockView()
 }
 
 // Function to sort by Price
-function sortByPrice1(arr) {
-  return [...arr].sort((a, b) => a.Price - b.Price);
+function sortByPrice1() {
+  purchase.sort((a, b) => a.Price - b.Price);
   stockView()
 }
 
 // Function to sort by Supplier
-function sortBySupplier(arr) {
-  return [...arr].sort((a, b) => a.Supplier.localeCompare(b.Supplier));
+function sortBySupplier() {
+  purchase.sort((a, b) => a.Supplier.localeCompare(b.Supplier));
   stockView()
 }
   </script>

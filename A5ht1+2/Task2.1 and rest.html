@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Employee System</title>
+    <style>
+        strong{
+            color: rgb(249, 89, 89);
+        }
+        #text{
+    color: rgb(241, 30, 65);
+  }
+  #show2{
+    border-style: hidden;
+    padding: 10px 20px 30px 40px;
+    /* box-shadow: 10px 5px 5px red; */
+  }
+
+    </style>
+</head>
+<body>
+    <div id="nav"></div>
+    <div class="container mt-4" id="content"></div>
+
+<script>
+   
+const employeesData = [
+    { name: "John Doe", email: "john@example.com", age: 30 },
+    { name: "Jane Smith", email: "jane@example.com", age: 25 },
+];
+
+let isOriginalView = true;
+
+
+navbar()
+function navbar(){
+    document.getElementById('nav').innerHTML=`<nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showEmployees()">Show Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="addEmployee()">Add an Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showDepartments()">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="addDepartment()">Add a Dept</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>`
+}
+
+function showEmployeesAlternate() {
+    const contentDiv = document.getElementById("content");
+    let employeesHtml = '<h2>Employee List - Alternate View</h2><ul class="list-group">';
+    employeesHtml+= `
+    <div class="row row-cols-3">`
+    employeesData.map(employee => {
+        employeesHtml += '<button class="col" id = "show2" ><li class="list-group-item">';
+        employeesHtml += '<strong>Name:</strong> ' + employee.name + '<br>';
+        employeesHtml += '<strong>Email:</strong> ' + employee.email + '<br>';
+        employeesHtml += '<strong>Age:</strong> ' + employee.age;
+        employeesHtml += '</li></buttons>';
+    });
+
+    employeesHtml += '</div></ul><button class="btn btn-primary mt-3" onclick="showEmployees()">Original View</button>';
+    
+    contentDiv.innerHTML = employeesHtml;
+}
+function showEmployees() {
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = `
+        <h2>Employee List</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${employeesData.map(employee => `
+                    <tr>
+                        <td>${employee.name}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.age}</td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        </table>
+        <button onclick = showEmployeesAlternate() class="btn btn-primary mt-3">Change view
+            </button>
+    `;
+}
+
+const departmentsData = [];
+
+function showDepartments() {
+    const contentDiv = document.getElementById("content");
+    if (departmentsData.length === 0) {
+        contentDiv.innerHTML = '<h2>No Departments Found</h2>';
+    } else {
+        contentDiv.innerHTML = `
+            <h2>Department List</h2>
+            <ul class="list-group">
+                ${departmentsData.map(department => `
+                    <li class="list-group-item">${department}</li>
+                `).join("")}
+            </ul>
+        `;
+    }
+}
+
+function addDepartment() {
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = `
+        <h2>Add Department</h2>
+        
+            <div class="mb-3">
+                <label for="deptName" class="form-label">Department Name</label>
+                <input type="text" class="form-control" id="deptName" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitDepartment()">Submit</button>
+        
+    `;
+}
+
+function submitDepartment() {
+    const deptNameInput = document.getElementById("deptName");
+    const newDeptName = deptNameInput.value;
+
+    departmentsData.push(newDeptName);
+
+    // Go back to the department list
+    showDepartments();
+}
+function addEmployee() {
+    const contentDiv = document.getElementById("content");
+    contentDiv.innerHTML = `
+        <h2>Add Employee</h2>
+        
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitEmployee()">Submit</button>
+    `;
+}
+
+function submitEmployee() {
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const ageInput = document.getElementById("age");
+
+    const newEmployee = {
+        name: nameInput.value,
+        email: emailInput.value,
+        age: parseInt(ageInput.value)
+    };
+
+    employeesData.push(newEmployee);
+
+    showEmployees();
+}
+
+    </script>
+</body>
+</html>
