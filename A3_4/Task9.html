@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+  <div id="tech-container"></div>
+</body>
+<script>
+    const technologies = ['JavaScript', 'Python', 'Java', 'Android', 'IOS'];
+    const skillLevels = ['Beginner', 'Intermediate', 'Good', 'Excellent'];
+main()
+var flag = -1
+var idArr = []
+var javaArr = []
+var javaArr2 = []
+
+function main() {
+      let techHtml = "";
+      technologies.map(function (technology) {
+        let techId = technology.toLowerCase() + "-tech";
+        techHtml += '<input type="checkbox" id="' + techId +'" '+
+          'onclick="generateSkillLevels(\''+techId+ '\', \''+ technology + '\', \'' + techId + '-skills\');"> ' + 
+          technology + '<div id="' + techId + '-skills' +'"></div><hr/>';
+      });
+      document.getElementById('tech-container').innerHTML = techHtml;  
+    };
+
+function hideRestDet(id){
+console.log("HR= ",id)
+  if(id.startsWith("JavaScript-")){
+    for(let i = 0;i<javaArr.length;i++){
+    if(javaArr[i].startsWith(id.substring(0,1))){
+      hideElem(javaArr[i])
+    }
+  }
+  }
+else if(id.startsWith("Java-")){
+    for(let i = 0;i<javaArr2.length;i++){
+    if(javaArr2[i].startsWith(id.substring(0,1))){
+      hideElem(javaArr2[i])
+    }
+  }
+  }
+else{
+  for(let j = 0;j<idArr.length;j++){
+    if(idArr[j].startsWith(id.substring(0,1))){
+      hideElem(idArr[j])
+    }
+  }
+  console.log("runing line 50")
+}
+}
+
+
+function hideElem(id){
+  document.getElementById(id).innerHTML = ' '
+  console.log("hide: ", id)
+}
+function generateProjectDetails(id) {
+  
+
+  if(id.startsWith('JavaScript-')){
+    javaArr.push(id)
+    
+    for(let i = 0 ; i< javaArr.length; i++){
+      console.log(javaArr[i].startsWith(id.substring(0,1)))
+      if(javaArr[i].startsWith(id.substring(0,1))){
+        hideElem(javaArr[i])
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+      else{
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+     }
+  }
+  else if(id.startsWith("Java-")){
+    javaArr2.push(id)
+    console.log("arr",idArr)
+    for(let i = 0 ; i< javaArr2.length; i++){
+      if(javaArr2[i].startsWith(id.substring(0,1))){
+        hideElem(javaArr2[i])
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+      else{
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+     }
+  }
+    else{
+      idArr.push(id)
+      console.log("Idarr",idArr)
+     for(let i = 0 ; i< idArr.length; i++){
+      if(idArr[i].startsWith(id.substring(0,1))){
+        hideElem(idArr[i])
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+      else{
+        const projectDetails = 'Project Details:<input type="text">';
+      document.getElementById(id).innerHTML = projectDetails;
+      }
+     }
+    }
+    
+}
+
+      
+    
+
+    function generateSkillLevels(checkId,technology,id) {
+      console.log(checkId)
+     var verify = document.getElementById(checkId).checked
+      console.log("this",verify)
+      if(verify){
+      let skillLevelsHtml = "";
+      skillLevels.map(function (skillLevel){
+        let skillRadioId = technology + "-skill-" + skillLevel.toLowerCase();
+        skillLevelsHtml += '<input type="radio" id="' + skillRadioId
+          + '" name="' + technology + '-skill"'
+          + (['Good', 'Excellent'].includes(skillLevel) ? ' onclick="generateProjectDetails(\'' + skillRadioId + '-project\');"' : 'onclick="hideRestDet(\'' + skillRadioId + '-project\');"')
+          + '> ' + skillLevel + '<div id="' + skillRadioId + '-project' + '"></div>';
+      });
+      document.getElementById(id).innerHTML = skillLevelsHtml;
+    }
+    else{
+      document.getElementById(id).innerHTML = ''
+    }
+    }
+
+    
+  </script>
+</html>

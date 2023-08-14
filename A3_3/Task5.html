@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tech Experts</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="main"></div>
+
+<script>
+        const data = [
+            {"name":"Jack","age":28,"city":"London","tech":"Node JS"},
+            {"name":"Mary","age":32,"city":"Mumbai","tech":"React JS"},
+            {"name":"Bob","age":35,"city":"New York","tech":"Angular JS"},
+            {"name":"Steve","age":26,"city":"New Delhi","tech":"Javascript JS"},
+            {"name":"Edwards","age":27,"city":"Los Angeles","tech":"Node JS"},
+            {"name":"Catherine","age":31,"city":"Montreal","tech":"React JS"},
+            {"name":"Williams","age":34,"city":"New York","tech":"Android"},
+            {"name":"John","age":25,"city":"Moscow","tech":"Java"},
+            {"name":"Anna","age":33,"city":"Moscow","tech":"Node JS"},
+            {"name":"Julia","age":29,"city":"New Jersey","tech":"Android"}
+        ];
+        const ddArr = [" Name, City or Tech starts with","Present in Name, City or Tech starts with",
+        "Name starts with","City starts with","Tech starts with"]
+
+        mainShow()
+        TableShow(data)
+
+        function makeDD(arr,stri){
+        var str = '<option value="" disabled selected>'+stri+'</option>'+arr.map(obj=>{
+            return '<option value="'+obj+'">'+obj+'</option>'
+        })
+        console.log(str)
+        return str
+    }
+        function mainShow(){
+            var str = '<h1>Tech Experts</h1>'+
+    '<select name="" id="option">'+
+        makeDD(ddArr,"Select Option")+
+    '</select>'+
+    '<input type="text" placeholder="Enter the filter string" id ="input" onkeyup = "filterTable(this)">'+
+    '<table>'+
+        '<thead>'+
+            '<tr>'+
+                '<th>Name</th>'+
+                '<th>Age</th>'+
+                '<th>City</th>'+
+                '<th>Tech</th>'+
+            '</tr>'+
+        '</thead>'+
+        '<tbody id="table-body">'+
+        '</tbody>'+
+    '</table>'
+    const main = document.getElementById('main')
+    main.innerHTML = str
+
+    }
+    
+
+    function TableShow(dataset){
+        const tableBody = document.getElementById('table-body');
+        const tableRows = dataset.map(item => 
+            '<tr>' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.age + '</td>' +
+                '<td>' + item.city + '</td>' +
+                '<td>' + item.tech + '</td>' +
+            '</tr>'
+        );
+
+        tableBody.innerHTML = tableRows.join('');
+    }
+    
+    function filterTable(ele){
+        var selOption = document.getElementById('option').value
+        var keyWord = ele.value
+        var NewDataset = []
+        if(keyWord){
+        if(selOption == "Name starts with"){
+            NewDataset = data.filter(obj=>{
+            if(obj.name.substring(0,1) == keyWord||obj.name == keyWord)
+            return obj   
+            })
+        }
+        else if(selOption == "City starts with"){
+            NewDataset = data.filter(obj=>{
+            if(obj.city.substring(0,1) == keyWord ||obj.city.substring(0,3) == keyWord )
+            return obj   
+            })
+        }
+        else if(selOption == "Tech starts with"){
+            NewDataset = data.filter(obj=>{
+            if(obj.tech.substring(0,1) == keyWord||obj.tech == keyWord)
+            return obj   
+            })
+        }
+        else if(selOption == " Name, City or Tech starts with"){
+            NewDataset = data.filter(obj=>{
+                if(obj.name.substring(0,1) == keyWord||obj.name == keyWord|obj.name.substring(0,2) == keyWord||
+                obj.city.substring(0,1) == keyWord ||obj.city.substring(0,2) == keyWord ||
+                obj.tech.substring(0,1) == keyWord||obj.tech == keyWord||obj.tech.substring(0,2) == keyWord)
+                {
+                return obj
+                }
+            })
+        }
+        else if(selOption == "Present in Name, City or Tech starts with"){
+    NewDataset = data.filter(obj => {
+    const nameIndex = obj.name.indexOf(keyWord);
+    const cityIndex = obj.city.indexOf(keyWord);
+    const techIndex = obj.tech.indexOf(keyWord);
+
+    if (
+      nameIndex !== -1 ||
+      cityIndex !== -1 ||
+      techIndex !== -1 ||
+      obj.name.startsWith(keyWord) ||
+      obj.city.startsWith(keyWord) ||
+      obj.tech.startsWith(keyWord)
+    ) {
+      return obj;
+    }
+  });
+
+    }
+    TableShow(NewDataset)   
+}
+else{
+TableShow(data)
+}
+    console.log(NewDataset)
+   
+    
+    }
+
+    </script>
+</body>
+</html>

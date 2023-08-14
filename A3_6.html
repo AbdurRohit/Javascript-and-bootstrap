@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product details</title>
+</head>
+<body>
+    <h1>Product details</h1>
+    <div id="main"></div>
+</body>
+<style>
+    .pink{
+        background-color: pink;
+    }
+    .blue{
+        background-color: rgb(182, 233, 255);
+    }
+</style>
+<script>
+    let productArr = [
+    {
+        "name": "Maggi",
+        "price": 25,
+        "offers": ["Citi Credit Cards", "ICICI Card"]
+    },
+    {
+        "name": "Perk",
+        "price": 10,
+        "offers": ["Axis", "Credit Cards", "PayTM"]
+    },
+    {
+        "name": "Gems",
+        "price": 15,
+        "offers": ["SBI Card", "PhonePe", "PayTM"]
+    },
+    {
+        "name": "Lindt",
+        "price": 90,
+        "offers": []
+    },
+    {
+        "name": "Nutties",
+        "price": 12,
+        "offers": ["Citi Credit Cards"]
+    },
+    {
+        "name": "Pepsi",
+        "price": 15,
+        "offers": ["PhonePe", "PayTM"]
+    },
+    {
+        "name": "Coca Cola",
+        "price": 15,
+        "offers": ["SBI Card"]
+    },
+    {
+        "name": "Dairy Milk",
+        "price": 10,
+        "offers": []
+    }
+];
+var inner = -1
+popMain()
+function popMain(){
+    let str = '<table border = "1">'
+    str+= productArr.map((obj,index)=>{
+        return '<tr><td class = "blue" id = "'+obj.name+'">'+'Name: ' +obj.name +'<br><button onclick = "ShowOffer('+index+')">Show offer</button>'+'</td></tr>'
+    }).join('')
+    var ele = document.getElementById('main')
+    ele.innerHTML = str
+
+
+}   
+
+function ShowOffer(index){
+  console.log(inner)
+if(inner == -1){
+    let name = productArr[index].name
+    // console.log(name)
+    var ele1 = document.getElementById(name)
+    ele1.className = 'pink'
+    let offersArr = productArr[index].offers
+
+    // console.log(offersArr)//printing it
+
+    if (offersArr.length > 0)//checking null array?
+    {
+        let offer = offersArr.map(elem =>{
+            return elem
+        }).join('<br>')
+
+        ele1.innerHTML = 'Name : '+name +'<br>Offers:<br>'+offer+'<br><button onclick = "HideOffers('+index+')">Hide offers</button>'
+    }
+    else{
+        ele1.innerHTML = 'Name : '+name +"<br><i>No offers</i>"+'<br><button onclick = "HideOffers('+index+')">Hide offers</button>'
+    }
+    inner = 1 
+}
+else{
+  popMain()
+  let name = productArr[index].name
+    // console.log(name)
+    var ele1 = document.getElementById(name)
+    ele1.className = 'pink'
+    let offersArr = productArr[index].offers
+
+    // console.log(offersArr)//printing it
+
+    if (offersArr.length > 0)//checking null array?
+    {
+        let offer = offersArr.map(elem =>{
+            return elem
+        }).join('<br>')
+
+        ele1.innerHTML = 'Name : '+name +'<br>Offers:<br>'+offer+'<br><button onclick = "HideOffers('+index+')">Hide offers</button>'
+    }
+    else{
+        ele1.innerHTML = 'Name : '+name +"<br><i>No offers</i>"+'<br><button onclick = "HideOffers('+index+')">Hide offers</button>'
+    }
+}
+ 
+}
+
+function HideOffers(index){
+    inner = -1
+    popMain()
+}
+</script>
+</html>

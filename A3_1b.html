@@ -1,0 +1,407 @@
+<!-- // task1 -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><b>Sales Data</b></h1><br>
+    <h2><b>Seller : jhon Smith</b></h2>
+    <h2>Total Saler :
+    <span id = "qty"> 12 </span>
+</h2>
+    <button onclick="sale1()">Add 1 Sale</button>  <button>Add 2 Sale</button>
+    <script>
+        function sale1(){
+            let element = document.getElementById('qty');
+            let quantity  = +element.innerHTML;
+            console.log(quantity);
+            element.innerHTML = quantity+1;    
+        }
+    </script>
+</body>
+
+</html> -->
+
+ <!-- Task 2 -->
+
+ <!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>People List</title>
+</head>
+<body>
+    <style>
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+        .blue{
+            color: blue;
+        }
+    </style>
+  <h1>People List</h1>
+
+  <h2>Show all the people:</h2>
+  <div id="peopleList">
+   <ul>
+    <span id = "table-body" >
+    </span>
+   </ul>
+  </div>
+
+<div>
+  <button onclick="ShowAll()">Show all</button>
+
+  <button onclick="hidePeople()">Hide</button>
+
+  
+  <button onclick="sortByName()">Sort by Name</button>
+
+ 
+  <button onclick="sortByCountry()">Sort by Country</button>
+
+  
+  <button onclick="sortByAge()">Sort by Age</button>
+
+ 
+  <button onclick="sortByCountryAndName()">Sort by Country and Name</button>
+
+  
+  <button onclick="sortByCountryAndAge()">Sort by Country and Age</button>
+
+ 
+  <button onclick="showPeopleByCountry('India')">India</button>
+
+ 
+  <button onclick="showPeopleByCountry('USA')">USA</button>
+
+
+  <button onclick="showPeopleByCountry('France')">France</button>
+  
+  <button onclick="styleByAge()">Sytle by age</button>
+  <button onclick="styleByCountry()">Sytle by country</button>
+</div>
+<h2>Style by Age:</h2>
+
+  <script>
+   
+   let JsonArray = [{"name":"Jack","country":"USA","age":35},
+   {"name":"Amit","country":"India","age":38},
+   {"name":"Edward","country":"USA","age":41},
+   {"name":"Vishal","country":"India","age":30},
+   {"name":"Annie","country":"USA","age":27},
+   {"name":"Nick","country":"France","age":32},
+   {"name":"Francis","country":"France","age":44},
+   {"name":"Preeti","country":"India","age":25},
+   {"name":"Sophie","country":"France","age":29},
+   {"name":"Harpreet","country":"India","age":48},
+   {"name":"Bob","country":"USA","age":21}]
+
+    function ShowAll() {
+        let allperson = document.getElementById('allpeopel')
+        return allperson.innerHTML  = JsonArray.map(function(obj){
+            let optStr = '<li>'+ obj.name + ', <span id = "country" class = "country"> '+obj.country+ '</span>,<span id = "age" class = "age"> '+obj.age+' </span></li>'
+
+       }).join(" ")
+    }
+       console.log(allperson.innerHTML)
+
+
+function hidePeople(){
+let allperson = document.getElementById('allpeopel')
+allperson.innerHTML = " "
+}
+function sortByName(){
+
+    let allperson = document.getElementById('allpeopel')
+    JsonArray.sort(function(obj1,obj2){
+        return obj1.name.localeCompare(obj2.name)
+    })
+    ShowAll()
+}
+function sortByCountry(){
+    
+let allperson = document.getElementById('allpeopel')
+JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+ShowAll()
+}
+function sortByAge(){
+    
+    let allperson = document.getElementById('allpeopel')
+    JsonArray.sort(function(obj1,obj2){
+        if(obj1.age > obj2.age)
+            return 1
+        else if(obj1.age < obj2.age)
+            return -1
+        else
+            return 0
+    })
+    ShowAll()
+}
+function sortByCountryAndName(){
+    let allperson = document.getElementById('allpeopel')
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.name.localeCompare(obj2.name)
+})
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+ShowAll()
+}
+function sortByCountryAndAge(){
+    let allperson = document.getElementById('allpeopel')
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+    JsonArray.sort(function(obj1,obj2){
+        if(obj1.age > obj2.age)
+            return 1
+        else if(obj1.age < obj2.age)
+            return -1
+        else
+            return 0
+    })
+    ShowAll()
+}
+function showPeopleByCountry(str){
+        let allperson = document.getElementById('allpeopel')
+        JsonArray = JsonArray.filter(function(obj){
+        if(obj.country == str)
+            return obj
+        })
+    ShowAll()
+    }
+
+function styleByAge() {
+    let allperson = document.getElementById('allpeopel')
+        let element = document.getElementById("age") 
+        function getColor(age1){
+        if (age1 <= 30) {
+        return "green";
+        } else if (age1 > 30 && age1 <= 40){
+        return "blue";
+        } else {
+        return "red";
+        }
+    }
+        allperson.innerHTML  = JsonArray.map(function(obj){
+        return '<li>'+ obj.name + ', <span id = "country" class ="">'+ obj.country+ '</span>,<span id = "age" class = "'+ getColor(obj.age) + '"> '+obj.age+' </span></li>'
+    
+    }).join(" ")}
+  
+function styleByCountry(){
+    ShowAll('India')
+}
+
+</script>
+
+  
+</body> -->
+
+<!-- Task 3 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>People List</title>
+</head>
+<body>
+    <style>
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+        .blue{
+            color: blue;
+        }
+    </style>
+  <h1>People List</h1>
+
+  <h2>Show all the people:</h2>
+  <div id="peopleList">
+    <table border="4">
+        <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Age</th>
+        </tr>
+        <tbody id="table-body">
+         
+        </tbody>
+    </table>
+   
+  </div>
+
+<div>
+  <button onclick="ShowAll()">Show all</button>
+
+  <button onclick="hidePeople()">Hide</button>
+
+  
+  <button onclick="sortByName()">Sort by Name</button>
+
+ 
+  <button onclick="sortByCountry()">Sort by Country</button>
+
+  
+  <button onclick="sortByAge()">Sort by Age</button>
+
+ 
+  <button onclick="sortByCountryAndName()">Sort by Country and Name</button>
+
+  
+  <button onclick="sortByCountryAndAge()">Sort by Country and Age</button>
+
+ 
+  <button onclick="showPeopleByCountry('India')">India</button>
+
+ 
+  <button onclick="showPeopleByCountry('USA')">USA</button>
+
+
+  <button onclick="showPeopleByCountry('France')">France</button>
+  
+  <button onclick="styleByAgeandConuntry()">Sytle by age and country</button>
+
+</div>
+<h2>Style by Age:</h2>
+
+  <script>
+   
+   let JsonArray = [{"name":"Jack","country":"USA","age":35},
+   {"name":"Amit","country":"India","age":38},
+   {"name":"Edward","country":"USA","age":41},
+   {"name":"Vishal","country":"India","age":30},
+   {"name":"Annie","country":"USA","age":27},
+   {"name":"Nick","country":"France","age":32},
+   {"name":"Francis","country":"France","age":44},
+   {"name":"Preeti","country":"India","age":25},
+   {"name":"Sophie","country":"France","age":29},
+   {"name":"Harpreet","country":"India","age":48},
+   {"name":"Bob","country":"USA","age":21}]
+
+    function ShowAll() {
+
+        let allperson = document.getElementById('table-body')
+        allperson.innerHTML  = JsonArray.map(function(data){
+            return ('<tr><td>' + data.name + '</td><td>' + data.country + '</td><td>' +
+                 data.age + '</td></tr>')
+
+       }).join("")
+       console.log(allperson.innerHTML)
+    }
+       
+
+
+function hidePeople(){
+let allperson = document.getElementById('table-body')
+allperson.innerHTML = ""
+}
+function sortByName(){
+
+    let allperson = document.getElementById('table-body')
+    JsonArray.sort(function(obj1,obj2){
+        return obj1.name.localeCompare(obj2.name)
+    })
+    ShowAll()
+}
+function sortByCountry(){
+    
+let allperson = document.getElementById('table-body')
+JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+ShowAll()
+}
+function sortByAge(){
+    
+    let allperson = document.getElementById('table-body')
+    JsonArray.sort(function(obj1,obj2){
+        if(obj1.age > obj2.age)
+            return 1
+        else if(obj1.age < obj2.age)
+            return -1
+        else
+            return 0
+    })
+    ShowAll()
+}
+function sortByCountryAndName(){
+    let allperson = document.getElementById('table-body')
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.name.localeCompare(obj2.name)
+})
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+ShowAll()
+}
+function sortByCountryAndAge(){
+    let allperson = document.getElementById('table-body')
+    JsonArray.sort(function(obj1,obj2){
+    return obj1.country.localeCompare(obj2.country)
+})
+    JsonArray.sort(function(obj1,obj2){
+        if(obj1.age > obj2.age)
+            return 1
+        else if(obj1.age < obj2.age)
+            return -1
+        else
+            return 0
+    })
+    ShowAll()
+}
+function showPeopleByCountry(str){
+        let allperson = document.getElementById('table-body')
+        JsonArray = JsonArray.filter(function(obj){
+        if(obj.country == str)
+            return obj
+        })
+    ShowAll()
+    }
+
+function styleByAgeandConuntry() {
+    let allperson = document.getElementById('table-body')
+        function getColor(inp){
+        if (typeof inp == 'number' )
+        {
+        if (inp <= 30) {
+        return "green";
+        } else if (inp > 30 && inp <= 40){
+        return "blue";
+        } else {
+        return "red";
+        }
+    }
+    else{
+        if (inp == 'India'){
+            return "blue"}
+        else if(inp == 'USA'){
+            return "red"}
+        else{ 
+            return "green"}
+    }
+    }
+        allperson.innerHTML  = JsonArray.map(function(data){
+        return  ('<tr><td>' + data.name + '</td><td><span id = "country" class ="'+ getColor(data.country)+'">' + data.country + 
+            '</td><td> <span id = "age" class ="' + getColor(data.age)+'">'+data.age +'</td></tr>')
+
+    }).join("")}
+    
+    console.log(allperson.innerHTML)
+    
+
+</script>
+
+  
+</body>
+</html>

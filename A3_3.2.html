@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Person Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+  </style>
+</head>
+<body>
+  <h1>Person Data</h1>
+  <div>
+    <label for="personName">Name:</label>
+    <input type="text" id="personName">
+    <label for="personAge">Age:</label>
+    <input type="number" id="personAge">
+    <label for="personCity">City:</label>
+    <select id="personCity">
+      <option value="London">London</option>
+      <option value="Paris">Paris</option>
+      <option value="Delhi">Delhi</option>
+      <option value="NewYork">NewYork</option>
+    </select>
+    <label for="personTechnology">Technology:</label>
+    <select id="personTechnology">
+      <option value="Android">Android</option>
+      <option value="React">React</option>
+      <option value="Angular">Angular</option>
+      <option value="Spring">Spring</option>
+      <option value="Javascript">Javascript</option>
+    </select>
+    <button id="addPerson" onclick="addOrUpdatePerson()">Add Person</button>
+    <button onclick="findAndremovePerson()">Remove person</button>
+  </div>
+  <br>
+  <table id="personTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+        <th>Technology</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody id="personData">
+
+    </tbody>
+  </table>
+
+  <script>
+    var personName = document.getElementById('personName').value;
+      var personAge = document.getElementById('personAge').value;
+
+    let people = [
+      { name: 'John', age: 30 ,city: 'london', technology: 'Android'  },
+      { name: 'Alice', age: 25,city: 'london', technology: 'Android' },
+      { name: 'Bob', age: 28,city: 'london', technology: 'Android' }
+    ];
+
+    let isEditing = false;
+    let currentEditIndex = -1;
+
+    function displayPeople() {
+      const personData = document.getElementById('personData');
+      let tableHTML = '';
+      people.map((person, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + person.name + '</td>' +
+          '<td>' + person.age + '</td>' +
+          '<td>' + person.city + '</td>' +
+          '<td>' + person.technology + '</td>' +
+          '<td>' +
+          '<button onclick="editPerson(' + index + ')">Edit</button>' +
+          '<button onclick="removePerson(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      personData.innerHTML = tableHTML;
+    }
+
+    function addOrUpdatePerson() {
+      const personName = document.getElementById('personName').value;
+      const personAge = document.getElementById('personAge').value;
+      const personCity = document.getElementById('personCity').value;
+      const personTechnology = document.getElementById('personTechnology').value;
+
+      if (personName && personAge && personCity && personTechnology) {
+        if (isEditing) {
+          people[currentEditIndex].age = +(personAge);
+          people[currentEditIndex].city = personCity;
+          people[currentEditIndex].technology = personTechnology;
+          isEditing = false;
+        } else {
+          let existingPerson = people.find(person => person.name === personName);
+          if (existingPerson) {
+            alert('Person with the same name already exists!');
+            return;
+          }
+          people.push({ name: personName, age: parseInt(personAge), city: personCity, technology: personTechnology });
+        }
+
+        displayPeople();
+        clearForm();
+      }
+    }
+
+    function clearForm() {
+      document.getElementById('personName').value = '';
+      document.getElementById('personAge').value = '';
+      document.getElementById('personCity').value = 'London'; // Set default value for city dropdown
+      document.getElementById('personTechnology').value = 'Android'; // Set default value for technology dropdown
+      document.getElementById('addPerson').innerText = 'Add Person';
+      document.getElementById('personName').readOnly = false;
+    }
+    function editPerson(index) {
+      isEditing = true;
+      currentEditIndex = index;
+      const person = people[index];
+      document.getElementById('personName').value = person.name;
+      document.getElementById('personAge').value = person.age;
+      document.getElementById('addPerson').innerText = 'Update';
+      document.getElementById('personName').readOnly = true;
+    }
+
+    function removePerson(index) {
+      people.splice(index, 1);
+      displayPeople();
+    }
+
+    function findAndremovePerson() {
+    const personName = document.getElementById('personName').value;
+    if (personName) {
+      const existingPersonIndex = people.findIndex(person => person.name == personName);
+      if (existingPersonIndex == -1) {
+        alert('Person with the given name does not exist!');
+        return;
+      }
+
+      removePerson(existingPersonIndex);
+    }
+  }
+
+
+    displayPeople();
+ 
+
+    displayPeople();
+  </script>
+</body>
+</html>

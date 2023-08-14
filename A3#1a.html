@@ -1,0 +1,286 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><b>Sales Data</b></h1><br>
+    <h2><b>Seller : jhon Smith</b></h2>
+    <h2><b>Total Saler : 12</b></h2>
+
+    <button>Add 1 Sale</button>  <button>Add 2 Sale</button>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1><b>Sales Data</b></h1><br>
+    <h1><b> Seller: Jack Smith</b></h1><br>
+    <h1><b> Jack@email.com</b></h1><br>
+    <h1><b>Product: PR2244</b></h1><br>
+
+    <button>logo Style</button> 
+    <button>Change style </button>
+    <button>All Green</button>
+    <button>Clear Style</button>
+
+
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Student Grades</title>
+  <style>
+    /* table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    } */
+    button {
+      background-color: red;
+      color: white;
+      border: 2px solid red;
+      /* padding: 5px 10px;
+      border-radius: 5px; */
+    }
+    #Blank {
+        background-color: rgb(241, 240, 240);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(72, 71, 71);
+    }
+  </style>
+</head>
+<body>
+  <h1>Student </h1>
+  
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Math</th>
+      <th>Computer</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>90</td>
+      <td>85</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Jack</td>
+      <td>95</td>
+      <td>92</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Mary</td>
+      <td>87</td>
+      <td>78</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Dave</td>
+      <td>91</td>
+      <td>88</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Julia</td>
+      <td>82</td>
+      <td>95</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Steve</td>
+      <td>88</td>
+      <td>90</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+  </table><br>
+
+  <button id = "Blank">Show Button</button>
+  <button id = "Blank">Change Style</button>
+  <button id = "Blank">All Green </button>
+  <button id = "Blank">Clear Style</button>
+
+  <script>
+    function removeRow(button) {
+      // Get the reference to the button's parent row and remove it
+      var row = button.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    }
+  </script>
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>Student Grades</title>
+  <style>
+    /* table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    } */
+    button {
+      background-color: red;
+      color: white;
+      border: 2px solid red;
+      /* padding: 5px 10px;
+      border-radius: 5px; */
+    }
+    #Blank {
+        background-color: rgb(241, 240, 240);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(72, 71, 71);
+    }
+  </style>
+</head>
+<body>
+  <h1>Student </h1>
+  
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Math</th>
+      <th>Computer</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td bgcolor="Green">90</td>
+      <td bgcolor="Green">85</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Jack</td>
+      <td bgcolor="red">95</td>
+      <td bgcolor="red">92</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Mary</td>
+      <td bgcolor="Green">87</td>
+      <td bgcolor="Green">78</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Dave</td>
+      <td bgcolor=""">91</td>
+      <td bgcolor="">88</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Julia</td>
+      <td>82</td>
+      <td>95</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+    <tr>
+      <td>Steve</td>
+      <td bgcolor="red">88</td>
+      <td bgcolor="red">90</td>
+      <td><button onclick="removeRow(this)">Remove</button></td>
+    </tr>
+  </table><br>
+
+  <button id = "Blank">Show Button</button>
+  <button id = "Blank">Change Style</button>
+  <button id = "Blank">All Green </button>
+  <button id = "Blank">Clear Style</button>
+
+  <script>
+    function removeRow(button) {
+      // Get the reference to the button's parent row and remove it
+      var row = button.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    }
+  </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2><b>Welcome to the Quiz Show</b></h2><br>
+    <div class="container">
+        <div class="group1">
+            Dave Burton<br>
+            <br>
+            <br>
+            <br>
+            5 
+            <br>
+            <br>
+            <button>+5</button>
+            <button>+2</button>
+            <button>-1</button>
+        </div>
+        <div class="group2">
+            Mary Stevens
+            <br>
+            <br>
+            <br>
+            <br>
+            0
+            <br>
+            <br>
+            <button>+5</button>
+            <button>+2</button>
+            <button>-1</button>
+        </div>
+    </div>
+</body>
+<style>
+    .container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+    .group1{
+        border: 5px;
+        border-color: black;
+        background-color: rgb(165, 246, 165);
+        padding: 50px 50px 100px;    
+    }
+    .group2{
+        border: 5px;
+        border-color: black;
+        background-color: rgb(238, 149, 143);
+        padding: 50px 50px 100px;    
+    }
+</style>
+</html>

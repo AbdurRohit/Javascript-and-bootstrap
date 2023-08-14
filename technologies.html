@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Technologies</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+  </style>
+</head>
+<body>
+  <h1>Manage Technologies</h1>
+  <table id="techTable">
+    <thead>
+      <tr>
+        <th>Technology</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody id="techData">
+      <!-- Technology data will be populated here -->
+    </tbody>
+  </table>
+  <button onclick="clearTechnologies()">Clear All Technologies</button>
+
+  <script>
+    let technologies = ["Android", "React", "Angular", "Spring", "Javascript"];
+
+    function displayTechnologies() {
+      const techData = document.getElementById('techData');
+      let tableHTML = '';
+      technologies.forEach((tech, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + tech + '</td>' +
+          '<td>' +
+          '<button onclick="removeTech(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      techData.innerHTML = tableHTML;
+    }
+
+    function removeTech(index) {
+      technologies.splice(index, 1);
+      displayTechnologies();
+    }
+
+    function clearTechnologies() {
+      technologies = [];
+      displayTechnologies();
+    }
+
+    displayTechnologies();
+  </script>
+</body>
+</html>

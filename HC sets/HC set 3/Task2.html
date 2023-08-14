@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Job application form</title>
+</head>
+<body bgcolor="Pink">
+  <center><h1>Job application form</h1></center>
+  
+  <form>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" required><br><br>
+    
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required><br><br>
+    
+    <label for="mobileNumber">Mobile Number:</label>
+    <input type="text" id="mobileNumber" name="mobileNumber" required><br><br>
+    
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" required><br><br>
+    
+       
+    <label for="option1">Gender:</label>
+    <input type="radio" id="option1" name="option" value="option1">
+    <label for="option1">Male</label>
+    <input type="radio" id="option2" name="option" value="option2">
+    <label for="option2">Female</label><br><br>
+    
+    <label for="skills">Technical Skills:</label>
+    <input type="checkbox" id="javascript" name="skills" value="javascript">
+    <label for="javascript">JavaScript</label>
+    <input type="checkbox" id="nodejs" name="skills" value="nodejs">
+    <label for="nodejs">Node.js</label>
+    <input type="checkbox" id="react" name="skills" value="react">
+    <label for="react">React</label>
+    <input type="checkbox" id="angular" name="skills" value="angular">
+    <label for="angular">Angular</label>
+    <input type="checkbox" id="mysql" name="skills" value="mysql">
+    <label for="mysql">MySQL</label>
+    <input type="checkbox" id="mongodb" name="skills" value="mongodb">
+    <label for="mongodb">MongoDB</label><br><br>
+    
+    <label for="address">Address:</label><br>
+    <textarea id="address" name="address" rows="4" cols="30" required></textarea><br><br>
+    
+    <label for="state">State:</label>
+    <select id="state" name="state">
+      <option value="state1">State 1</option>
+      <option value="state2">State 2</option>
+      <option value="state3">State 3</option>
+      <!-- Add more state options as needed -->
+    </select><br><br>
+
+    
+    <label for="education">Educational Details:</label><br>
+    <table>
+      <tr>
+        <th>Serial Number</th>
+        <th>Examination</th>
+        <th>Board</th>
+        <th>Percentage</th>
+        <th>Year of Passing</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Class X</td>
+        <td><input type="text" id="board1" name="board1"></td>
+        <td><input type="text" id="percentage1" name="percentage1"></td>
+        <td><input type="text" id="year1" name="year1"></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Class XII</td>
+        <td><input type="text" id="board2" name="board2"></td>
+        <td><input type="text" id="percentage2" name="percentage2"></td>
+        <td><input type="text" id="year2" name="year2"></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Graduation</td>
+        <td><input type="text" id="board3" name="board3"></td>
+        <td><input type="text" id="percentage3" name="percentage3"></td>
+        <td><input type="text" id="year3" name="year3"></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Post Graduation</td>
+        <td><input type="text" id="board4" name="board4"></td>
+        <td><input type="text" id="percentage4" name="percentage4"></td>
+        <td><input type="text" id="year4" name="year4"></td>
+      </tr>
+    </table><br>
+
+    <label for="option1">Experience :</label>
+    <input type="radio" id="option1" name="option" value="option1">
+    <label for="option1">Fresher</label>
+    <input type="radio" id="option2" name="option" value="option2">
+    <label for="option2"> less than one year </label>
+    <input type="radio" id="option2" name="option" value="option2">
+    <label for="option2"> less than 2 year </label>
+    <input type="radio" id="option2" name="option" value="option2">
+    <label for="option2"> less than 3 year </label><br><br>
+    
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+  </form>
+</body>
+</html>

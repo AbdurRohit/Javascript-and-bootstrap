@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Registration Form</title>
+</head>
+<body>
+  <h2>Student Registration Form</h2>
+  <div id="formContainer"></div>
+  <div id="studentListContainer"></div>
+
+  <script>
+    const sports = ["Cricket", "Football", "Basketball", "Badminton", "Table Tennis"];
+    const studentsArray = [];
+
+    function makeCB(checkedSports = []) {
+      const sportsCheckboxesDiv = document.getElementById('sportsCheckboxes');
+      sportsCheckboxesDiv.innerHTML = '';
+
+      const checkboxesHTML = sports.map((sport) => {
+        const isChecked = checkedSports.indexOf(sport) !== -1 ? 'checked' : '';
+        return '<label><input type="checkbox" name="sports" id="sport_' + sport + '" value="' + sport + '" ' + isChecked + '> ' + sport + '</label><br>';
+      }).join('');
+
+      sportsCheckboxesDiv.innerHTML = checkboxesHTML;
+    }
+
+    function showForm() {
+      const formContainer = document.getElementById('formContainer');
+      formContainer.innerHTML = `
+        <form id="registrationForm" onsubmit="return onSubmitForm()">
+          <label for="studentName">Student Name:</label>
+          <input type="text" id="studentName" required><br>
+          <label>Sports Played:</label><br>
+          <div id="sportsCheckboxes"></div><br>
+          <input type="submit" value="Submit">
+          <input type="button" value="Update" style="display: none;" id="updateButton" onclick="updateStudent()">
+        </form>
+      `;
+
+      makeCB(); // To display checkboxes initially
+    }
+
+    function showStudentList() {
+      const studentListContainer = document.getElementById('studentListContainer');
+      studentListContainer.innerHTML = '';
+
+      const studentList = studentsArray.map(function(student, index) {
+        return '<li onclick="editStudent(' + index + ')">' + student.name +'('+student.sports+')' + '</li>';
+      }).join('');
+
+      studentListContainer.innerHTML = '<ul id="studentList">' + studentList + '</ul>';
+    }
+
+    function onSubmitForm() {
+      const studentName = document.getElementById('studentName').value;
+      const selectedSports = sports.filter(function(sport) {
+        return document.getElementById('sport_' + sport).checked;
+      });
+
+      const student = {
+        name: studentName,
+        sports: selectedSports,
+      };
+
+      studentsArray.push(student);
+
+      console.log(studentsArray);
+
+      showStudentList();
+
+      document.getElementById('registrationForm').reset();
+      return false; // To prevent form submission
+    }
+
+    function editStudent(index) {
+      const formContainer = document.getElementById('formContainer');
+      const student = studentsArray[index];
+
+      formContainer.innerHTML = `
+        <form id="registrationForm" onsubmit="return onSubmitForm()">
+          <label for="studentName">Student Name:</label>
+          <input type="text" id="studentName" value="${student.name}" readonly required><br>
+          <label>Sports Played:</label><br>
+          <div id="sportsCheckboxes"></div><br>
+          <input type="submit" value="Submit" style="display: none;">
+          <input type="button" value="Update" id="updateButton" onclick="updateStudent(${index})">
+        </form>
+      `;
+
+      makeCB(student.sports);
+    }
+
+    function updateStudent(index) {
+      const student = studentsArray[index];
+
+      const studentName = document.getElementById('studentName').value;
+      const selectedSports = sports.filter(function(sport) {
+        return document.getElementById('sport_' + sport).checked;
+      });
+
+      student.name = studentName;
+      student.sports = selectedSports;
+
+      showForm();
+      showStudentList();
+    }
+
+    showForm();
+    showStudentList();
+  </script>
+</body>
+</html>

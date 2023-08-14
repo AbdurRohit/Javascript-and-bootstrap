@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Grades</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+      /* padding: 5px 10px;
+      border-radius: 5px; */
+    }
+    #Blank {
+        background-color: rgb(241, 240, 240);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(72, 71, 71);
+    }
+    #bt{
+      background-color: rgb(234, 122, 122);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+      /* padding: 5px 10px;
+      bor*/}
+      th{
+        color:aliceblue;
+        background-color: blue;
+        
+      }
+    
+  </style>
+</head>
+<body>
+  <h1>List of Products</h1>
+  
+  <table border="1" >
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="table-info">
+
+  </tbody>
+    
+  </table><br>
+
+  <h1><b>My Cart</b></h1>
+
+  <h3><b><span id="text">Number of items: 0, Total Amount: 0</span></b></h3>
+  <table border="4">
+    <thead >
+    <tr>
+      <th bgcolor="blue">Product</th>                                                                  
+      <th bgcolor="blue">Quantity </th>
+      <th bgcolor="blue">Price</th>
+      <th bgcolor="blue">Amount</th>
+    </tr>
+  </thead>
+  <tbody id="cart-info">
+  </tbody>
+  </table >
+
+  <script>
+    let Product = [{prod:'Pepsi',price:15,stock:20},
+    {prod:'Coke',price:18,stock:30},
+    {prod:'Maggi',price:10,stock:35},
+    {prod:'Nescafe',price:40,stock:10},
+    {prod:'Dairy Milk',price:30,stock:12},
+    {prod:'Frito Lays',price:20,stock:15}]
+    const element = document.getElementById('table-info')
+    const element2 = document.getElementById('cart-info')
+    const element3 = document.getElementById('text')
+    let cartArray = [] 
+    let itemCount = 0
+    ShowTable()
+
+    function ShowTable(){
+    
+    let pMap = Product.map(function(obj){
+        return'<tr><td>'+obj.prod+
+          '</td><td>'+obj.price+
+            '</td><td>'+obj.stock+
+              '</td><td><button onclick="addtoCart(\'' + obj.prod + '\')">Add to cart</button></td></tr>'
+    }).join('')
+    
+    console.log(pMap)
+    element.innerHTML=pMap
+
+    
+  }
+
+  function updateTextSpan(){
+    let totalItems = cartArray.reduce((total, item) => 
+    total + item.qyt, 0);
+    let totalAmount = cartArray.reduce((total, item) => 
+    total + (item.price * item.qyt), 0);
+    element3.innerText = 'Number of items: ' + totalItems + ', Total Amount: ' + totalAmount.toFixed(2);
+  }
+
+  function addtoCart(prod){
+    Product.find(obj=>{
+        if(obj.prod == prod)
+         return obj.stock--
+      })
+    console.log(Product)
+
+    console.log(prod)
+    let cartInfo = cartArray.find(obj =>{
+      return obj.prod == prod 
+    })
+
+    if(cartInfo)
+      cartInfo.qyt++
+    else{
+      let prod1 = Product.find(obj =>{
+        return obj.prod == prod
+      })
+      let item = {prod:prod1.prod, price:prod1.price, qyt:1}
+      cartArray.push(item)
+      console.log(item)
+     
+    }
+    ShowTable2(cartArray)
+    updateTextSpan();
+  }
+
+  function ShowTable2(cartArray){
+
+    let cMap = cartArray.map(obj=>{
+      return '<tr><td>'+obj.prod+'</td><td>'+obj.qyt+'</td><td>'+obj.price+
+        '</td><td>'+obj.price*obj.qyt+
+          '</td><td><button id="bt" onclick="removeFromCart(\'' + obj.prod + '\')">Remove from Cart</button></td></tr>'
+    }).join('')
+    element2.innerHTML = cMap
+  }
+
+  function removeFromCart(remvProd){
+   
+
+    let rmItem = cartArray.find(obj=>{
+      return obj.prod == remvProd
+    })
+    console.log("before delete rmItem = ",rmItem)
+    if(rmItem.qyt > 0){
+      rmItem.qyt--
+      Product.find(obj=>{
+        if(obj.prod == remvProd)
+         return obj.stock++
+      })  
+      checkZero(rmItem.qyt)
+    }
+    else{
+      cartArray = cartArray.filter(obj=>{
+        return obj.qyt !== 0 
+      })
+    }
+    console.log("After delete = ",cartArray)
+    ShowTable2(cartArray)
+    updateTextSpan();
+  }
+
+  function checkZero(item){
+    if (item == 0 )
+    cartArray = cartArray.filter(obj=>{
+        return obj.qyt !== 0 
+      })
+  }
+
+</script>
+</body>
+</html>

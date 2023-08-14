@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="popmain()">INIT</button>
+    <div id="main">
+     </div>
+</body>
+<script>
+   
+    function popmain(){
+        document.getElementById('main').innerHTML = `<input type="text" id="inp1"><input type="text" id="inp2">
+    <button type="submit" onclick="valid()">btn</button>   `
+    }
+    function valid(){
+        let inp1 = document.getElementById('inp1').value
+        let inp2 = document.getElementById('inp2').value
+        
+        if(inp1 && inp2){
+            console.log(inp1,inp2)
+            alert("form updated")
+            return
+        }
+        else{
+            alert("error")
+        }
+    }
+</script>
+</html>

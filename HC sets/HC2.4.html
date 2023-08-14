@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Advertise Form</title>
+</head>
+<body>
+  <h1>Advertise Form</h1>
+
+  <form>
+    <div>
+      <label for="name">Name/Company Name:</label>
+      <input type="text" id="name" name="name" required>
+    </div><br>
+
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+    </div><br>
+
+    <div>
+      <label>Advertising Size (pixels):</label>
+      <br>
+      <input type="checkbox" id="size-300x250" name="advertising-size" value="300x250">
+      <label for="size-300x250">300x250</label>
+      <br>
+      <input type="checkbox" id="size-728x90" name="advertising-size" value="728x90">
+      <label for="size-728x90">728x90</label>
+      <br>
+      <input type="checkbox" id="size-160x600" name="advertising-size" value="160x600">
+      <label for="size-160x600">160x600</label>
+    </div>
+
+    <div>
+      <label>Which sites would you like to advertise on?</label>
+      <br>
+      <input type="checkbox" id="site-a" name="sites" value="Site A">
+      <label for="site-a">Site A</label>
+      <br>
+      <input type="checkbox" id="site-b" name="sites" value="Site B">
+      <label for="site-b">Site B</label>
+      <br>
+      <input type="checkbox" id="site-c" name="sites" value="Site C">
+      <label for="site-c">Site C</label>
+    </div>
+
+    <div>
+      <label for="comments">Comments:</label>
+      <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+    </div>
+
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</body>
+</html>

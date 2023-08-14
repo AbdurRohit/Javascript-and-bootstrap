@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grade Selection</title>
+</head>
+<body>
+  <h2>Grade Selection</h2>
+  <label>
+    <input type="radio" name="grade" value="A"> Grade A
+  </label><br>
+  <label>
+    <input type="radio" name="grade" value="B" checked> Grade B
+  </label><br>
+  <label>
+    <input type="radio" name="grade" value="C"> Grade C
+  </label><br>
+  <label>
+    <input type="radio" name="grade" value="D"> Grade D
+  </label><br>
+  <button onclick="displayRadioStatus()">Show Radio Status</button>
+
+  <script>
+    function displayRadioStatus() {
+      const radios = document.getElementsByName('grade');
+      let checkedValue = '';
+      radios.forEach(function (radio) {
+        console.log(radio.value + ': ' + radio.checked);
+        if (radio.checked) {
+          checkedValue = radio.value;
+        }
+      });
+      console.log('Checked Value: ' + checkedValue);
+    }
+  </script>
+</body>
+</html>

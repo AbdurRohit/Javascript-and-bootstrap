@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Radio Button with Additional Fields</title>
+</head>
+<body>
+  <h2>Radio Button with Additional Fields</h2>
+  <label>
+    <input type="radio" id="reactRadio" name="framework" value="react" onclick="showFields()"> React
+  </label><br>
+  <label>
+    <input type="radio" id="angularRadio" name="framework" value="angular" onclick="showFields()"> Angular
+  </label><br>
+  <label>
+    <input type="radio" id="javascriptRadio" name="framework" value="javascript" onclick="showFields()"> JavaScript
+  </label><br>
+
+  <div id="fields"></div>
+
+  <script>
+    function makeDD(versionOptions) {
+      let html = '<select>';
+      versionOptions.map(option => {
+        html += '<option value="' + option + '">' + option + '</option>';
+      });
+      html += '</select><br>';
+
+      return html;
+    }
+
+    function showFields() {
+      const fieldsDiv = document.getElementById('fields');
+      const reactRadio = document.getElementById('reactRadio');
+      const angularRadio = document.getElementById('angularRadio');
+      const javascriptRadio = document.getElementById('javascriptRadio');
+
+      if (reactRadio.checked) {
+        
+        fieldsDiv.innerHTML = '<input type="checkbox" id="physicsCheckbox" value="Physics"> Do you know ract'
+      } 
+      else if (angularRadio.checked) {
+        const angularOptions = ['Select Angular', '12.x', '13.x'];
+     
+        fieldsDiv.innerHTML = makeDD(angularOptions);
+      } 
+      else if (javascriptRadio.checked) {
+    
+        fieldsDiv.innerHTML =  '<input type="radio"> Bootstrap3'+'<input type="radio"> Bootstrap4'
+      } 
+      else {
+        fieldsDiv.innerHTML = '';
+      }
+    }
+  </script>
+</body>
+</html>

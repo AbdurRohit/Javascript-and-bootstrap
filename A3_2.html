@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Inventory</title>
+  <style>
+    table {
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+  </style>
+</head>
+<body>
+  <h1>Product Inventory</h1>
+  <div>
+    <label for="productName">Product Name:</label>
+    <input type="text" id="productName" >
+    <label for="productQuantity">Quantity:</label>
+    <input type="number" id="productQuantity" >
+    <button onclick="addProduct()">Add Product</button>
+  </div>
+  <br>
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody id="productData">
+ 
+    </tbody>
+  </table>
+
+  <script>
+    let products = [];
+
+
+    function displayProducts() {
+      const productData = document.getElementById('productData');
+      let tableHTML = '';
+      products.map(product => {
+        tableHTML += '<tr>' +
+          '<td>' + product.name + '</td>' +
+          '<td>' + product.quantity + '</td>' +
+          '<td><button onclick="removeProduct(\'' + product.name + '\')">Remove</button></td>' +
+          '</tr>';
+      });
+      productData.innerHTML = tableHTML;
+    }
+
+
+    function addProduct() {
+      const productName = document.getElementById('productName').value;
+      const productQuantity = document.getElementById('productQuantity').value;
+
+      if (productName && productQuantity !== '') {
+        products.push({ name: productName, quantity: +(productQuantity) });
+        displayProducts();
+        clearForm();
+      }
+    }
+
+
+    function clearForm() {
+      document.getElementById('productName').value = '';
+      document.getElementById('productQuantity').value = '';
+    }
+
+
+    function removeProduct(name) {
+      products = products.filter(product => product.name !== name);
+      displayProducts();
+    }
+
+    displayProducts();
+  </script>
+</body>
+</html>

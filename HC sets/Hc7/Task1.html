@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Basics Documentation</title>
+    <style>
+        body {
+            display: flex;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #chapters {
+            flex: 1;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        #docs {
+            flex: 2;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-left: 1px solid #ccc;
+        }
+        .code-example {
+            background-color: #fff;
+            color: #000;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        ul {
+            background-color: #e4e4e4;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            color: #4c4c4c;
+            padding: 10px;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="chapters">
+        <h2>JavaScript Basics</h2>
+        <ul>
+            <li onclick="scrollToChapter('chapter1')">Introduction to JavaScript</li>
+            <li onclick="scrollToChapter('chapter2')">Variables and Data Types</li>
+            <li onclick="scrollToChapter('chapter3')">Functions</li>
+            <li onclick="scrollToChapter('chapter4')">Conditional Statements</li>
+            <li onclick="scrollToChapter('chapter5')">Loops</li>
+            <li onclick="scrollToChapter('chapter6')">Arrays</li>
+        </ul>
+    </div>
+    <div id="docs">
+        <div id="chapter1">
+            <h2>Chapter 1: Introduction to JavaScript</h2>
+            <p>
+                JavaScript is a high-level, interpreted programming language that allows you to add interactivity and dynamic content to web pages.
+            </p>
+            <div class="code-example">
+                <pre>
+// Simple JavaScript code example
+console.log("Hello, JavaScript!");
+                </pre>
+            </div>
+        </div>
+
+        <div id="chapter2">
+            <h2>Chapter 2: Variables and Data Types</h2>
+            <p>
+                Variables are used to store data in JavaScript. JavaScript has several data types, including numbers, strings, booleans, and more.
+            </p>
+            <div class="code-example">
+                <pre>
+// Variable declaration and initialization
+let name = "John";
+let age = 30;
+let isStudent = true;
+                </pre>
+            </div>
+        </div>
+
+        <div id="chapter3">
+            <h2>Chapter 3: Functions</h2>
+            <p>
+                Functions are blocks of code that perform a specific task. They can take parameters and return values.
+            </p>
+            <div class="code-example">
+                <pre>
+// Simple function
+function add(a, b) {
+    return a + b;
+}
+
+// Function call
+let result = add(5, 10);
+console.log(result); // Output: 15
+                </pre>
+            </div>
+        </div>
+
+        <div id="chapter4">
+            <h2>Chapter 4: Conditional Statements</h2>
+            <p>
+                Conditional statements allow you to make decisions in your code based on certain conditions.
+            </p>
+            <div class="code-example">
+                <pre>
+// Simple conditional statement
+let num = 10;
+if (num > 0) {
+    console.log("Positive number");
+} else if (num < 0) {
+    console.log("Negative number");
+} else {
+    console.log("Zero");
+}
+                </pre>
+            </div>
+        </div>
+
+        <div id="chapter5">
+            <h2>Chapter 5: Loops</h2>
+            <p>
+                Loops are used to repeat a block of code until a certain condition is met.
+            </p>
+            <div class="code-example">
+                <pre>
+// Simple for loop
+for (let i = 0; i < 5; i++) {
+    console.log(i);
+}
+                </pre>
+            </div>
+        </div>
+
+        <div id="chapter6">
+            <h2>Chapter 6: Arrays</h2>
+            <p>
+                Arrays are used to store multiple values in a single variable.
+            </p>
+            <div class="code-example">
+                <pre>
+// Simple array
+let fruits = ["apple", "banana", "orange"];
+console.log(fruits[0]); // Output: "apple"
+console.log(fruits.length); // Output: 3
+                </pre>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function scrollToChapter(chapterId) {
+            const chapterElement = document.getElementById(chapterId);
+            if (chapterElement) {
+                chapterElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

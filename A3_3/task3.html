@@ -1,0 +1,50 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <input type="text" id="num1" placeholder="0 or 1" onkeyup="calculate()" /> 
+    <script>
+        function calculate() {
+            var ele = document.getElementById("num1");
+            const num1Value = ele.value;
+            if (num1Value[num1Value.length - 1] !== '0' && num1Value[num1Value.length - 1] !== '1') {
+               
+                var text1 = num1Value.slice(0, num1Value.length - 1);
+            } else {
+               
+                var text1 = num1Value;
+            }
+ 
+            ele.value = text1;
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task 3.1 - Allowing only 0 or 1</title>
+</head>
+<body>
+  <input type="text" id="num1" onkeyup="validateInput(this)"/>
+
+  <script>
+    function validateInput(inputField) {
+    var ele = document.getElementById("num1");
+      let value = inputField.value;
+      let str = ''
+      console.log(str)
+      
+      for(let i = 0; i<value.length ;i++){
+      if(value[i] == 1 || value[i] == 0){
+        str += value[i]
+      }
+      }
+      ele.value = str;
+    }
+
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,80 @@
+a. Loose and strict equality examples:
+1. Loose Equality: `5 == "5"` -> Output: `true`
+2. Strict Equality: `5 === "5"` -> Output: `false`
+
+b. Using truthy and falsy concept to name the value "Guest":
+```javascript
+const name = ""; 
+const guestName = name || "Guest";
+// Output: "Guest"
+```
+
+c. Examples for NOT, AND, and OR operators:
+1. NOT Operator: `!true` -> Output: `false`
+2. AND Operator: `true && false` -> Output: `false`
+3. OR Operator: `true || false` -> Output: `true`
+
+d. Giving name "Guest" if it is an empty string using logical operator:
+```javascript
+const name = "";
+const guestName = name === "" ? "Guest" : name;
+// Output: "Guest"
+```
+
+e. Using logical operator and map to clean an array and replace empty strings with "NA":
+```javascript
+const dirtyArray = ["John", "", "Alice", "", "Bob"];
+const cleanArray = dirtyArray.map(item => item === "" ? "NA" : item);
+// Output: ["John", "NA", "Alice", "NA", "Bob"]
+```
+
+f. Using logical operator to calculate the grade:
+```javascript
+const score = 85;
+const grade = score >= 60 && score < 70 ? "C" : score >= 70 && score < 80 ? "B" : score >= 80 ? "A" : "F";
+// Output: "A"
+```
+
+g. Using logical operator and map to create an array of final grades:
+```javascript
+const scores = [85, 72, 93, 60, 78];
+const grades = scores.map(score => score >= 60 && score < 70 ? "C" : score >= 70 && score < 80 ? "B" : score >= 80 ? "A" : "F");
+// Output: ["A", "B", "A", "D", "C"]
+```
+
+h. Using ternary operator to print "Same" or "Different":
+```javascript
+const string1 = "Hello";
+const string2 = "Hello";
+console.log(string1 === string2 ? "Same" : "Different");
+// Output: "Same"
+```
+
+i. Using ternary operator to assign the longer string:
+```javascript
+const string1 = "Hello";
+const string2 = "Hi";
+const longerString = string1.length > string2.length ? string1 : string2;
+// Output: "Hello"
+```
+
+j. Using ternary operator and reduce to count the number of evens in an array:
+```javascript
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const evenCount = numbers.reduce((count, num) => num % 2 === 0 ? count + 1 : count, 0);
+// Output: 5
+```
+
+k. Using ternary operator and map to add "x" in front of strings not starting with "al":
+```javascript
+const strings = ["apple", "banana", "orange", "grape", "melon"];
+const modifiedStrings = strings.map(str => str.startsWith("al") ? str : "x" + str);
+// Output: ["xapple", "xbanana", "orange", "xgrape", "xmelon"]
+```
+
+l. Using ternary operator and map to make an array of absolute values:
+```javascript
+const numbers = [-1, 2, -3, 4, -5];
+const absoluteValues = numbers.map(num => num >= 0 ? num : -num);
+// Output: [1, 2, 3, 4, 5]
+```

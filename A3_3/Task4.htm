@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #corr1,#corr2,#corr3,#corr4{
+        color: red;
+    }
+</style>
+<body>
+<div id="main">
+</div>
+</body>
+<script>
+const apiData = [{"name":"Jack","age":28,"city":"London","tech":"Android"},
+{"name":"Mary","age":32,"city":"Paris","tech":"React"},
+{"name":"Bob","age":35,"city":"New York","tech":"Angular"},
+{"name":"Steve","age":26,"city":"Delhi","tech":"Spring"}]
+main()
+var flag = false
+var button = document.getElementById('button')
+button.disabled = true; 
+
+checkFields()
+function main(){
+    var str = 'Name: <input type="text" id="name" onkeyup="checkName(this)"><br><div id="corr1"></div> Age: <input type="number" id="Age" onkeyup="checkAge(this)"><br><div id="corr2"></div> City: <input type="text" id="city" onkeyup="checkCity(this)"><br><div id="corr3"></div> Technology: <input type="text" id="tech" onkeyup="checkTech(this)"><br><div id="corr4"></div> <button id="button" onclick="success()">Add Person</button>';
+    var mainDiv = document.getElementById('main');
+    mainDiv.innerHTML = str;
+}
+function checkName(item){
+    console.log(item.value)
+    if(item.value){
+       var msg = apiData.find(obj=>{
+        if(obj.name == item.value )
+        return obj
+       })
+    }
+    var ele = document.getElementById('corr1')
+    if(msg){
+    msg = 'Name Already exisit !'
+    console.log(msg)
+    ele.innerHTML = msg
+    flag = false
+    }
+    else{
+    ele.innerHTML = ''
+    flag = true
+    }
+    checkFields()
+}
+function checkAge(item){
+    console.log(item.value)
+    if(item.value){
+        if(item.value<18){
+            var msg = true
+        }
+    }
+    var ele = document.getElementById('corr2')
+    if(msg){
+    msg = 'Minimum age should be 18!'
+    console.log(msg)
+    ele.innerHTML = msg
+    flag = false
+    }
+    else{
+    ele.innerHTML = ''
+    flag = true
+}
+    checkFields()
+}
+
+function checkCity(item){
+    console.log(item.value)
+    if(item.value){
+        var msg = apiData.find(obj=>{
+            if(obj.city == item.value)
+                return obj
+        })
+    }
+    var ele = document.getElementById('corr3')
+    if(msg){
+    ele.innerHTML = ''
+    flag = true
+    }
+    else{
+    msg = 'Enter cities form london, Paris, Delhi, New york'
+    ele.innerHTML = msg
+    flag = false
+    }
+    checkFields()
+}
+
+function checkTech(item){
+    console.log(item.value)
+    if(item.value){
+        var msg = apiData.find(obj=>{
+            if(obj.tech == item.value)
+                return obj
+        })
+    }
+    var ele = document.getElementById('corr4')
+    if(msg){
+    ele.innerHTML = ''
+    flag = true
+    }
+    else{
+    msg = 'Enter tech form Android, React, Angular, Spring '
+    ele.innerHTML = msg
+    flag = false
+    }
+    checkFields()
+}
+function checkFields(){
+    var ele1 = document.getElementById('name').value
+    var ele2 = document.getElementById('Age').value
+    var ele3 = document.getElementById('city').value
+    var ele4 = document.getElementById('tech').value
+    
+    var button = document.getElementById('button');
+    
+    if (ele1 === "" || ele2 === "" || ele3 === "" || ele4 === "" ||flag == false){
+        button.disabled = true;
+    } else {
+        button.disabled = false;
+    }
+}
+function success(){
+
+    var ele = document.getElementById('main')
+    ele.innerHTML = "<h1>Person added successfuly</h1>"
+
+}
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Email Field Toggle</title>
+</head>
+<style>
+    .block {
+        display: block;
+    }
+    .none{
+        display: none;
+    }
+</style>
+<body>
+  <h2>Email Field Toggle</h2>
+  <label>
+    <input type="checkbox" id="emailCheckbox" onclick="toggleEmailField()"> Show Email
+  </label>
+  <br>
+  <div id="emailFieldContainer">
+    
+  </div>
+
+  <script>
+    function popEmail(){
+     let str = '<label>Email:</label>'+
+    '<input type="email" id="emailField">'
+    document.getElementById('emailFieldContainer').innerHTML = str
+    }
+    function toggleEmailField() {
+      const emailCheckbox = document.getElementById('emailCheckbox');
+      const emailFieldContainer = document.getElementById('emailFieldContainer');
+
+      if (emailCheckbox.checked) {
+        popEmail()
+      } else {
+        emailFieldContainer.innerHTML = ''
+      }
+    }
+  </script>
+</body>
+</html>

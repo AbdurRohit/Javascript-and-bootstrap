@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <input type="text" id="num1" placeholder="Enter text without 'b' or 'B'" onkeyup="calculate()" /> 
+    <script>
+        function calculate() {
+            var ele = document.getElementById("num1");
+            const inputValue = ele.value;
+            var sanitizedValue = "";
+
+            for (var i = 0; i < inputValue.length; i++) {
+                var char = inputValue.charAt(i);
+
+                if (char !== 'b' && char !== 'B') {
+                    sanitizedValue += char;
+                }
+            }
+
+            ele.value = sanitizedValue;
+        }
+    </script>
+</body>
+</html>

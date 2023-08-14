@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Selection</title>
+</head>
+<body>
+  <h2>Team Selection</h2>
+  <div id="appSec">
+    <h3>Applicants:</h3>
+    <div id="appList"></div>
+  </div>
+  <div id="teamSec">
+    <h3>Team size <span id="size"></span> </h3>
+    <ul id="teamList"></ul>
+    
+  </div>
+
+  <script>
+    const apps = ["Jack", "Tim", "Bob", "Mary", "Anna", "Martha", "Steve", "Ed", "John", "Sid"];
+    const selectedApps = [];
+
+    function createAppCheckbox(app, idx) {
+      const checkboxHTML = '<input type="checkbox" id="chk_' + idx + '" onchange="handleChkChange(\'' + app + '\', ' + idx + ')" ' + (selectedApps.length >= 5 ? 'disabled' : '') + '>';
+      const labelHTML = '<label for="chk_' + idx + '">' + app + '</label>';
+      const brHTML = '<br>';
+
+      return checkboxHTML + labelHTML + brHTML;
+    }
+
+    function createTeamItem(app, idx) {
+      return '<li>' + app + ' <button onclick="rmFromTeam(' + idx + ')">x</button></li>';
+    }
+
+    function showApps() {
+      const appList = document.getElementById('appList');
+      let appsHTML = '';
+      
+      for (let idx = 0; idx < apps.length; idx++) {
+        const app = apps[idx];
+        if (!isAppSelected(app)) {
+          appsHTML += createAppCheckbox(app, idx);
+        }
+      }
+
+      appList.innerHTML = appsHTML;
+    }
+
+    function showTeam() {
+      const teamList = document.getElementById('teamList');
+      let teamHTML = '';
+      
+      selectedApps.map(function(app, idx) {
+        teamHTML += createTeamItem(app, idx);
+      });
+
+      teamList.innerHTML = teamHTML;
+      const span = document.getElementById('size')
+      span.innerHTML = selectedApps.length
+
+    }
+
+    function isAppSelected(app) {
+      for (let i = 0; i < selectedApps.length; i++) {
+        if (selectedApps[i] === app) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function handleChkChange(app, idx) {
+      const chk = document.getElementById('chk_' + idx);
+      if (chk.checked) {
+        if (selectedApps.length < 5) {
+          selectedApps.push(app);
+        } else {
+          chk.checked = false;
+        }
+      } else {
+        const appIdx = findAppIndex(app);
+        if (appIdx !== -1) {
+          selectedApps.splice(appIdx, 1);
+        }
+      }
+
+      showApps();
+      showTeam();
+    }
+
+    function findAppIndex(app) {
+      for (let i = 0; i < selectedApps.length; i++) {
+        if (selectedApps[i] === app) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function rmFromTeam(idx) {
+      selectedApps.splice(idx, 1);
+      showApps();
+      showTeam();
+    }
+
+    showApps();
+    showTeam();
+  </script>
+</body>
+</html>

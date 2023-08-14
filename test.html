@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Person Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Person Data</h1>
+  <div id="theForm">
+    <label for="personName">Name:</label>
+    <input type="text" id="personName">
+    <label for="personAge">Age:</label>
+    <input type="number" id="personAge">
+    <select id="personCity">
+      <option value="London">London</option>
+      <option value="Paris">Paris</option>
+      <option value="Delhi">Delhi</option>
+      <option value="NewYork">NewYork</option>
+    </select>
+    <select id="personTechnology">
+      <option value="Android">Android</option>
+      <option value="React">React</option>
+      <option value="Angular">Angular</option>
+      <option value="Spring">Spring</option>
+      <option value="Javascript">Javascript</option>
+    </select>
+    <button id="addPerson" onclick="addOrUpdatePerson()">Add Person</button>
+    <button onclick="findAndRemovePerson()">Remove person</button>
+  </div>
+  <br>
+
+  <table id="personTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>City</th>
+        <th>Technology</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody id="personData">
+
+    </tbody>
+  </table>
+
+  <div id="manageCitiesForm" class="hidden">
+    <table id="cityTable">
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cityData">
+
+      </tbody>
+    </table>
+  </div>
+
+  <div id="manageTechsForm" class="hidden">
+    <table id="techTable">
+      <thead>
+        <tr>
+          <th>Technology</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="techData">
+
+      </tbody>
+    </table>
+  </div>
+
+  <button onclick="displayCities()">Manage Cities</button>
+  <button onclick="displayTech()">Manage Techs</button>
+  <button onclick="showMainForm()">Show Main Form</button>
+
+  <script>
+
+    var personName = document.getElementById('personName').value;
+    var personAge = document.getElementById('personAge').value;
+    var cityTable = document.getElementById('cityTable');
+    var techTable = document.getElementById('techTable');
+    cityTable.style.visibility = 'hidden';
+    techTable.style.visibility = 'hidden';
+
+    let cities = ['London', 'Paris', 'Delhi', 'NewYork'];
+    let technologies = ['Android', 'React', 'Angular', 'Spring', 'Javascript'];
+
+    let people = [
+      { name: 'John', age: 30, city: 'London', technology: 'Android' },
+      { name: 'Alice', age: 25, city: 'London', technology: 'Android' },
+      { name: 'Bob', age: 28, city: 'London', technology: 'Android' }
+    ];
+
+    let isEditing = false;
+    let currentEditIndex = -1;
+
+
+    function displayPeople() {
+      const personData = document.getElementById('personData');
+      let tableHTML = '';
+      people.map((person, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + person.name + '</td>' +
+          '<td>' + person.age + '</td>' +
+          '<td>' + person.city + '</td>' +
+          '<td>' + person.technology + '</td>' +
+          '<td>' +
+          '<button onclick="editPerson(' + index + ')">Edit</button>' +
+          '<button onclick="removePerson(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+
+      populateCityAndTech();
+      personData.innerHTML = tableHTML;
+    }
+
+    function populateCityAndTech() {
+      let element1 = document.getElementById('personCity')
+      let element2 = document.getElementById('personTechnology')
+
+      element1.innerHTML = cities.map(obj => {
+        return '<option value="' + obj + '">' + obj + '</option>'
+      }).join('')
+      element2.innerHTML = technologies.map(obj => {
+        return '<option value="' + obj + '">' + obj + '</option>'
+      }).join('')
+    }
+
+    function displayCities() {
+      cityTable.style.visibility = 'visible';
+      techTable.style.visibility = 'hidden';
+
+      const cityData = document.getElementById('cityData');
+      let tableHTML = '';
+      cities.map((city, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + city + '</td>' +
+          '<td>' +
+          '<button onclick="removeCity(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      cityData.innerHTML = tableHTML;
+    }
+
+    function removeCity(index) {
+      cities.splice(index, 1);
+      displayCities();
+      populateCityAndTech();
+    }
+
+    function displayTech() {
+      techTable.style.visibility = 'visible';
+      cityTable.style.visibility = 'hidden';
+
+      const techData = document.getElementById('techData');
+      let tableHTML = '';
+      technologies.map((tech, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + tech + '</td>' +
+          '<td>' +
+          '<button onclick="removeTech(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      techData.innerHTML = tableHTML;
+    }
+
+    function removeTech(index) {
+      technologies.splice(index, 1);
+      displayTech();
+      populateCityAndTech();
+    }
+
+    function addOrUpdatePerson() {
+      const personName = document.getElementById('personName').value;
+      const personAge = document.getElementById('personAge').value;
+      const personCity = document.getElementById('personCity').value;
+      const personTechnology = document.getElementById('personTechnology').value;
+      if (personName === "" || personAge === "") {
+        console.log("No input")
+        alert("Please enter Name and Age.")
+        return;
+      }
+      if (isEditing) {
+        people[currentEditIndex].age = parseInt(personAge);
+        people[currentEditIndex].city = personCity;
+        people[currentEditIndex].technology = personTechnology;
+        isEditing = false;
+      } else {
+        let existingPerson = people.find(person => person.name === personName);
+        if (existingPerson) {
+          alert('Person with the same name already exists!');
+          return;
+        }
+        people.push({ name: personName, age: parseInt(personAge), city: personCity, technology: personTechnology });
+      }
+
+      displayPeople();
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById('personName').value = '';
+      document.getElementById('personAge').value = '';
+      document.getElementById('personCity').value = 'London';
+      document.getElementById('personTechnology').value = 'Android';
+      document.getElementById('addPerson').innerText = 'Add Person';
+      document.getElementById('personName').readOnly = false;
+    }
+
+    function showMainForm() {
+      cityTable.style.visibility = 'hidden';
+      techTable.style.visibility = 'hidden';
+      displayPeople();
+      clearForm();
+    }
+
+    function editPerson(index) {
+      isEditing = true;
+      currentEditIndex = index;
+      const person = people[index];
+      document.getElementById('personName').value = person.name;
+      document.getElementById('personAge').value = person.age;
+      document.getElementById('personCity').value = person.city;
+      document.getElementById('personTechnology').value = person.technology;
+      document.getElementById('addPerson').innerText = 'Update';
+      document.getElementById('personName').readOnly = true;
+    }
+
+    function removePerson(index) {
+      people.splice(index, 1);
+      displayPeople();
+    }
+
+    function findAndRemovePerson() {
+      const personName = document.getElementById('personName').value;
+      if (personName) {
+        const existingPersonIndex = people.findIndex(person => person.name == personName);
+        if (existingPersonIndex == -1) {
+          alert('Person with the given name does not exist!');
+          return;
+        }
+
+        removePerson(existingPersonIndex);
+      }
+    }
+
+    displayPeople();
+  </script>
+</body>
+
+</html>

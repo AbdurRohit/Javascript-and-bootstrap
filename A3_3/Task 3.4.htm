@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <input type="text" id="textfield" placeholder="Enter text without special characters" onkeyup="validateInput()" /> 
+    <script>
+        function validateInput() {
+            var ele = document.getElementById("textfield");
+            const inputValue = ele.value;
+            var sanitizedValue = '';
+            for (var i = 0; i < inputValue.length; i++) {
+                var char = inputValue.charAt(i);
+
+        
+                var asciiValue = char.charCodeAt(0);
+
+           
+                if ((asciiValue >= 65 && asciiValue <= 90) || // A-Z
+                    (asciiValue >= 97 && asciiValue <= 122) || // a-z
+                    (asciiValue >= 48 && asciiValue <= 57)) { // 0-9
+                    sanitizedValue += char;
+                }
+            }
+
+            ele.value = sanitizedValue;
+        }
+    </script>
+</body>
+</html>

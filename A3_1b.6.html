@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2><b>Welcome to the Quiz Show</b></h2>
+    <br>
+    <div class="container" id="quizContainer">
+    </div>
+
+    <script>
+        const contestants = [
+            { name: 'Dave Burton', score: 0 },
+            { name: 'Mary Stevens', score: 0 },
+            { name: 'Edison', score: 0 }
+        ];
+
+        function createQuizShow() {
+            const quizContainer = document.getElementById('quizContainer');
+            const quizHTML = contestants.map(function (contestant, index) {
+                return '<div class="' + (index % 2 === 0 ? 'group1' : 'group2') + '">' +
+                    contestant.name + ' ' +
+                    '<span id="score' + (index + 1) + '">' + contestant.score + '</span><br><br>' +
+                    '<button onclick="updateScore(' + (index + 1) + ', 2)">+2</button>' +
+                    '<button onclick="updateScore(' + (index + 1) + ', -1)">-1</button>' +
+                    '</div>';
+            }).join('');
+
+            quizContainer.innerHTML = quizHTML;
+
+            contestants.map(function (contestant, index)  {
+                updateBackgroundColor(index + 1);
+            });
+        }
+
+        function updateScore(contestantIndex, scoreChange) {
+            const scoreElement = document.getElementById('score' + contestantIndex);
+            contestants[contestantIndex - 1].score += scoreChange;
+            scoreElement.textContent = contestants[contestantIndex - 1].score;
+            updateBackgroundColor(contestantIndex);
+        }
+
+        function updateBackgroundColor(contestantIndex) {
+            const scoreElement = document.getElementById('score' + contestantIndex);
+            const score = contestants[contestantIndex - 1].score;
+            const groupDiv = scoreElement.parentElement;
+
+            if (score > 0) {
+                groupDiv.style.backgroundColor = 'rgb(165, 246, 165)';
+            } else if (score < 0) {
+                groupDiv.style.backgroundColor = 'rgb(238, 149, 143)';
+            } else {
+                groupDiv.style.backgroundColor = 'rgb(135, 206, 235)';
+            }
+        }
+
+        createQuizShow();
+    </script>
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .group1 {
+            border: 5px;
+            border-color: black;
+            border-style: double;
+            background-color: rgb(165, 246, 165);
+            padding: 10px 20px 30px;
+        }
+
+        .group2 {
+            border: 5px;
+            border-style: double;
+            border-color: black;
+            background-color: rgb(238, 149, 143);
+            padding: 10px 20px 30px;
+        }
+    </style>
+</body>
+
+</html>

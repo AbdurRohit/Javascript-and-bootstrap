@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Data</title>
+    <style>
+        button {
+            background-color: rgb(154, 154, 154);
+        }
+
+        button:hover {
+            background-color: rgb(206, 64, 64);
+        }
+        #dump{border-style:ridge    ;}
+    </style>
+</head>
+
+<body>
+    <div id="buttons"></div>
+    <div id="filter"></div>
+    <div id="main">
+
+    </div>
+    
+
+</body>
+<script>
+    var jsonData = [
+        { empcode: 'A102', name: 'James', age: 37, gender: 'Male', department: 'Finance', designation: 'Manager', salary: 65000 },
+        {
+            empcode: 'A106', name: 'Mary', age: 24, gender: 'Female', department: 'Technology',
+            designation: 'Vice-President', salary: 68000
+        },
+        {
+            empcode: 'A122', name: 'Bob', age: 23, gender: 'Male', department: 'Marketing',
+            designation: 'Manager', salary: 51000
+        },
+        { empcode: 'A088', name: 'Julia', age: 33, gender: 'Female', department: 'Finance', designation: 'VicePresident', salary: 70000 },
+        {
+            empcode: 'A055', name: 'Steve', age: 27, gender: 'Male', department: 'Technology',
+            designation: 'Manager', salary: 53000
+        },
+        {
+            empcode: 'A208', name: 'Katherine', age: 29, gender: 'Female', department: 'Marketing',
+            designation: 'Manager', salary: 61000
+        },
+        {
+            empcode: 'A181', name: 'Edwards', age: 31, gender: 'Male', department: 'Finance',
+            designation: 'Trainee', salary: 49000
+        },
+        {
+            empcode: 'A029', name: 'Margaret', age: 32, gender: 'Female', department: 'Technology',
+            designation: 'President', salary: 53000
+        },
+        {
+            empcode: 'A029', name: 'Bill', age: 27, gender: 'Male', department: 'Operations',
+            designation: 'Manager', salary: 58000
+        }
+    ]
+    var departments = ['Finance', 'Technology', 'Marketing', 'Operations']
+    var designations = ['Manager', 'Vice-President', 'Trainee', 'President']
+    const dump = document.getElementById('dump')
+    const main = document.getElementById('main')
+    window.onload = init()
+    function init() {
+        document.getElementById('buttons').innerHTML = `<button onclick="newEmpForm()">New Employee</button>
+    <button onclick="showMainTable()">All employee</button>
+    <button onclick="fullDump()">Full dump</button>
+    <button onclick="partialDump()">Partial dump</button><br>`
+    }
+
+
+    function makeDD(arr, text, DDid, value) {
+        let str = text + `<br><select id="` + DDid + `">`
+        if (value) {
+            str += `<option value="` + value + `" selected disabled>` + value + `</option>`
+            str += arr.map(obj => {
+                return `<option value="` + obj + `">` + obj + `</option>`
+            })
+            str += `</select> <br>`
+        }
+        else {
+            str += `<option value="" selected disabled>Choose ` + text + `</option>`
+            str += arr.map(obj => {
+                return `<option value="` + obj + `">` + obj + `</option>`
+            })
+        }
+        str += `</select> <br>`
+        return str
+        console.log(str)
+    }
+
+    function showMainTable() {
+        main.innerHTML = `
+<table id="employeeTable" border="1">
+    <thead>
+        <tr>
+            <th onclick = "sortByEmpCode(jsonData)">Employee Code</th>
+            <th onclick = "sortByName(jsonData)">Name</th>
+            <th onclick = "sortByAge(jsonData)">Age</th>
+            <th onclick = " sortByGender(jsonData)">Gender</th>
+            <th onclick = " sortByDepartment(jsonData)">Department</th>
+            <th onclick = "sortByDesignation(jsonData)">Designation</th>
+            <th onclick = "sortBySalary(jsonData)">Salary</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody id = "tbody">
+        <!-- Employee data will be inserted here -->
+    </tbody>
+</table><br>`
+        filterform()
+        showTable(jsonData)
+    }
+
+    function editform(index) {
+        let obj = jsonData[index]
+        let genderval = null
+        document.getElementById('filter').innerHTML = ''
+        main.innerHTML = `Employee code
+    <input type="text" value = "`+ obj.empcode + `" disabled id="EmpCode"><br>
+    Name
+    <input type="text" value = "`+ obj.name + `" id="EmpName"><br>
+    Age
+    <input type="number" value = "`+ obj.age + `"id="EmpAge"><br>
+    Gender
+    <input type="radio" name="gender" value="Male" id="EmpMale">Male
+    <input type="radio" name="gender" value ="Female" id="EmpFemale" >Female<br>`
+            + makeDD(departments, 'Department', 'dptDD', obj.department) + ` `
+            + makeDD(designations, 'Designation', 'desgDD', obj.designation) + `<br>
+    Salary
+    <input type="number" value="`+ obj.salary + `" id="EmpSal"> <br><br>
+    <button onclick = 'updateEmp(`+ index + `)'>Edit Employee</button>`
+        if (obj.gender == 'Male') {
+            document.getElementById('EmpMale').checked = true
+        }
+        else {
+            document.getElementById('EmpFemale').checked = true
+        }
+    }
+
+    function updateEmp(index) {
+        let empcode = document.getElementById('EmpCode').value
+        let empName = document.getElementById('EmpName').value
+        let EmpAge = document.getElementById('EmpAge').value
+        const empMale = document.getElementById('EmpMale');
+        const empFemale = document.getElementById('EmpFemale');
+        let EmpGen = null;
+        if (empMale.checked) {
+            EmpGen = empMale.value;
+        } else if (empFemale.checked) {
+            EmpGen = empFemale.value;
+        }
+
+        let Empdpt = document.getElementById('dptDD').value
+        let Empdesig = document.getElementById('desgDD').value
+        let EmpSal = document.getElementById('EmpSal').value
+
+        
+if (!empName) {
+  alert("Employee name is missing");
+}
+
+if (!EmpAge) {
+  alert("Employee age is missing");
+}
+if (EmpGen == null) {
+  alert("Employee gender is missing");
+} 
+if (!Empdpt) {
+  alert("Employee department is missing");
+}
+
+if (!Empdesig) {
+  alert("Employee designation is missing");
+}
+if (!EmpSal) {
+  alert("Employee Salary is missing");
+}
+      
+if (empcode && empName && EmpAge && Empdpt && Empdesig && EmpSal && EmpGen==!null) {
+            jsonData[index].empcode = empcode
+            jsonData[index].name = empName
+            jsonData[index].age = EmpAge
+            jsonData[index].gender = EmpGen
+            jsonData[index].department = Empdpt
+            jsonData[index].designation = Empdesig
+            jsonData[index].salary = EmpSal
+            alert('Record updated')
+            showMainTable()
+        }
+    }
+
+
+    function fullDump() {
+        document.getElementById('filter').innerHTML = ''
+        main.innerHTML = ''
+        function formatEmployeeData(employee) {
+            return JSON.stringify(Object.values(employee).join('::'));
+        }
+        const formattedData = jsonData.map(formatEmployeeData).join('<br>');
+        let str = `<div id="dump">[`+formattedData+`]</div>`
+        main.innerHTML = str
+
+    }
+    function partialDump() {
+        document.getElementById('filter').innerHTML = ''
+        
+        let pdump = jsonData.map(obj => {
+            return `Code= ` + obj.empcode + `Name= ` + obj.name + `Age= ` + obj.age
+        }).join('<br>')
+        let str = `<div id="dump">["`+pdump+`"]</div>`
+        main.innerHTML = str
+    }
+    function addNewEmp() {
+        let empcode = document.getElementById('EmpCode').value
+        let empName = document.getElementById('EmpName').value
+        let EmpAge = document.getElementById('EmpAge').value
+        const empMale = document.getElementById('EmpMale');
+        const empFemale = document.getElementById('EmpFemale');
+        let EmpGen = null;
+        if (empMale.checked) {
+            EmpGen = empMale.value;
+        } else if (empFemale.checked) {
+            EmpGen = empFemale.value;
+        }
+        
+
+        let Empdpt = document.getElementById('dptDD').value
+        let Empdesig = document.getElementById('desgDD').value
+        let EmpSal = document.getElementById('EmpSal').value
+        let valid1 = jsonData.find(obj => {
+            return obj.name == empName
+        })
+        valid2 = jsonData.find(obj => {
+            return obj.empcode == empcode
+        })
+        if (valid1){
+            alert('Same name already exists')
+            return newEmpForm()
+        }
+        if (valid2){
+            alert('Same Emp code already exists')
+            return newEmpForm()
+        }
+        if (!empcode) {
+  alert("Employee code is missing");
+}
+
+if (!empName) {
+  alert("Employee name is missing");
+}
+
+if (!EmpAge) {
+  alert("Employee age is missing");
+}
+if (EmpGen == null) {
+  alert("Employee gender is missing");
+}
+
+if (!Empdpt) {
+  alert("Employee department is missing");
+}
+
+if (!Empdesig) {
+  alert("Employee designation is missing");
+}
+if (!EmpSal) {
+  alert("Employee Salary is missing");
+}
+
+
+if (empcode && empName && EmpAge && Empdpt && Empdesig && EmpSal && EmpGen==!null) {
+                let newObj = {
+                    empcode: empcode, name: empName, age: EmpAge, gender: EmpGen,
+                    department: Empdpt, designation: Empdesig, salary: EmpSal
+                }
+                jsonData.push(newObj)
+                alert('New employee updated')
+                return showMainTable()
+        }
+    
+        }
+    
+
+    function newEmpForm() {
+        document.getElementById('filter').innerHTML = ''
+        main.innerHTML = `Employee code
+    <input type="text" id="EmpCode"><br>
+    Name
+    <input type="text" id="EmpName"><br>
+    Age
+    <input type="number" id="EmpAge"><br>
+    Gender
+    <input type="radio" name="gender" value="Male" id="EmpMale">Male
+    <input type="radio" name="gender" value ="Female" id="EmpFemale" >Female<br>`
+            + makeDD(departments, 'Department', 'dptDD') + ` `
+            + makeDD(designations, 'Designation', 'desgDD') + `<br>
+    Salary
+    <input type="number" id="EmpSal"> <br><br>
+    <button onclick = 'addNewEmp()'>Add Employee</button>`
+    }
+
+    function showTable(arr) {
+        const tableBody = document.getElementById('tbody');
+        let tableRows = '';
+        arr.map((employee, index) => {
+            tableRows += `<tr>` +
+                '<td>' + employee.empcode + '</td>' +
+                '<td>' + employee.name + '</td>' +
+                '<td>' + employee.age + '</td>' +
+                '<td>' + employee.gender + '</td>' +
+                '<td>' + employee.department + '</td>' +
+                '<td>' + employee.designation + '</td>' +
+                '<td>' + employee.salary + '</td>' +
+                '<td><button class="editBtn" onclick=editform(' + index + ')>Edit</button></td>' + `</tr>`
+        });
+        tableBody.innerHTML = tableRows;
+    }
+
+    //sort 
+    function sortByEmpCode(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.empcode.localeCompare(b.empcode));
+        showTable(sortedArr)
+    }
+    // Function to sort by name
+    function sortByName(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.name.localeCompare(b.name));
+        showTable(sortedArr)
+    }
+
+    // Function to sort by age
+    function sortByAge(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.age - b.age);
+
+        showTable(sortedArr)
+    }
+
+    // Function to sort by department
+    function sortByDepartment(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.department.localeCompare(b.department));
+
+        showTable(sortedArr)
+    }
+
+    // Function to sort by designation
+    function sortByDesignation(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.designation.localeCompare(b.designation));
+
+        showTable(sortedArr)
+    }
+
+    // Function to sort by salary
+    function sortBySalary(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.salary - b.salary);
+        showTable(sortedArr)
+    }
+    function sortByGender(arr) {
+        const sortedArr = [...arr].sort((a, b) => a.gender.localeCompare(b.gender));
+        showTable(sortedArr)
+
+    }
+    //sort end
+
+    //filter
+    function filterform() {
+        document.getElementById('filter').innerHTML = makeDD(departments, 'Filter by Department', 'dpt1DD') +
+            makeDD(designations, 'Filter by designation', 'desg1DD') +
+            `<br><button onclick = "filter()" >Filter</button>`
+    }
+
+    function filter() {
+        let filteredArray1
+        let filteredArray = jsonData;
+        let dpt = document.getElementById('dpt1DD').value
+        let dsg = document.getElementById('desg1DD').value
+        console.log(dpt)
+        console.log(dsg)
+        if (dpt == '' && dsg == '') {
+            showMainTable()
+            showTable(jsonData)
+        }
+        else if(dpt == '' && dsg){
+            filteredArray1 = filteredArray.filter(employee => employee.designation === dsg);
+            console.log('dept == undf')
+            showMainTable()
+            showTable(filteredArray1)
+        }
+        else if(dsg == '' && dpt){
+            filteredArray1 = filteredArray.filter(employee => employee.department === dpt);
+            console.log('desg == undf')
+            showMainTable()
+            showTable(filteredArray1)
+        }
+        else {
+            filteredArray1 = filterData(dpt, dsg)
+            showMainTable()
+            showTable(filteredArray1)
+        }
+    }
+    function filterData(department, designation) {
+        let filteredArray = jsonData;
+        if (department && designation) {
+            filteredArray = filteredArray.filter(employee => employee.department === department && employee.designation === designation);
+        }
+        console.log('&&')
+        return filteredArray;
+    }
+//filter end
+</script>
+
+</html>

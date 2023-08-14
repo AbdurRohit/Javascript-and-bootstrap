@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <input type="text" id="t1" onkeyup="updateList(this)"/><br/>
+    <div id="d1"></div>
+    <script>
+        const words = ["Age", "Again", "Agree", "About", "Actor", "Ace", "Adamant", "After", "Afraid", "Bat", "Ball", "Balloon", "Bear", "Became", "Best", "Bike", "Bill", "Bicycle"];
+
+        function updateList(elem) {
+            let txt = elem.value;
+            const list1 = words.filter((w1) => {
+                return w1.startsWith(txt);
+            });
+
+            const arr1 = list1.map((w1) => {
+                return w1 + "<br/>";
+            });
+
+            arr1.unshift("Number of words is " + list1.length);
+
+            let div1 = document.getElementById("d1");
+            div1.innerHTML = arr1.join("");
+        }
+    </script>
+</body>
+</html>

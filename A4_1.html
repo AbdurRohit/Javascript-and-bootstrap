@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Data</h1>
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Maths</th>
+        <th>Computers</th>
+        <th>Coding Preference</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody id="studentData">
+   
+    </tbody>
+  </table>
+  <br>
+  <button onclick="showForm()">New Student</button>
+
+
+  <div id="studentForm" style="display: none;">
+    <h2>Add New Student</h2>
+    <label for="newName">Name:</label>
+    <input type="text" id="newName" required><br><br>
+    <label for="newMaths">Maths:</label>
+    <input type="number" id="newMaths" required><br><br>
+    <label for="newComputers">Computers:</label>
+    <input type="number" id="newComputers" required><br><br>
+    <label for="newCodingPreference">Coding Preference:</label>
+    <select id="newCodingPreference">
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+      <option value="c">C</option>
+      <option value="javascript">JavaScript</option>
+    </select><br><br>
+    <button onclick="addStudent()">Submit</button>
+    <button onclick="hideForm()">Cancel</button>
+  </div>
+
+  <script>
+   
+    let students = [
+      { name: 'John', maths: 85, computers: 78, codingPreference: 'python' },
+      { name: 'Alice', maths: 92, computers: 85, codingPreference: 'java' },
+      { name: 'Bob', maths: 78, computers: 80, codingPreference: 'c' }
+    ];
+
+
+    function displayStudents() {
+      const studentData = document.getElementById('studentData');
+      let tableHTML = '';
+      students.map(student => {
+        tableHTML += '<tr>' +
+          '<td>' + student.name + '</td>' +
+          '<td>' + student.maths + '</td>' +
+          '<td>' + student.computers + '</td>' +
+          '<td>' + student.codingPreference + '</td>' +
+          '<td><button onclick="editStudent(\'' + student.name + '\')">Edit</button></td>' +
+          '</tr>';
+      });
+      studentData.innerHTML = tableHTML;
+    }
+
+
+    function showForm() {
+      document.getElementById('studentForm').style.display = 'block';
+    }
+
+
+    function hideForm() {
+      document.getElementById('studentForm').style.display = 'none';
+    }
+
+    function addStudent() {
+      const newName = document.getElementById('newName').value;
+      const newMaths = parseInt(document.getElementById('newMaths').value);
+      const newComputers = parseInt(document.getElementById('newComputers').value);
+      const newCodingPreference = document.getElementById('newCodingPreference').value;
+
+      students.push({
+        name: newName,
+        maths: newMaths,
+        computers: newComputers,
+        codingPreference: newCodingPreference
+      });
+
+      displayStudents();
+      hideForm();
+      clearForm();
+    }
+
+
+    function clearForm() {
+      document.getElementById('newName').value = '';
+      document.getElementById('newMaths').value = '';
+      document.getElementById('newComputers').value = '';
+      document.getElementById('newCodingPreference').value = 'python';
+    }
+
+
+    function editStudent(name) {
+      const student = students.find(student => student.name === name);
+      if (student) {
+        document.getElementById('newName').value = student.name;
+        document.getElementById('newMaths').value = student.maths;
+        document.getElementById('newComputers').value = student.computers;
+        document.getElementById('newCodingPreference').value = student.codingPreference;
+        showForm();
+      }
+    }
+
+
+    displayStudents();
+  </script>
+</body>
+</html>

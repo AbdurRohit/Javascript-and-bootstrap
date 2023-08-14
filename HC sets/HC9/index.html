@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaker Showcase</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Speaker Showcase</a>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Cards -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card 1</h5>
+                        <p class="card-text">Random text for Card 1.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card 2</h5>
+                        <p class="card-text">Random text for Card 2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meet the Speakers -->
+        <h2 class="mt-4">Meet the Speakers</h2>
+
+        <!-- Speaker Buttons -->
+        <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-primary" id="netNinjaBtn">The Net Ninja</button>
+            <button class="btn btn-primary" id="webWizardBtn">The Web Wizard</button>
+            <button class="btn btn-primary" id="captainCodeBtn">Captain Code</button>
+            <button class="btn btn-primary" id="angularAvengerBtn">Angular Avenger</button>
+        </div>
+
+        <!-- Speaker Explanations -->
+        <div id="netNinja" class="mt-4">
+            <h3>The Net Ninja</h3>
+            <p>Explanation for The Net Ninja: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce fringilla velit vel varius accumsan.</p>
+        </div>
+        <div id="webWizard" class="mt-4">
+            <h3>The Web Wizard</h3>
+            <p>Explanation for The Web Wizard: Nullam eu libero a leo fermentum vehicula. Sed nec risus id libero convallis vehicula.</p>
+        </div>
+        <div id="captainCode" class="mt-4">
+            <h3>Captain Code</h3>
+            <p>Explanation for Captain Code: Proin eget ligula ut dui laoreet convallis. Vivamus nec dui sit amet felis congue volutpat.</p>
+        </div>
+        <div id="angularAvenger" class="mt-4">
+            <h3>Angular Avenger</h3>
+            <p>Explanation for Angular Avenger: Etiam in ex non velit accumsan cursus eget sit amet arcu. Nunc euismod est in mauris hendrerit, id luctus elit posuere.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional if you don't use JavaScript) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Smooth scrolling script -->
+    <script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.id.replace('Btn', '');
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

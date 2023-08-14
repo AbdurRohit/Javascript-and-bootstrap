@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survey Form</title>
+  <style>
+    body {
+      background-color: rgb(9, 80, 245);
+    }
+    form {
+      background-color: rgb(3, 3, 50);
+      padding: 20px;
+      width: 400px;
+      margin: 0 auto;
+      color: white;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    input[type="submit"] {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form action="#" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age">
+
+    <label>Which option best describes your current role?</label>
+    <input type="number" id="age" name="role">
+
+    <label>How would you rate your coding skills?</label>
+    <div>
+      <input type="radio" id="good" name="coding_skills" value="good">
+      <label for="good">Good</label>
+    </div>
+    <div>
+      <input type="radio" id="average" name="coding_skills" value="average">
+      <label for="average">Average</label>
+    </div>
+    <div>
+      <input type="radio" id="poor" name="coding_skills" value="poor">
+      <label for="poor">Poor</label>
+    </div>
+
+    <label>What would you like to learn?</label>
+    <div>
+      <input type="checkbox" id="frontend" name="learn[]" value="Frontend Dev">
+      <label for="frontend">Frontend Dev</label>
+    </div>
+    <div>
+      <input type="checkbox" id="backend" name="learn[]" value="Backend Dev">
+      <label for="backend">Backend Dev</label>
+    </div>
+    <div>
+      <input type="checkbox" id="fullstack" name="learn[]" value="Fullstack">
+      <label for="fullstack">Fullstack</label>
+    </div>
+
+    <label for="comments">Any comments or suggestions?</label>
+    <textarea id="comments" name="comments" rows="4"></textarea>
+
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>

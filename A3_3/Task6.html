@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Length Converter</title>
+</head>
+<body>
+  <h1>Length Converter</h1>
+  <div id="main">
+   
+  </div>
+
+  <script>
+    var ddArr = [
+  {
+    "value": "km",
+    "text": "Kilometer (km)"
+  },
+  {
+    "value": "m",
+    "text": "Meter (m)"
+  },
+  {
+    "value": "cm",
+    "text": "Centimeter (cm)"
+  },
+  {
+    "value": "mm",
+    "text": "Millimeter (mm)"
+  }
+]
+main()
+    function main(){
+        let html = ' <table border="1">'+
+      '<tr><td>Converter</td></tr>'+
+      '<tr>'+
+        '<td>'+
+          '<input type="text" id="field1" oninput="convertLength()">'+
+        '</td>'+
+        '<td>'+
+          '<input type="text" id="field2" oninput="convertLength()">'+
+        '</td>'+
+      '</tr>'+
+      '<tr>'+
+        '<td>'+
+          '<select id="fromUnit" onchange="convertLength()">'+
+            makeDD(ddArr)+
+          '</select>'+
+        '</td>'+
+        '<td>'+
+          '<select id="toUnit" onchange="convertLength()">'+
+            makeDD(ddArr)+
+          '</select>'+
+        '</td>'+
+      '</tr>'+
+    '</table>'
+    document.getElementById('main').innerHTML = html
+    }
+   
+    function convertLength() {
+  // Get input elements and selected units
+  const field1 = document.getElementById("field1");
+  const field2 = document.getElementById("field2");
+  const fromUnit = document.getElementById("fromUnit").value;
+  const toUnit = document.getElementById("toUnit").value;
+
+  // Get the numeric value from the input field
+  const inputValue = +(field1.value);
+
+  // Check if the input value is valid
+  if (isNaN(inputValue)) {
+    field2.value = "";
+    return;
+  }
+
+  // Perform the conversion
+  let result;
+  if (fromUnit === "km") {
+    if (toUnit === "km") {
+      result = inputValue;
+    } else if (toUnit === "m") {
+      result = inputValue * 1000;
+    } else if (toUnit === "cm") {
+      result = inputValue * 100000;
+    } else if (toUnit === "mm") {
+      result = inputValue * 1000000;
+    }
+  } else if (fromUnit === "m") {
+    if (toUnit === "km") {
+      result = inputValue / 1000;
+    } else if (toUnit === "m") {
+      result = inputValue;
+    } else if (toUnit === "cm") {
+      result = inputValue * 100;
+    } else if (toUnit === "mm") {
+      result = inputValue * 1000;
+    }
+  } else if (fromUnit === "cm") {
+    if (toUnit === "km") {
+      result = inputValue / 100000;
+    } else if (toUnit === "m") {
+      result = inputValue / 100;
+    } else if (toUnit === "cm") {
+      result = inputValue;
+    } else if (toUnit === "mm") {
+      result = inputValue * 10;
+    }
+  } else if (fromUnit === "mm") {
+    if (toUnit === "km") {
+      result = inputValue / 1000000;
+    } else if (toUnit === "m") {
+      result = inputValue / 1000;
+    } else if (toUnit === "cm") {
+      result = inputValue / 10;
+    } else if (toUnit === "mm") {
+      result = inputValue;
+    }
+  }
+
+  // Update the second input field with the converted value
+  field2.value = result.toString();
+}
+
+    
+    function makeDD(arr){
+        var str =arr.map(obj=>{
+            return '<option value="'+obj.value+'">'+obj.text+'</option>'
+        })
+        console.log(str)
+        return str
+    }
+ </script>
+</body>
+</html>

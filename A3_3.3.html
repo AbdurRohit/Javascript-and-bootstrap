@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Person Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .visible {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Person Data</h1>
+  <div class="visible" id="theForm">
+  </div>
+  <br>
+  <div id = 'mButtons'>
+
+  </div>
+  <div id="mainTbl" class="visible">
+  
+</div>
+
+<div id="cityTable" class="visible">
+  
+</div>
+  <br>
+
+<div id="techTable" class = "visible">
+  
+</div>
+
+  <script>
+    
+
+    let cities = ['London', 'Paris', 'Delhi', 'NewYork'];
+    let technologies = ['Android', 'React', 'Angular', 'Spring', 'Javascript'];
+
+    let people = [
+      { name: 'John', age: 30, city: 'London', technology: 'Android' },
+      { name: 'Alice', age: 25, city: 'London', technology: 'Android' },
+      { name: 'Bob', age: 28, city: 'London', technology: 'Android' }
+    ];
+    const mButtons =document.getElementById('mButtons') 
+    const theForm = document.getElementById('theForm')
+    displayPeople()
+    const personName = document.getElementById('personName').value;
+    const personAge = document.getElementById('personAge').value;
+    const personCity = document.getElementById('personCity').value;
+    
+    let isEditing = false;
+    let currentEditIndex = -1;
+ 
+    function init(){
+      let strz = '<table id="personTable">'+
+    '<thead id = "tabledt">'+     
+    '</thead>'+
+    '<tbody id="personData">'+
+    '</tbody>'+
+  '</table>'
+  const mainnTbl = document.getElementById('mainTbl')
+      mainnTbl.innerHTML = strz
+    }
+    function displayPeople() {
+      init()
+      var tabledt = document.getElementById('tabledt')
+      tabledt.innerHTML = '<tr> <th>Name</th>'+
+        '<th>Age</th>'+
+        '<th>City</th>'+
+        '<th>Technology</th></tr>'
+
+    
+
+      let iStr = 'Name:<input type="text" id="personName" placeholder = "Enter Name">';
+      iStr += ' <br>Age:<input type="number" id="personAge" placeholder = "Enter Age"><br>';
+      iStr += 'City:'+makeDD(cities,"personCity","cities")+"<br>";
+      iStr += 'Technology:'+makeDD(technologies,"personTechnology","tech")+"<br>";
+
+      iStr += '<button id="addPerson" onclick="addOrUpdatePerson()">Add Person</button>'
+      iStr += ' <button onclick="fremovePerson()">Remove person</button>'
+      
+      let bttn = '<button onclick="displayCities()" id = "manageBtn1" class = "visible">Manage Cities</button>'
+      bttn += '<button onclick="displayTech()" id = "manageBtn2" class = "visible" >Manage Techs </button>'
+      
+
+      const personData = document.getElementById('personData');
+      let tableHTML = '';
+      people.map((person, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + person.name + '</td>' +
+          '<td>' + person.age + '</td>' +
+          '<td>' + person.city + '</td>' +
+          '<td>' + person.technology + '</td>' +
+          '</td>' +
+          '</tr>';
+      });
+      
+  
+      theForm.innerHTML = iStr 
+      console.log(makeDD(cities))
+      personData.innerHTML = tableHTML;
+      mButtons.innerHTML = bttn;
+    }
+    // Printing the options 
+    //creating form
+    function makeDD(Arr,ddID,SelVal) {
+      let vStr = ""
+
+      let mapC = Arr.map(obj => {
+        return '<option value="' + obj + '">' + obj + '</option>'
+      }).join(' ')
+      vStr += '<select id = '+ddID+'>'+'<option value="" selected disabled hidden >Select '+SelVal+'</option>'+mapC+'</select>'
+      console.log('vStr: ',vStr)
+      return vStr;
+    }
+    // Printing the options done
+    // adding some code to print the city page
+    function displayCities()
+    {
+      
+      const cityTable  = document.getElementById('cityTable')
+      const dispCt =  document.getElementById('cityTable')
+      mButtons.innerHTML = ''
+      const Mainbtn = document.getElementById('showmainbtn')
+      const cityData = document.getElementById('cityData');
+
+
+      const ele2 = document.getElementById('techTable')
+      ele2.innerHTML= ''
+
+      const mainnTbl = document.getElementById('mainTbl')
+      mainnTbl.innerHTML = '' //hd
+
+      const theForm = document.getElementById('theForm')
+      theForm.innerHTML = ''//hd
+      let tableHTML = '';
+      cities.map((city, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + city + '</td>' +
+          '<td>' +
+          '<button onclick="removeCity(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      console.log("city table ",tableHTML)
+      
+      cityTable.innerHTML = '<button onclick="showMainForm()" id = "showmainbtn" class = "#">Show Main Form</button>'+
+      '<br> <br>Add city: <input type="text" id="addcityname" placeholder = "Enter City">'
+      +'<button onclick="addCity()" id = "add" class = "visible">Add</button>'+'<table >'+
+    '<thead>'+ '<tr>'+
+        '<th>City</th>'
+       +' <th>Remove</th>'+
+      '</tr>'+
+    '</thead>'+
+    '<tbody id="cityData" >'
+      +tableHTML+
+    '</tbody>'+
+  '</table>'
+    }
+
+    function addCity(){
+      const addcityname = document.getElementById('addcityname').value
+      if(addcityname){
+      if(cities.find(obj=>{
+        obj == addcityname
+      }))
+        {
+          alert ('City name already exists!')
+          return
+        }
+      else{
+        cities.push(addcityname)
+        displayCities()
+      }
+    }
+    else{
+      alert ('City name not found!')
+          return
+    }
+    
+      
+    }
+
+    function removeCity(index) {
+      cities.splice(index,1)
+      displayCities();
+      makeDD(cities,"personCity","");
+    }
+
+    //city added 
+    //adding display techs
+    function displayTech() {
+      const techTable = document.getElementById('techTable')
+      mButtons.innerHTML = ''
+      const Mainbtn = document.getElementById('showmainbtn')
+      const mainnTbl = document.getElementById('mainTbl')
+      mainnTbl.innerHTML = ''//hd
+
+      const ele1 = document.getElementById('cityTable')
+      ele1.innerHTML = ''//hd
+      
+      const theForm = document.getElementById('theForm')
+      theForm.innerHTML= ''
+
+
+      const techData = document.getElementById('techData');
+      let tableHTML = '';
+      technologies.map((tech, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + tech + '</td>' +
+          '<td>' +
+          '<button onclick="removeTech(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      techTable.innerHTML = '<button onclick="showMainForm()" id = "showmainbtn" class = "#">Show Main Form</button>'
+      +'<br> <br>Add tech: <input type="text" id="addtechname" placeholder = "Enter Tech">'+
+'<button onclick="addTech()" id = "add" class = "visible"> Add </button>' +'<table >'+  
+    '<thead>'+
+      '<tr>'+
+        '<th>Technology</th>'+
+        '<th>Remove</th>'+
+      '</tr>'+
+    '</thead>'+
+    '<tbody id="techData" >'+
+      tableHTML+
+    '</tbody>'+
+  '</table>'  ;
+    }
+  
+
+    function addTech(){
+      const addtechname = document.getElementById('addtechname').value
+      if(addtechname){
+      if(technologies.find(obj=>{
+        obj == addtechname
+      }))
+        {
+          alert ('City name already exists!')
+          return
+        }
+      else{
+        technologies.push(addtechname)
+        displayTech()
+    }
+  }
+  else{
+    alert ('Tech name not found!')
+          return
+  }
+  }
+
+    function removeTech(index) {
+      technologies.splice(index, 1);
+      displayTech();
+      makeDD(technologies,"personTechnology","")
+    }
+
+    function addOrUpdatePerson() {
+      const personName = document.getElementById('personName').value;
+      const personAge = document.getElementById('personAge').value;
+      const personCity = document.getElementById('personCity').value;
+      const personTechnology = document.getElementById('personTechnology').value;
+     
+      if (personName == "" || personAge == "" || personCity == "" || personTechnology == "") {
+  console.log("Some fields are empty");
+  alert("All fields need to be filled!");
+} 
+
+      if (personName && personAge && personCity && personTechnology) {
+        if (isEditing) {
+          people[currentEditIndex].age = +(personAge);
+          people[currentEditIndex].city = personCity;
+          people[currentEditIndex].technology = personTechnology;
+          isEditing = false;
+        } else {
+          let existingPerson = people.find(person => person.name === personName);
+          if (existingPerson) {
+            alert('Person with the same name already exists!');
+            return;
+          }
+
+          people.push({ name: personName, age: +(personAge), city: personCity, technology: personTechnology });
+        }
+
+        displayPeople();
+        
+      }
+    }
+
+
+
+    function showMainForm() {
+      const ele1 = document.getElementById('cityTable')
+      ele1.innerHTML = ''
+      const ele2 = document.getElementById('techTable')
+      ele2.innerHTML = ''
+
+      displayPeople()
+    }
+    var d = 0
+
+    function removePerson(index) {
+      d=1
+      console.log("This is removeperson",index)
+      people.splice(index,d);
+      displayPeople();
+      d=0
+    }
+
+    function fremovePerson() {
+      const personName = document.getElementById('personName').value;
+      let existingPersonIndex = -1;
+      if(personName){
+        for(let i = 0; i<people.length;i++){
+          if(people[i].name == personName)
+            existingPersonIndex = i
+        }
+        if ( existingPersonIndex == -1 ) {
+          alert('Person with the given name does not exist!');
+          return;
+        }
+      }
+      else{
+        alert('Enter person to remove!')
+        return
+      }
+        removePerson(existingPersonIndex);
+      }
+    
+
+    
+</script>
+</body>
+
+</html>

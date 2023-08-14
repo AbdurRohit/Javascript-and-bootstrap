@@ -1,0 +1,24 @@
+a. Loose equality: In JavaScript, loose equality is denoted by the double equals (`==`) operator. It is a type-coercive comparison, meaning it allows operands of different types to be considered equal after converting them to a common type.
+
+b. Strict equality: Strict equality is denoted by the triple equals (`===`) operator in JavaScript. It performs a non-coercive comparison and checks both value and type. The operands must be of the same type and have the same value to be considered equal.
+
+c. Differences between loose and strict equality:
+- Loose equality performs type coercion, which can lead to unexpected results. For example, `1 == "1"` would be true because the string "1" is coerced to a number.
+- Strict equality does not perform type coercion, so `1 === "1"` would be false since the types are different.
+- Strict equality is generally recommended because it avoids potential bugs caused by unexpected type conversions.
+
+d. Truthy and Falsy values: In JavaScript, values are considered truthy if they coerce to true in a boolean context, and falsy if they coerce to false. Examples of falsy values include `false`, `0`, `null`, `undefined`, `NaN`, and an empty string (`""`). All other values are truthy, including non-empty strings, numbers other than 0, objects, arrays, and functions.
+
+e. Possible falsy values: `false`, `0`, `null`, `undefined`, `NaN`, and `""` (empty string).
+
+f. NOT Operator: The NOT operator (`!`) inverts the truthiness of a value. It returns `true` if the operand is falsy, and `false` if the operand is truthy.
+Example: `const value = 0; console.log(!value); // Output: true`
+
+g. AND Operator: The AND operator (`&&`) returns `true` if both operands are truthy, otherwise, it returns `false`.
+Example: `const x = true; const y = false; console.log(x && y); // Output: false`
+
+h. OR Operator: The OR operator (`||`) returns `true` if at least one of the operands is truthy, otherwise, it returns `false`.
+Example: `const a = false; const b = true; console.log(a || b); // Output: true`
+
+i. Ternary Operator: The ternary operator is a concise way to write conditional expressions in JavaScript. It has the form: `condition ? expr1 : expr2`. If the condition is true, it evaluates `expr1`, otherwise, it evaluates `expr2`.
+We use the ternary operator to make code more readable and reduce duplication when we need to choose between two values based on a condition. It helps simplify and streamline conditional operations and assignments.

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkbox and Radio Buttons</title>
+</head>
+<body>
+  <h2>Checkboxes</h2>
+  <div id="checkbox-container">
+    <!-- Your dynamically generated checkboxes will be placed here -->
+  </div>
+  <button onclick="getCheckedValues()">Get Checked Values</button>
+  <button onclick="checkAll()">Check All</button>
+  <button onclick="uncheckAll()">Uncheck All</button>
+  <button onclick="disableAll()">Disable All</button>
+  <button onclick="enableAll()">Enable All</button>
+  <br>
+
+  <h2>Radio Buttons</h2>
+  <div id="radio-container">
+    <!-- Your dynamically generated radio buttons will be placed here -->
+  </div>
+  <button onclick="getCheckedRadioValue()">Get Checked Radio Value</button>
+  <button onclick="checkSpecificRadio()">Check Specific Radio</button>
+  <button onclick="disableAllRadios()">Disable All Radios</button>
+  <button onclick="enableAllRadios()">Enable All Radios</button>
+
+  <script>
+    function createCheckboxesFromArray(arr, id) {
+      let html = '';
+      for (let i = 0; i < arr.length; i++) {
+        const checkboxId = id + i;
+        html += '<input type="checkbox" id="' + checkboxId + '" value="' + arr[i] + '"> ' + arr[i] + '<br>';
+      }
+      document.getElementById('checkbox-container').innerHTML = html;
+    }
+
+    function createCheckboxesFromJSON(jsonArr, id) {
+      let html = '';
+      for (let i = 0; i < jsonArr.length; i++) {
+        const checkboxId = id + i;
+        const txt = jsonArr[i].txt;
+        const selected = jsonArr[i].selected;
+        const isChecked = selected ? 'checked' : '';
+        html += '<input type="checkbox" id="' + checkboxId + '" value="' + txt + '" ' + isChecked + '> ' + txt + '<br>';
+      }
+      document.getElementById('checkbox-container').innerHTML = html;
+    }
+
+    function getCheckedValues() {
+      const checkedValues = [];
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        checkedValues.push(checkbox.value);
+      });
+      console.log(checkedValues);
+    }
+
+    function checkAll() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = true;
+      });
+    }
+
+    function uncheckAll() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (checkbox) {
+        checkbox.checked = false;
+      });
+    }
+
+    function disableAll() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (checkbox) {
+        checkbox.disabled = true;
+      });
+    }
+
+    function enableAll() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function (checkbox) {
+        checkbox.disabled = false;
+      });
+    }
+
+    function createRadioButtonsFromArray(arr, name) {
+      let html = '';
+      for (let i = 0; i < arr.length; i++) {
+        const radioButtonId = name + i;
+        html += '<input type="radio" name="' + name + '" id="' + radioButtonId + '" value="' + arr[i] + '"> ' + arr[i] + '<br>';
+      }
+      document.getElementById('radio-container').innerHTML = html;
+    }
+
+    function getCheckedRadioValue() {
+      const radioButtons = document.getElementsByName('radio-option');
+      let radioValue;
+      radioButtons.forEach(function (radio) {
+        if (radio.checked) {
+          radioValue = radio.value;
+        }
+      });
+      console.log(radioValue);
+    }
+
+    function checkSpecificRadio() {
+      const radioToCheck = document.getElementById('radio-option-2');
+      radioToCheck.checked = true;
+    }
+
+    function disableAllRadios() {
+      const radioButtons = document.getElementsByName('radio-option');
+      radioButtons.forEach(function (radio) {
+        radio.disabled = true;
+      });
+    }
+
+    function enableAllRadios() {
+      const radioButtons = document.getElementsByName('radio-option');
+      radioButtons.forEach(function (radio) {
+        radio.disabled = false;
+      });
+    }
+
+    const fruits = ['Apple', 'Banana', 'Orange'];
+    createCheckboxesFromArray(fruits, 'fruit-');
+
+    const items = [
+      { txt: 'Item 1', selected: true },
+      { txt: 'Item 2', selected: false },
+      { txt: 'Item 3', selected: true }
+    ];
+    createCheckboxesFromJSON(items, 'item-');
+
+    const colors = ['Red', 'Green', 'Blue'];
+    createRadioButtonsFromArray(colors, 'radio-option');
+  </script>
+</body>
+</html>

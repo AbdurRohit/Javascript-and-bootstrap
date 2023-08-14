@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Registration Form</title>
+</head>
+<body>
+  <h2>Student Registration Form</h2>
+  <div id="formContainer"></div>
+  <div id="studentListContainer"></div>
+
+  <script>
+    const sports = ["Cricket", "Football", "Basketball", "Badminton", "Table Tennis"];
+    const studentsArray = [];
+
+    function makeRadio(selectedSport) {
+      const sportsRadioDiv = document.getElementById('sportsRadio');
+      sportsRadioDiv.innerHTML = '';
+
+      const radiosHTML = sports.map((sport) => {
+        const isChecked = selectedSport === sport ? 'checked' : '';
+        return '<label><input type="radio" name="sports" id="sport_' + sport + '" value="' + sport + '" ' + isChecked + '> ' + sport + '</label><br>';
+      }).join('');
+
+      sportsRadioDiv.innerHTML = radiosHTML;
+    }
+
+    function showForm() {
+      const formContainer = document.getElementById('formContainer');
+      formContainer.innerHTML = `
+        <form id="registrationForm" onsubmit="return onSubmitForm()">
+          <label for="studentName">Student Name:</label>
+          <input type="text" id="studentName" required><br>
+          <label>Sports Played:</label><br>
+          <div id="sportsRadio"></div><br>
+          <input type="submit" value="Submit">
+          <input type="button" value="Update" style="display: none;" id="updateButton" onclick="updateStudent()">
+        </form>
+      `;
+
+      makeRadio(); // To display radio buttons initially
+    }
+
+    function showStudentList() {
+      const studentListContainer = document.getElementById('studentListContainer');
+      studentListContainer.innerHTML = '';
+
+      const studentList = studentsArray.map(function(student, index) {
+        return '<li onclick="editStudent(' + index + ')">' + student.name + '(' + student.sports + ')' + '</li>';
+      }).join('');
+
+      studentListContainer.innerHTML = '<ul id="studentList">' + studentList + '</ul>';
+    }
+
+    function onSubmitForm() {
+      const studentName = document.getElementById('studentName').value;
+      const selectedSport = sports.find(function(sport) {
+        return document.getElementById('sport_' + sport).checked;
+      });
+
+      if (!studentName || !selectedSport) {
+        alert('Please fill in all fields.');
+        return false;
+      }
+
+      const student = {
+        name: studentName,
+        sports: selectedSport,
+      };
+
+      studentsArray.push(student);
+
+      showStudentList();
+      showForm()
+  
+      return false; // To prevent form submission
+    }
+
+    function editStudent(index) {
+      const formContainer = document.getElementById('formContainer');
+      const student = studentsArray[index];
+
+      formContainer.innerHTML = `
+        <form id="registrationForm" onsubmit="return onSubmitForm()">
+          <label for="studentName">Student Name:</label>
+          <input type="text" id="studentName" value="`+student.name+`" readonly required><br>
+          <label>Sports Played:</label><br>
+          <div id="sportsRadio"></div><br>
+          <input type="submit" value="Submit" style="display: none;">
+          <input type="button" value="Update" id="updateButton" onclick="updateStudent(${index})">
+        </form>
+      `;
+
+      makeRadio(student.sports);
+    }
+
+    function updateStudent(index) {
+      const student = studentsArray[index];
+
+      const studentName = document.getElementById('studentName').value;
+      const selectedSport = sports.find(function(sport) {
+        return document.getElementById('sport_' + sport).checked;
+      });
+
+      if (!studentName || !selectedSport) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      student.name = studentName;
+      student.sports = selectedSport;
+
+      showForm();
+      showStudentList();
+    }
+
+    showForm();
+    showStudentList();
+  </script>
+</body>
+</html>

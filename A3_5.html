@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management</title>
+    <style>
+        /* Add your CSS styling here */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="buttons"></div>
+    <div id="content"></div>
+</body>
+
+
+<script>
+     mainMenu()
+ var productMaster = [
+            { "ProductName": "Product1", "Category": "Food", "BuyPrice": 5, "SellingPrice": 10 },
+            { "ProductName": "Product2", "Category": "Soap", "BuyPrice": 3, "SellingPrice": 6 },
+            // Add more products as needed
+        ];
+proNameArr
+        var purchaseMaster = [
+            { "ProductName": "Product1", "Quantity": 10 },
+            { "ProductName": "Product2", "Quantity": 5 },
+            // Add more purchases as needed
+        ];
+
+        var proNameArr = productMaster.map(obj=>{
+            return obj.ProductName
+        })
+        console.log(proNameArr)
+        
+        var catArr = productMaster.map(obj=>{
+            return obj.Category
+        })
+        console.log(catArr) 
+    function mainMenu(){
+        let buttons = document.getElementById('buttons')
+        buttons.innerHTML = ' <button onclick="showPM()">Product Master</button>'+
+    '<button onclick="showNewProF()">New Product</button>'+
+    '<button onclick="showPurMast()">Purchase Master</button>'+
+    '<button onclick="showNewPurF()">New Purchase</button>'
+    }
+    
+    function showPM(){
+        var content = document.getElementById('content');
+        var tableHtml = '<table><thead><tr><th>Product Name</th><th>Category</th><th>Buy Price</th><th>Selling Price</th></tr></thead><tbody>';
+
+        productMaster.map(product => {
+            tableHtml += '<tr><td>' + product.ProductName + '</td><td>' + product.Category + '</td><td>' + product.BuyPrice + '</td><td>' + product.SellingPrice + '</td></tr>';
+        });
+
+        tableHtml += '</tbody></table>';
+        content.innerHTML = tableHtml;
+        proNameArr = productMaster.map(obj=>{
+            return obj.ProductName
+        })
+        console.log(proNameArr)
+    
+    }
+
+    function showNewProF(){
+        var content = document.getElementById('content');
+            var formHtml = '<form>';
+            formHtml += 'Product Name: <input type="text" name="ProductName" id = "PNAME"><br>';
+            formHtml += 'Category:'
+            formHtml +=MakeDD(catArr,"category","Select Category")
+            formHtml += 'Buy Price: <input type="number" name="BuyPrice" id = "BuyP"><br>';
+            formHtml += 'Selling Price: <input type="number" name="SellingPrice" id = "SellP"><br>';
+            formHtml += '<input type="button" value="Add" onclick="addProduct()">';
+            formHtml += '</form>';
+
+            content.innerHTML = formHtml;
+    }
+
+    function addProduct(){
+        var productName = document.getElementById('PNAME').value;
+            var category = document.getElementById('category').value;
+            var buyPrice = document.getElementById('BuyP').value;
+            var sellingPrice = document.getElementById('SellP').value;
+
+            if (productName && category && buyPrice && sellingPrice) {
+                var newProduct = {
+                    "ProductName": productName,
+                    "Category": category,
+                    "BuyPrice": buyPrice,
+                    "SellingPrice": sellingPrice
+                };
+
+                productMaster.push(newProduct);
+               catArr = productMaster.map(obj=>{
+            return obj.Category
+        })
+                showPM();
+            } else {
+                alert("Please fill in all fields with valid values.");
+            }
+    }
+
+    function showPurMast(){
+        var content = document.getElementById('content');
+            var tableHtml = '<table><thead><tr><th>Product Name</th><th>Quantity</th><th>Price</th><th>Value</th></tr></thead><tbody>';
+
+            purchaseMaster.map(purchase => {
+                var product = productMaster.find(prod => prod.ProductName == purchase.ProductName);
+                var price = product ? product.BuyPrice : 0;
+                var value = price * purchase.Quantity;
+                tableHtml += '<tr><td>' + purchase.ProductName + '</td><td>' + purchase.Quantity + '</td><td>' + price + '</td><td>' + value + '</td></tr>';
+            });
+
+            tableHtml += '</tbody></table>';
+            content.innerHTML = tableHtml;
+    }
+
+    function showNewPurF(){
+        var content = document.getElementById('content');
+            var formHtml = '<form>';
+            formHtml += 'Product Name:'
+            formHtml += MakeDD(proNameArr,"prodName","Select Product")
+            formHtml += 'Quantity: <input type="number" name="Quantity" id = "qty"><br>';
+            formHtml += '<input type="button" value="Add" onclick="addPurchase()">';
+            formHtml += '</form>';
+
+            content.innerHTML = formHtml;
+           proNameArr = productMaster.map(obj=>{
+            return obj.ProductName
+        })
+        console.log(proNameArr)
+    }
+
+    function addPurchase(){
+           
+        var productName = document.getElementById('prodName').value;
+        var quantity = +(document.getElementById('qty').value);
+            
+        console.log(typeof(quantity))
+        if (productName && quantity > 0) {
+            var existingPurchase = purchaseMaster.find(purchase => purchase.ProductName == productName);
+
+            if (existingPurchase) {
+                existingPurchase.Quantity += quantity; // Increment the quantity if the product already exists
+            } else {
+                var newPurchase = {
+                    "ProductName": productName,
+                    "Quantity": quantity
+                };
+
+                purchaseMaster.push(newPurchase); // Add a new entry to the purchase master array
+            }
+
+            showPurMast();
+        } else {
+            alert("Please select a product and enter a valid quantity.");
+        }
+    }
+
+    function MakeDD(arr,id,text){
+        console.log(arr)
+        console.log(id)
+        let dd = ''
+        dd += '<select name="ProductName" id = "'+id+'">' +
+                '<option value="" selected disabled >'+text+'</option>';
+        dd+= arr.map(obj => {
+                return '<option value="' + obj + '">' +obj + '</option>'
+            }).join('');
+        dd += '</select><br>'
+       
+        return dd
+    }
+
+</script>
+</html>

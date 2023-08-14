@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Cities</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    button {
+      background-color: rgb(0, 255, 94);
+      color: rgb(0, 0, 0);
+      border: 2px solid rgb(8, 8, 8);
+    }
+  </style>
+</head>
+<body>
+  <h1>Manage Cities</h1>
+  <table id="cityTable">
+    <thead>
+      <tr>
+        <th>City</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody id="cityData">
+      <!-- City data will be populated here -->
+    </tbody>
+  </table>
+  <button onclick="clearCities()">Clear All Cities</button>
+
+  <script>
+    let cities = ["London", "Paris", "Delhi", "NewYork"];
+
+    function displayCities() {
+      const cityData = document.getElementById('cityData');
+      let tableHTML = '';
+      cities.forEach((city, index) => {
+        tableHTML += '<tr>' +
+          '<td>' + city + '</td>' +
+          '<td>' +
+          '<button onclick="removeCity(' + index + ')">Remove</button>' +
+          '</td>' +
+          '</tr>';
+      });
+      cityData.innerHTML = tableHTML;
+    }
+
+    function removeCity(index) {
+      cities.splice(index, 1);
+      displayCities();
+    }
+
+    function clearCities() {
+      cities = [];
+      displayCities();
+    }
+
+    displayCities();
+  </script>
+</body>
+</html>

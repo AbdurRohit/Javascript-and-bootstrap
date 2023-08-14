@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Subject Choices</title>
+</head>
+<body>
+  <h2>Subject Choices</h2>
+  <label>
+    <input type="checkbox" id="mathematicsCheckbox" value="Mathematics"> Mathematics
+  </label><br>
+  <label>
+    <input type="checkbox" id="physicsCheckbox" value="Physics"> Physics
+  </label><br>
+  <label>
+    <input type="checkbox" id="chemistryCheckbox" value="Chemistry"> Chemistry
+  </label><br>
+  <label>
+    <input type="checkbox" id="englishCheckbox" value="English"> English
+  </label><br>
+  <button onclick="displayCheckboxStatus()">Show Checkbox Status</button>
+
+  <script>
+    function displayCheckboxStatus() {
+      const mathematicsStatus = document.getElementById('mathematicsCheckbox').checked;
+      const physicsStatus = document.getElementById('physicsCheckbox').checked;
+      const chemistryStatus = document.getElementById('chemistryCheckbox').checked;
+      const englishStatus = document.getElementById('englishCheckbox').checked;
+
+      console.log('Mathematics: ' + mathematicsStatus);
+      console.log('Physics: ' + physicsStatus);
+      console.log('Chemistry: ' + chemistryStatus);
+      console.log('English: ' + englishStatus);
+    }
+  </script>
+</body>
+</html>

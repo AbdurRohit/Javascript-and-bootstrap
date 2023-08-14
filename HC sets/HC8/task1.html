@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Food Delivery Survey Form</title>
+  <style>
+    body {
+      background-color: lightgreen;
+    }
+    
+    .form-container {
+      background-color: lightgrey;
+      padding: 20px;
+      border-radius: 10px;
+      width: 400px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    form {
+      text-align: center;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    
+    input[type="submit"] {
+      background-color: lightblue;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>Food Delivery Survey Form</h1>
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br><br>
+      
+      <label for="occupation">What do you Do:</label><br>
+      <select id="occupation" name="occupation">
+        <option value="student">Student</option>
+        <option value="employee">Employee</option>
+        <option value="self-employed">Self-employed</option>
+        <option value="other">Other</option>
+      </select><br><br>
+      
+      <label>What is your preferred time:</label><br>
+      <input type="radio" id="morning" name="preferred_time" value="morning">
+      <label for="morning">Morning</label>
+      
+      <input type="radio" id="afternoon" name="preferred_time" value="afternoon">
+      <label for="afternoon">Afternoon</label>
+      
+      <input type="radio" id="evening" name="preferred_time" value="evening">
+      <label for="evening">Evening</label><br><br>
+      
+      <label>Which meal do you order online?</label><br>
+      <input type="checkbox" id="breakfast" name="meal" value="breakfast">
+      <label for="breakfast">Breakfast</label>
+      
+      <input type="checkbox" id="lunch" name="meal" value="lunch">
+      <label for="lunch">Lunch</label>
+      
+      <input type="checkbox" id="snacks" name="meal" value="snacks">
+      <label for="snacks">Snacks</label>
+      
+      <input type="checkbox" id="dinner" name="meal" value="dinner">
+      <label for="dinner">Dinner</label><br><br>
+      
+      <label for="comments">Anything you would like to share:</label><br>
+      <textarea id="comments" name="comments" rows="4"></textarea><br><br>
+      
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</body>
+
+</html>
