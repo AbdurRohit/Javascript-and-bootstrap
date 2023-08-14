@@ -118,30 +118,7 @@ const puProd = [
     function makeinput(label, type, value, id, ph) {
       return str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>`
     }
-    // function editProductForm(index) {
-    //   let obj = products[index]
-    //   let str = `<h1>Update product</h1>
-    
-    // <form id="product-form">
-    //   <div class="mb-3">
-    //   `+ makeinput('Product name', 'text', obj.name, 'product-name', 'Enter name') +
-    //     `
-    //   <div class="mb-3">
-    //     `+ makeinput('Price', 'number', obj.price, 'product-price', 'Enter price') + `
-    //   </div>
-    //   <div class="mb-3">
-    //     `+ makeinput('Discount', 'number', obj.discount, 'product-discount', 'Enter discount') + `
-    //   </div>
-    //   <div class="mb-3">
-    //     `+ makeDD(suppliers, "Supplier","supplierDD") + `
-    //   </div>
-    //   <div class="mb-3">
-    //     `+ makeinput('Delivery', 'text', obj.delivery, 'product-delivery', 'Enter delivery') + `
-    //   </div>
-    //   <button type="submit" class="btn btn-primary" onclick="editProd(`+ index + `)">Submit</button>
-    // </form>`
-    //   main.innerHTML = str
-    // }
+   
     function editProd(index) {
       let productName = document.getElementById('product-name').value
       let productPrice = document.getElementById('product-price').value
@@ -220,43 +197,18 @@ const puProd = [
       <table class="table table-bordered ">
         <thead class="table-primary">
           <tr>
-            <th onclick="sortbyname()">Product Name</th>
-            <th onclick="sortbyprice()">Price</th>
-            <th>Discount</th>
-            <th>Supplier</th>
-            <th>Delivery</th>
+            <th onclick="sortTable1(1)">Product Name</th>
+            <th onclick="sortTable1(2)">Price</th>
+            <th onclick="sortTable1(3)">Discount</th>
+            <th onclick="sortTable1(4)">Supplier</th>
+            <th onclick="sortTable1(5)">Delivery</th>
           </tr>
         </thead>
         <tbody id="product-table-body">
       
         </tbody>
       </table>`
-      ProductTable();
-    }
-
-    function sortbyname() {
-      products.sort((obj1, obj2) => {
-        obj1.name.localeCompare(obj2.name)
-      })
-      console.log("clicked", products)
-      showAllProducts()
-    }
-    function sortbyprice() {
-      products.sort((ob1, ob2) => {
-        if (ob1.price > ob2.price)
-          return 1
-        else if (ob1.price < ob2.price)
-          return -1
-        else
-          return 0
-      })
-      console.log("clicked", products)
-      showAllProducts()
-    }
-
-    // Function to generate the table rows based on the JSON data
-    function ProductTable() {
-      const tableBody = document.getElementById('product-table-body');
+      let tableBody = document.getElementById('product-table-body');
       let tableRows = '';
       products.map((product, index) => {
         tableRows += `
@@ -269,9 +221,46 @@ const puProd = [
         </tr>
       `;
       });
-
       tableBody.innerHTML = tableRows;
     }
+
+function sortTable1(index){
+
+  if(index == 1){
+       let srt = products.sort((a, b) => a.name.localeCompare(b.name));
+       console.log(srt)
+       showAllProducts()
+  }
+  else if(index == 2){
+     products.sort((a, b) => a.price - b.price);
+     showAllProducts()
+  }
+  else if(index == 3){
+
+  const discountMapping = disArr.reduce((acc, dis) => {
+    acc[dis.percentage] = dis.value;
+    return acc;
+  }, {});
+  console.log(discountMapping)
+   products.sort((a, b) => {
+    const discountA = discountMapping[a.discount];
+    const discountB = discountMapping[b.discount];
+    return discountA - discountB;
+  });
+  console.log("yes")
+  showAllProducts()
+  }
+  else if(index ==4){
+   products.sort((a, b) => a.supplier.localeCompare(b.supplier));
+   showAllProducts()
+  }
+  else if(index ==5){
+    products.sort((a, b) => a.delivery.localeCompare(b.delivery));
+    showAllProducts()
+  }
+  }
+
+
     // Call the function to generate the table on page load
     function show2nd() {
     let contentDiv = document.getElementById("main-content");
@@ -327,10 +316,10 @@ const puProd = [
     <h1>Purchase Table</h1>
     <table class="table">
       <thead>
-          <th onclick ="sortByProduct()">Product</th>
-          <th onclick ='sortByQuantity()'>Quantity</th>
-          <th onclick ='sortByPrice1()'>Price</th>
-          <th onclick ='sortBySupplier()'>Supplier</th>
+          <th onclick ="sortTable(1)">Product</th>
+          <th onclick ='sortTable(2)'>Quantity</th>
+          <th onclick ='sortTable(3)'>Price</th>
+          <th onclick ='sortTable(4)'>Supplier</th>
         </tr>
       </thead>
       <tbody id="tableBody">
@@ -349,32 +338,29 @@ const puProd = [
     ).join(''); 
   table.innerHTML = str2
   }
-// Function to sort by Product
-function sortByProduct() {
-  console.log("Array")
-  purchase.sort((a, b) => {
+// Function to sort 
+function sortTable(index){
+  if(index == 1){
+    purchase.sort((a, b) => {
     return a.Product.localeCompare(b.Product)
   });
+  stockView()  
+  }
+  else if(2){
+    purchase.sort((a, b) => a.Quantity - b.Quantity);
+    stockView()  
+  }
+  else if(3){
+    purchase.sort((a, b) => a.Price - b.Price);
+    stockView()
+  }
+  else if(4){
+    purchase.sort((a, b) => a.Supplier.localeCompare(b.Supplier));
   stockView()
+  }
 }
 
-// Function to sort by Quantity
-function sortByQuantity() {
-  purchase.sort((a, b) => a.Quantity - b.Quantity);
-  stockView()
-}
 
-// Function to sort by Price
-function sortByPrice1() {
-  purchase.sort((a, b) => a.Price - b.Price);
-  stockView()
-}
-
-// Function to sort by Supplier
-function sortBySupplier() {
-  purchase.sort((a, b) => a.Supplier.localeCompare(b.Supplier));
-  stockView()
-}
   </script>
 
 </body>
