@@ -26,10 +26,60 @@
 
 <script>
    
-const employeesData = [
-    { name: "John Doe", email: "john@example.com", age: 30 },
-    { name: "Jane Smith", email: "jane@example.com", age: 25 },
-];
+const employeesData = 
+[
+    {name:'Anna',email:'Anna45@email.com',age:27,dept:'Technology',gradCourse:'B.Tech',gradYear:2015,gradPerf:'Good',postgrad:false,workBefore:true,workEx:'0-1 year'},
+
+
+    {name:'Mary',email:'mary16@email.com',age:30,dept:'Accounts',gradCourse:'B.Com',gradYear:2015,gradPerf:'Good',postgrad:true,workBefore:false,workEx:'None'},
+    {name:'Jack',email:'jack@email.com',age:33,dept:'Operations',gradCourse:'BA',gradYear:2015,gradPerf:'Average',postgrad:false,workBefore:true,workEx:'3+ years'},
+    {name:'John',email:'john@email.com',age:24,dept:'Technology',gradCourse:'B.Tech',gradYear:2015,gradPerf:'Good',postgrad:false,workBefore:false,workEx:'None'},
+    {name:'Edwards',email:'edwards@email.com',age:29,dept:'Accounts',gradCourse:'B.Com',gradYear:2015,gradPerf:'Excellent',postgrad:true,workBefore:true,workEx:'3+ years'},
+    {name:'Tim',email:'tim001@email.com',age:31,dept:'Operations',gradCourse:'BSc',gradYear:2015,gradPerf:'Average',postgrad:false,workBefore:true,workEx:'0-1 year'},
+    {name:'Julia',email:'julia@email.com',age:28,dept:'Technology',gradCourse:'B.Tech',gradYear:2015,gradPerf:'Excellent',postgrad:true,workBefore:true,workEx:'1-3 years'},
+    {name:'Steve',email:'steve@email.com',age:25,dept:'Operations',gradCourse:'BA',gradYear:2015,gradPerf:'Good',postgrad:false,workBefore:true,workEx:'0-1 year'},
+    {name:'Sam',email:'sam77@email.com',age:33,dept:'HR',gradCourse:'BBA',gradYear:2015,gradPerf:'Good',postgrad:false,workBefore:true,workEx:'1-3 years'},
+]
+
+
+const Grade= [
+        {
+            "value": "Excellent",
+            "text": "A"
+        },
+        {
+            "value": "Good",
+            "text": "B"
+        },
+        {
+            "value": "Average",
+            "text": "C"
+        },
+        {
+            "value": "Poor",
+            "text": "D"
+        }
+    ]
+
+const years = [
+    {
+        "value": "None",
+        "text": "None"
+    },
+    {
+        "value": "0-1 years",
+        "text": "0-1 years"
+    },
+    {
+        "value": "1-3 years",
+        "text": "1-3 years"
+    },
+    {
+        "value": "3+ years",
+        "text": "3+ years"
+    }
+]
+
 
 let isOriginalView = true;
 
@@ -60,21 +110,46 @@ function navbar(){
 
 function showEmployeesAlternate() {
     const contentDiv = document.getElementById("content");
-    let employeesHtml = '<h2>Employee List - Alternate View</h2><ul class="list-group">';
-    employeesHtml+= `
-    <div class="row row-cols-3">`
-    employeesData.map(employee => {
-        employeesHtml += '<button class="col" id = "show2" ><li class="list-group-item">';
-        employeesHtml += '<strong>Name:</strong> ' + employee.name + '<br>';
-        employeesHtml += '<strong>Email:</strong> ' + employee.email + '<br>';
-        employeesHtml += '<strong>Age:</strong> ' + employee.age;
-        employeesHtml += '</li></buttons>';
+    let employeesHtml = `<h2>Employee List - Alternate View</h2>
+    <div class="card-group"> <div class="row row-cols-1 row-cols-md-3 g-4">`
+   
+    employeesData.map((employee,index) => {
+        employeesHtml+= `<div class="col">
+    <div class="card h-100">`+
+        `<div id="show-`+index+`" class="card-body">`
+
+        employeesHtml += '<strong>Name:</strong> ' + employee.name +'</br>'
+        employeesHtml += '<strong>Email:</strong> ' + employee.email +'</br>' 
+        employeesHtml += '<strong>Age:</strong> ' + employee.age +'</br>'
+        employeesHtml += '<strong>Dept:</strong> ' + employee.dept +'</br>'
+        employeesHtml += '<button onclick = showfulldiv('+index+') class="btn btn-primary mt-3">More details</button>'
+        employeesHtml += '</div></div></div>';
     });
 
-    employeesHtml += '</div></ul><button class="btn btn-primary mt-3" onclick="showEmployees()">Original View</button>';
+    employeesHtml += '</div></div><button class="btn btn-primary mt-3" onclick="showEmployees()">Original View</button>';
     
     contentDiv.innerHTML = employeesHtml;
 }
+
+function showfulldiv(index){
+    let id = 'show-'+index    
+    console.log(id)
+    let employee = employeesData[index]
+    let  = employeesHtml = ''
+    employeesHtml += '<strong>Name:</strong> ' + employee.name +'</br>'
+    employeesHtml += '<strong>Email:</strong> ' + employee.email +'</br>' 
+    employeesHtml += '<strong>Age:</strong> ' + employee.age +'</br>'
+    employeesHtml += '<strong>Dept:</strong> ' + employee.dept +'</br>'
+    employeesHtml += '<strong>Course:</strong> ' + employee.gradCourse +'</br>'
+    employeesHtml += '<strong>Perf</strong> ' + employee.gradPerf +'</br>'
+    employeesHtml += '<strong>Post-Grad:</strong> ' + employee.postgrad +'</br>'
+    employeesHtml += '<strong>Work Before:</strong> ' + employee.workBefore +'</br>'
+    employeesHtml += '<strong>workEx:</strong> ' + employee.workEx +'</br>'
+    console.log(employeesHtml)
+document.getElementById(id).innerHTML = employeesHtml
+
+}
+
 function showEmployees() {
     const contentDiv = document.getElementById("content");
     contentDiv.innerHTML = `
@@ -82,9 +157,16 @@ function showEmployees() {
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Age</th>
+                    <th onclick=sortEmployees(0)>Name</th>
+                    <th onclick=sortEmployees(1)>Email</th>
+                    <th onclick=sortEmployees(2)>Age</th>
+                    <th onclick=sortEmployees(3)>Dept</th>
+                    <th onclick=sortEmployees(4)>Graduation</th>
+                    <th onclick=sortEmployees(5)>Graduation year</th>
+                    <th onclick=sortEmployees(6)>Grad profermance</th>
+                    <th onclick=sortEmployees(7)>Post Grad</th>
+                    <th onclick=sortEmployees(8)>Work before</th>
+                    <th onclick=sortEmployees(9)>Work Exp</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,6 +175,13 @@ function showEmployees() {
                         <td>${employee.name}</td>
                         <td>${employee.email}</td>
                         <td>${employee.age}</td>
+                        <td>${employee.dept}</td>
+                        <td>${employee.gradCourse}</td>
+                        <td>${employee.gradYear}</td>
+                        <td>${employee.gradPerf}</td>
+                        <td>${employee.postgrad}</td>
+                        <td>${employee.workBefore}</td>
+                        <td>${employee.workEx}</td>
                     </tr>
                 `).join("")}
             </tbody>
@@ -130,7 +219,6 @@ function addDepartment() {
                 <input type="text" class="form-control" id="deptName" required>
             </div>
             <button type="button" class="btn btn-primary" onclick="submitDepartment()">Submit</button>
-        
     `;
 }
 
@@ -145,41 +233,168 @@ function submitDepartment() {
 }
 function addEmployee() {
     const contentDiv = document.getElementById("content");
+    const departmentOptions = departmentsData.map(department => `<option>${department}</option>`).join("");
+    const graduationYearOptions = Array.from({ length: 24 }, (_, index) => 2000 + index).map(year => `<option>${year}</option>`).join("");
+
     contentDiv.innerHTML = `
         <h2>Add Employee</h2>
-        
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" required>
-            </div>
-            <div class="mb-3">
-                <label for="age" class="form-label">Age</label>
-                <input type="number" class="form-control" id="age" required>
-            </div>
-            <button type="button" class="btn btn-primary" onclick="submitEmployee()">Submit</button>
+       `+makeinput("Employee name","text","","name","Enter name")
+        +makeinput("Emali","email","","email","Enter email-id")
+        +makeinput("Age","number",'',"age","Enter age")+
+        makeDD(departmentsData,"Working depeartment","dept",'Department')+
+        makeinput("Graduation","text","","gradCourse","Which degree did you get in graduation")+
+    `
+        <div class="mb-3">
+            <select class="form-select" id="grad-year" required>
+                <option value = "" selected disabled>
+                    Select year of graduation</option>
+                ${graduationYearOptions}
+            </select>
+        </div>`+makeRB(Grade,"Grade in graduation")+
+        makeCB("Are you graduate","cb-1")
+        +makeCB("Do you have prior work experience","cb-2")
+        +makeRB(years,"Years of work experience")+    
+        `<br>
+        <button type="button" class="btn btn-primary" onclick="submitEmployee()">Submit</button>
     `;
 }
 
-function submitEmployee() {
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const ageInput = document.getElementById("age");
-
-    const newEmployee = {
-        name: nameInput.value,
-        email: emailInput.value,
-        age: parseInt(ageInput.value)
-    };
-
-    employeesData.push(newEmployee);
+function sortEmployeesByHeader(header) {
+    const contentDiv = document.getElementById("content");
+    
+    employeesData.sort((a, b) => {
+        if (a[header] < b[header] ) return -1;
+        if (a[header] > b[header] ) return 1;
+        return 0;
+    });
 
     showEmployees();
 }
 
+
+function submitEmployee() {
+    const nameInput = document.getElementById("name").value;
+    const emailInput = document.getElementById("email").value;
+    const ageInput = document.getElementById("age").value;
+    const dept =  document.getElementById("dept").value
+    const gradCourse = document.getElementById("gradCourse").value
+    const gradYear =  document.getElementById("grad-year").value
+    const grade = Grade.map(obj=>{
+        if( document.getElementById(obj.text).checked){
+            return obj.value
+        }
+    }).join('')
+
+    const cb1 = document.getElementById("cb-1")  
+    let cb1Val = false
+    if(cb1.checked)
+        cb1Val = true
+    
+    const cb2 =  document.getElementById("cb-2")
+    let cb2Val = false
+    if(cb2.checked)
+        cb2Val = true
+
+    const workYear =  years.map(obj=>{
+        if( document.getElementById(obj.text).checked)
+            return obj.value
+    }).join('')
+    if(nameInput&&emailInput&&ageInput&&dept&&gradCourse&&grade&&workYear){
+    
+    const newEmployee = {
+        name: nameInput,
+        email: emailInput,
+        age: +(ageInput),
+        dept: dept,
+        gradCourse: gradCourse ,
+        gradYear: gradYear,
+        gradPerf: grade,
+        postgrad: cb1Val,
+        workBefore: cb2Val,
+        workEx: workYear
+        
+    };
+    employeesData.push(newEmployee);
+    showEmployees();
+}
+else{
+    alert("Fill all fields")
+    return
+}
+}
+
+function makeCB(label,id){
+  let str = `<div class="form-check">
+    <label class="form-check-label" for="flexCheckDefault">
+`+label+`</label>`+
+`<input class="form-check-input" type="checkbox" value="`+label+`" id="`+id+`"> </div>`
+
+return str
+}
+function makeRB(arr,label) {
+let str = `<label class="form-label">` + label + `</label><div class="form-check">`
+str+= arr.map(obj=>{
+  return `<input class="form-check-input" type="radio" name="`+label+`" id="`+obj.text+`" value="`+obj.value+`"> 
+  <label class="form-check-label">`+obj.text+`</label>`
+}).join('<br>')
+str+=`</div>`
+console.log(str)
+return str
+}
+function makeDD(arr, text,id,label) {
+let str = `<label class="form-label">` + label + `</label>`+
+`<select class="form-select" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
+str += arr.map(obj => {
+  return `<option value="`+ obj + `">` + obj + `</option>`
+})
+str+= `</select>`
+return str
+}
+function makeinput(label, type, value, id, ph) {
+return str = `<label class="form-label">` + label + `</label>
+ <input type="` + type + `" value="` + value + `" class="form-control" id="`
+  + id + `" placeholder="` + ph + `" required>`
+}
+
+function sortEmployees(index) {
+    switch (index) {
+        case 0:
+            employeesData.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 1:
+            employeesData.sort((a, b) => a.email.localeCompare(b.email));
+            break;
+        case 2:
+            employeesData.sort((a, b) => a.age - b.age);
+            break;
+        case 3:
+            employeesData.sort((a, b) => a.dept.localeCompare(b.dept));
+            break;
+        case 4:
+            employeesData.sort((a, b) => a.gradCourse.localeCompare(b.gradCourse));
+            break;
+        case 5:
+            employeesData.sort((a, b) => a.gradYear - b.gradYear);
+            break;
+        case 6:
+            employeesData.sort((a, b) => a.gradPerf.localeCompare(b.gradPerf));
+            break;
+        case 7:
+            employeesData.sort((a, b) => a.postgrad - b.postgrad);
+            break;
+        case 8:
+            employeesData.sort((a, b) => a.workBefore - b.workBefore);
+            break;
+        case 9:
+            employeesData.sort((a, b) => a.workEx.localeCompare(b.workEx));
+            break;
+        default:
+            break;
+    }
+    
+    // After sorting, update the displayed employees
+    showEmployees()
+}
     </script>
 </body>
 </html>

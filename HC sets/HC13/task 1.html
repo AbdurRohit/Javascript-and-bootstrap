@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+    <style>
+        #main-cont{
+            padding-left: 5%;
+            padding-right: 5%;
+            
+        }
+    </style>
+</head>
+<body>
+    <div id="main-cont"></div>
+</body>
+<script>
+const arr1 = ['Male','Female']
+const arr2 = ["Working in a company", "Fresher"]
+init()
+function init(){
+    document.getElementById('main-cont').innerHTML = `<br><br><div class="form-group>"`+makeinput("Email address","email",'',"email-id","Enter your email")+`</div>` + makeinput("Password","text","","password-id","Enter Password")+makeRB(arr1)+
+    makeDD(arr2,"Working experience","work-id")+
+    makeCB("Recive promotional mails","id1")+`<br>`
+    +makeCB("Recive product updates","id2")
+    
+
+    
+
+}
+function makeCB(label,id){
+    let str = `<div class="form-check">
+<input class="form-check-input" type="checkbox" value="`+label+`" id="`+id+`">
+<label class="form-check-label" for="flexCheckDefault">
+`+label+`
+</label>`
+return str
+}
+function makeRB(arr) {
+  let str = `<div class="form-check">`
+  str+= arr.map(obj=>{
+    return `<input class="form-check-input" type="radio" name="flexRadioDefault" id="`+obj+`" value="`+obj+`"> <label class="form-check-label" for="flexRadioDefault1">`+obj+`</label>`
+  }).join('<br>')
+  str+=`</div>`
+  console.log(str)
+  return str
+}
+function makeDD(arr, text,id) {
+  let str = `<select class="form-select" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
+  str += arr.map(obj => {
+    return `<option value="`+ obj + `">` + obj + `</option>`
+  })
+  str+= `</select>`
+  return str
+  }
+  function makeinput(label, type, value, id, ph) {
+  return str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>`
+}
+</script>
+</html>
