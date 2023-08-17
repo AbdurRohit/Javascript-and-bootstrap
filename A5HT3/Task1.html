@@ -109,20 +109,53 @@ Supplier: "Supplier A"
 const puProd = [
 'Product D','Product E','Product C','Product B','Product A'
 ]
+const errors = {}
 
 function removeProduct(index) {
   products.splice(index, 1)
   console.log(products)
   showAllProducts()
 }
-function makeinput(label, type, value, id, ph) {
-  return str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>`
+function makeinput(label, type, value, id, ph,err='') {
+  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>` 
+  str +=  err ? `<span class="text-danger">`+err+`</span>` : ''
+  return str
 }
-
+function editProductForm(index) {
+      let obj = products[index]
+      let str = `<h1>Update product</h1>
+    
+    <form id="product-form">
+      <div class="mb-3">
+      `+ makeinput('Product name', 'text', obj.name, 'product-name', 'Enter name') +
+        `
+      <div class="mb-3">
+        `+ makeinput('Price', 'number', obj.price, 'product-price', 'Enter price') + `
+      </div>
+      <div class="mb-3">
+        `+makeRB(disArr)+`
+      </div>
+      <div class="mb-3">
+        `+ makeinput('Supplier', 'text', obj.supplier, 'product-supplier', 'Enter supplier') + `
+      </div>
+      <div class="mb-3">
+        `+  `<div class="form-check">
+<input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
+<label class="form-check-label" for="flexCheckDefault">
+Delivery avilable
+</label>
+</div>`+ `</div>
+      <button type="submit" class="btn btn-primary" onclick="editProd(`+ index + `)">Submit</button>
+    </form>`
+      main.innerHTML = str
+    }
 function editProd(index) {
   let productName = document.getElementById('product-name').value
   let productPrice = document.getElementById('product-price').value
-  let productDiscount = document.getElementById('product-discount').value
+  let productDiscount = disArr.map(obj=>{
+    if (document.getElementById(obj.percentage).checked)
+    return obj.percentage
+  }).join('')
   let productSupplier = document.getElementById('product-supplier').value
   let productDelivery = document.getElementById('product-delivery').value
   products[index].name = productName
@@ -130,10 +163,9 @@ function editProd(index) {
   products[index].discount = productDiscount
   products[index].supplier = productSupplier
   products[index].delivery = productDelivery
-
-
   showAllProducts()
 }
+
 function addNewPro() {
   let productName = document.getElementById('product-name').value
   let productPrice = document.getElementById('product-price').value
@@ -149,19 +181,36 @@ function addNewPro() {
     productDelivery = 'Not Available'
 
   let newObj = { name: productName, price: productPrice, discount: productDiscount, supplier: productSupplier, delivery:productDelivery  }
-  products.push(newObj)
-  showAllProducts()
+  if(validate(newObj)){
+    products.push(newObj)
+    showAllProducts()
+  }
+  else
+  {
+    mypr = newObj
+    editProductForm()
+  }
+  
+  
+}
+function validate(object){
+  errors.product = (object.name) ? '' : 'Product name is mandatory'
+  errors.price = object.price ? '': 'Enter the correct price'
+  errors.discount = object.discount ? '' : 'Choose the discount'
+  errors.supplier = (object.supplier !== 'Supplier') ? '' : 'Select supplier'
+  console.log(errors);
+  return !(errors.product || errors.price || errors.discount || errors.supplier )
 }
 //Add product
 function addProductForm() {
   main.innerHTML = `<h1>Add Product</h1>
   <div class="mb-3">`+
-    makeinput('product name', 'text', '', 'product-name', 'Enter name')
+    makeinput('product name', 'text', '', 'product-name', 'Enter name',errors.product)
     + `</div>
   <div class="mb-3">`+
-    makeinput('Price', 'number', '', 'product-price', 'Enter price')
-    + `</div> Discount`+makeRB(disArr)
-    + makeDD(suppliers, "Supplier","supplierDD") + `<div class="form-check">
+    makeinput('Price', 'number', '', 'product-price', 'Enter price',errors.price)
+    + `</div> Discount`+makeRB(disArr,errors.discount)
+    + makeDD(suppliers, "Supplier","supplierDD",errors.supplier) + `<div class="form-check">
 <input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
 <label class="form-check-label" for="flexCheckDefault">
 Delivery avilable
@@ -170,22 +219,23 @@ Delivery avilable
     `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
 }
 
-function makeRB(arr) {
+function makeRB(arr,err) {
   let str = `<div class="form-check">`
   str+= arr.map(obj=>{
     return `<input class="form-check-input" type="radio" name="flexRadioDefault" id="`+obj.percentage+`" value="`+obj.value+`"> <label class="form-check-label" for="flexRadioDefault1">`+obj.percentage+`</label>`
   }).join('<br>')
   str+=`</div>`
-  console.log(str)
+  str += err ? `<span class="text-danger">`+err+`</span>` : ''
   return str
 }
 
-function makeDD(arr, text,id) {
+function makeDD(arr, text,id,err='') {
   let str = `<select class="form-select" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
   str += arr.map(obj => {
     return `<option value="`+ obj + `">` + obj + `</option>`
   })
   str+= `</select>`
+  str+=  err ? `<span class="text-danger">`+err+`</span>` : ''
   return str
   }
 function showAllProducts() {
@@ -202,6 +252,7 @@ function showAllProducts() {
         <th onclick="sortTable1(3)">Discount</th>
         <th onclick="sortTable1(4)">Supplier</th>
         <th onclick="sortTable1(5)">Delivery</th>
+        <th>Update</th>
       </tr>
     </thead>
     <tbody id="product-table-body">
@@ -218,49 +269,52 @@ function showAllProducts() {
       <td>`+ product.discount + `</td>
       <td>`+ product.supplier + `</td>
       <td>`+ product.delivery + `</td>
+      <td><button onclick="editProductForm(`+ index + `)" class="btn btn-dark">Edit</button>
+            <button onclick = "removeProduct(`+ index + `)"class="btn btn-danger">Remove</button></td>
     </tr>
   `;
+  
   });
   tableBody.innerHTML = tableRows;
 }
 
 function sortTable1(index) {
-    switch(index) {
-        case 1:
-            let srtName = products.sort((a, b) => a.name.localeCompare(b.name));
-            console.log(srtName);
-            showAllProducts();
-            break;
-        case 2:
-            products.sort((a, b) => a.price - b.price);
-            showAllProducts();
-            break;
-        case 3:
-            const discountMapping = disArr.reduce((acc, dis) => {
-                acc[dis.percentage] = dis.value;
-                return acc;
-            }, {});
-            console.log(discountMapping);
-            products.sort((a, b) => {
-                const discountA = discountMapping[a.discount];
-                const discountB = discountMapping[b.discount];
-                return discountA - discountB;
-            });
-            console.log("yes");
-            showAllProducts();
-            break;
-        case 4:
-            products.sort((a, b) => a.supplier.localeCompare(b.supplier));
-            showAllProducts();
-            break;
-        case 5:
-            products.sort((a, b) => a.delivery.localeCompare(b.delivery));
-            showAllProducts();
-            break;
-        default:
-            console.log("Invalid index.");
-            break;
-    }
+  switch(index) {
+      case 1:
+          let srtName = products.sort((a, b) => a.name.localeCompare(b.name));
+          console.log(srtName);
+          showAllProducts();
+          break;
+      case 2:
+          products.sort((a, b) => a.price - b.price);
+          showAllProducts();
+          break;
+      case 3:
+          const discountMapping = disArr.reduce((acc, dis) => {
+              acc[dis.percentage] = dis.value;
+              return acc;
+          }, {});
+          console.log(discountMapping);
+          products.sort((a, b) => {
+              const discountA = discountMapping[a.discount];
+              const discountB = discountMapping[b.discount];
+              return discountA - discountB;
+          });
+          console.log("yes");
+          showAllProducts();
+          break;
+      case 4:
+          products.sort((a, b) => a.supplier.localeCompare(b.supplier));
+          showAllProducts();
+          break;
+      case 5:
+          products.sort((a, b) => a.delivery.localeCompare(b.delivery));
+          showAllProducts();
+          break;
+      default:
+          console.log("Invalid index.");
+          break;
+  }
 }
 
 //Added this line
@@ -344,27 +398,27 @@ table.innerHTML = str2
 }
 // Function to sort 
 function sortTable(index){
-if(index == 1){
-purchase.sort((a, b) => {
-return a.Product.localeCompare(b.Product)
-});
-stockView()  
-}
-else if(2){
-purchase.sort((a, b) => a.Quantity - b.Quantity);
-stockView()  
-}
-else if(3){
-purchase.sort((a, b) => a.Price - b.Price);
-stockView()
-}
-else if(4){
-purchase.sort((a, b) => a.Supplier.localeCompare(b.Supplier));
-stockView()
-}
+  if(index == 1){
+  purchase.sort((a, b) => {
+  return a.Product.localeCompare(b.Product)
+  });
+  stockView()  
+  }
+  else if(2){
+  purchase.sort((a, b) => a.Quantity - b.Quantity);
+  stockView()  
+  }
+  else if(3){
+  purchase.sort((a, b) => a.Price - b.Price);
+  stockView()
+  }
+  else if(4){
+  purchase.sort((a, b) => a.Supplier.localeCompare(b.Supplier));
+  stockView()
+  }
 }
 
-  </script>
+</script>
 
 </body>
 

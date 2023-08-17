@@ -132,6 +132,7 @@ function showEmployeesAlternate() {
 }
 
 function showfulldiv(index){
+    showEmployeesAlternate()
     let id = 'show-'+index    
     console.log(id)
     let employee = employeesData[index]
@@ -213,12 +214,8 @@ function addDepartment() {
     const contentDiv = document.getElementById("content");
     contentDiv.innerHTML = `
         <h2>Add Department</h2>
-        
-            <div class="mb-3">
-                <label for="deptName" class="form-label">Department Name</label>
-                <input type="text" class="form-control" id="deptName" required>
-            </div>
-            <button type="button" class="btn btn-primary" onclick="submitDepartment()">Submit</button>
+        `+makeinput("Deparment name",'text','','deptName','Department name')+`
+            <br><button type="button" class="btn btn-primary" onclick="submitDepartment()">Submit</button>
     `;
 }
 
@@ -234,8 +231,11 @@ function submitDepartment() {
 function addEmployee() {
     const contentDiv = document.getElementById("content");
     const departmentOptions = departmentsData.map(department => `<option>${department}</option>`).join("");
-    const graduationYearOptions = Array.from({ length: 24 }, (_, index) => 2000 + index).map(year => `<option>${year}</option>`).join("");
-
+    // const graduationYearOptions = Array.from({ length: 24 }, (_, index) => 2000 + index).map(year => `<option>${year}</option>`).join("");
+    let m = []
+    for(let i = 2000; i<2024;i++){
+        m.push(i)
+    }
     contentDiv.innerHTML = `
         <h2>Add Employee</h2>
        `+makeinput("Employee name","text","","name","Enter name")
@@ -243,14 +243,8 @@ function addEmployee() {
         +makeinput("Age","number",'',"age","Enter age")+
         makeDD(departmentsData,"Working depeartment","dept",'Department')+
         makeinput("Graduation","text","","gradCourse","Which degree did you get in graduation")+
-    `
-        <div class="mb-3">
-            <select class="form-select" id="grad-year" required>
-                <option value = "" selected disabled>
-                    Select year of graduation</option>
-                ${graduationYearOptions}
-            </select>
-        </div>`+makeRB(Grade,"Grade in graduation")+
+        makeDD(m,'Year','grad-year',"Year of graduation")
+        +makeRB(Grade,"Grade in graduation")+
         makeCB("Are you graduate","cb-1")
         +makeCB("Do you have prior work experience","cb-2")
         +makeRB(years,"Years of work experience")+    
