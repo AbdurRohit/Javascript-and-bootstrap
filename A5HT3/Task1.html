@@ -71,6 +71,7 @@ function init(){
 </div>`
 document.getElementById('init').innerHTML = str
 }
+
 const products = [
   { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' },
   { name: 'Product B', price: 39.95, discount: '5%', supplier: 'Supplier B', delivery: 'Available' },
@@ -87,37 +88,43 @@ const disArr = [
 const suppliers = ["Supplier A", "Supplier B", "Supplier C", "Supplier D"]
 
 const purchase = [
-{
-Product: "Product E",
-Quantity: 10,
-Price: 5.99,
-Supplier: "Supplier A"
-},
-{
-Product: "Product C",
-Quantity: 25,
-Price: 12.49,
-Supplier: "Supplier B"
-},
-{
-Product: "Product A",
-Quantity: 5,
-Price: 2.99,
-Supplier: "Supplier A"
-}
+  {
+    Product: "Product E",
+    Quantity: 10,
+    Price: 5.99,
+    Supplier: "Supplier A",
+    purchaseId: "PUR001"
+  },
+  {
+    Product: "Product C",
+    Quantity: 25,
+    Price: 12.49,
+    Supplier: "Supplier B",
+    purchaseId: "PUR002"
+  },
+  {
+    Product: "Product A",
+    Quantity: 5,
+    Price: 2.99,
+    Supplier: "Supplier A",
+    purchaseId: "PUR003"
+  }
 ]
+
 const puProd = [
 'Product D','Product E','Product C','Product B','Product A'
 ]
 const errors = {}
+var mypr = {}
+const errors1 = {}
 
 function removeProduct(index) {
   products.splice(index, 1)
   console.log(products)
   showAllProducts()
 }
-function makeinput(label, type, value, id, ph,err='') {
-  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" required>` 
+function makeinput(label, type, value, id, ph, err='' , wildCard) {
+  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" ` +wildCard+` required>` 
   str +=  err ? `<span class="text-danger">`+err+`</span>` : ''
   return str
 }
@@ -127,10 +134,10 @@ function editProductForm(index) {
     
     <form id="product-form">
       <div class="mb-3">
-      `+ makeinput('Product name', 'text', obj.name, 'product-name', 'Enter name') +
+      `+ makeinput('Product name', 'text', obj.name , 'product-name', 'Enter name') +
         `
       <div class="mb-3">
-        `+ makeinput('Price', 'number', obj.price, 'product-price', 'Enter price') + `
+        `+ makeinput('Price', 'number', obj.price , 'product-price', 'Enter price') + `
       </div>
       <div class="mb-3">
         `+makeRB(disArr)+`
@@ -158,6 +165,7 @@ function editProd(index) {
   }).join('')
   let productSupplier = document.getElementById('product-supplier').value
   let productDelivery = document.getElementById('product-delivery').value
+
   products[index].name = productName
   products[index].price = productPrice
   products[index].discount = productDiscount
@@ -165,6 +173,43 @@ function editProd(index) {
   products[index].delivery = productDelivery
   showAllProducts()
 }
+
+
+//Add product
+function addProductForm(err={}) {
+//   if(newobj){
+//     main.innerHTML = `<h1>Add Product</h1>
+//   <div class="mb-3">`+
+//     makeinput('product name', 'text', '', 'product-name', 'Enter name',err.product + err.unique)
+//     + `</div>
+//   <div class="mb-3">`+
+//     makeinput('Price', 'number', '', 'product-price', 'Enter price',err.price)
+//     + `</div> Discount`+makeRB(disArr,err.discount)
+//     + makeDD(suppliers, "Supplier","supplierDD",err.supplier) + `<div class="form-check">
+// <input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
+// <label class="form-check-label" for="flexCheckDefault">
+// Delivery avilable
+// </label>
+// </div>`+
+//     `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
+//   }
+  // else{
+  main.innerHTML = `<h1>Add Product</h1>
+  <div class="mb-3">`+
+    makeinput('product name', 'text', '', 'product-name', 'Enter name',errors.product+err.unique)
+    + `</div>   
+  <div class="mb-3">`+
+    makeinput('Price', 'number', '', 'product-price', 'Enter price',err.price)
+    + `</div> Discount`+makeRB(disArr,err.discount)
+    + makeDD(suppliers, "Supplier","supplierDD",err.supplier) + `<div class="form-check">
+<input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
+<label class="form-check-label" for="flexCheckDefault">
+Delivery avilable
+</label>
+</div>`+
+    `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
+}
+// }
 
 function addNewPro() {
   let productName = document.getElementById('product-name').value
@@ -181,42 +226,37 @@ function addNewPro() {
     productDelivery = 'Not Available'
 
   let newObj = { name: productName, price: productPrice, discount: productDiscount, supplier: productSupplier, delivery:productDelivery  }
-  if(validate(newObj)){
+  if(validateNewProd(newObj)){
     products.push(newObj)
     showAllProducts()
   }
   else
   {
-    mypr = newObj
-    editProductForm()
+    addProductForm(errors)
   }
   
   
 }
-function validate(object){
+function validateNewProd(object){
+
+ let findobj = products.find(obj=>{
+    return obj.name == object.name
+  })
+  if (findobj){
+console.log(findobj);
+  }
+  else{
+    findobj = { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' }
+  }
+  let flag = true
+  let checkunique = findobj.name == object.name ? flag = false : flag = true
+  errors.unique = checkunique ? '' : ' Product name already exists'
   errors.product = (object.name) ? '' : 'Product name is mandatory'
-  errors.price = object.price ? '': 'Enter the correct price'
+  errors.price = object.price ? '' : 'Enter the correct price'
   errors.discount = object.discount ? '' : 'Choose the discount'
   errors.supplier = (object.supplier !== 'Supplier') ? '' : 'Select supplier'
   console.log(errors);
-  return !(errors.product || errors.price || errors.discount || errors.supplier )
-}
-//Add product
-function addProductForm() {
-  main.innerHTML = `<h1>Add Product</h1>
-  <div class="mb-3">`+
-    makeinput('product name', 'text', '', 'product-name', 'Enter name',errors.product)
-    + `</div>
-  <div class="mb-3">`+
-    makeinput('Price', 'number', '', 'product-price', 'Enter price',errors.price)
-    + `</div> Discount`+makeRB(disArr,errors.discount)
-    + makeDD(suppliers, "Supplier","supplierDD",errors.supplier) + `<div class="form-check">
-<input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
-<label class="form-check-label" for="flexCheckDefault">
-Delivery avilable
-</label>
-</div>`+
-    `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
+  return !(errors.product || errors.price || errors.discount || errors.supplier || errors.unique)
 }
 
 function makeRB(arr,err) {
@@ -337,47 +377,95 @@ products.map(obj => {
 contentDiv.innerHTML = employeesHtml 
 }
 
-function makePurchaseForm(){
+function makePurchaseForm(err={}){
+  console.log(err);
 let contentDiv = document.getElementById("main-content");
 contentDiv.innerHTML = 
 `<h1>New purchase form</h1>
-  <div class="mb-3">Name
-  `+ makeDD(puProd,"Product Name","product-name") +
+`+makeinput("Purchase ID","text","","purchase-id","Enter purchase ID",err.purchaseId+errors1.unique)+
+  `<div class="mb-3">Name
+  `+ makeDD(puProd,"Product Name","product-name",err.product) +
     `
   <div class="mb-3">
-    `+ makeinput('Quantity', 'number', '', 'product-quantity', 'Enter quantity') + `
+    `+ makeinput('Quantity', 'number', '', 'product-quantity', 'Enter quantity',err.quantity) + `
   </div>
   <button onclick="addmakepurchase()" class="btn btn-dark">Submit</button>`
 }
+
 function addmakepurchase(){
 let name = document.getElementById('product-name').value
 let quantity = document.getElementById('product-quantity').value
+let purchaseId = document.getElementById('purchase-id').value
 console.log("Name = ",name)
-let object = products.find(obj=>{
+let price = ''
+let supplier = ''
+
+
+  let newObj = {
+  Product: name,
+  Quantity: quantity,
+  Price: price,
+  Supplier: supplier,
+  purchaseId : purchaseId,
+  }
+if(validateStock(newObj)){
+  let object = products.find(obj=>{
   return obj.name === name
 })
-let price = object.price    
-let supplier = object.supplier
+price = object.price    
+supplier = object.supplier
 console.log("price = ",price)
-let newObj = {
-Product: name,
-Quantity: quantity,
-Price: price,
-Supplier: supplier
+newObj = {
+  Product: name,
+  Quantity: quantity,
+  Price: price,
+  Supplier: supplier,
+  purchaseId : purchaseId,
+  }
+  purchase.push(newObj)
+  stockView()
+  }
+  else
+  {
+    
+    console.log('errors: ',errors1);
+    makePurchaseForm(errors1)
+  }
+
 }
-purchase.push(newObj)
-stockView()
+
+
+function validateStock(object){
+  let findobj = purchase.find(obj=>{
+    return obj.purchaseId == object.purchaseId 
+  })
+  let flag = true
+  let checkunique = findobj ? flag = false : flag = true
+  errors1.unique = (checkunique) ? '' : ' Purchase id must be unique'
+  errors1.purchaseId = (object.purchaseId) ? '' : 'Purchase id is not defined'
+  errors1.product = (object.Product!='Product Name') ? '' : 'Product name is mandatory'
+  errors1.quantity = object.Quantity ? '' : 'Enter correct quantity'
+  console.log(errors1);
+  return !(errors1.product || errors1.purchaseId  || errors1.quantity )
 }
+function removeStock(index){
+  purchase.splice(index, 1)
+  console.log(products)
+  stockView()
+}
+
 function stockView(){
 let contentDiv = document.getElementById("main-content");
 let str1 = `<div class="container mt-5">
 <h1>Purchase Table</h1>
 <table class="table">
   <thead>
+      <th onclick ="sortTable(1)">Product-ID</th>
       <th onclick ="sortTable(1)">Product</th>
       <th onclick ='sortTable(2)'>Quantity</th>
       <th onclick ='sortTable(3)'>Price</th>
       <th onclick ='sortTable(4)'>Supplier</th>
+      <th>Modify</th>
     </tr>
   </thead>
   <tbody id="tableBody">
@@ -386,16 +474,54 @@ let str1 = `<div class="container mt-5">
 </div>`
 contentDiv.innerHTML = str1
 let table = document.getElementById("tableBody");
-let str2 = purchase.map(item =>
+let str2 = purchase.map((item,index)=>
   "<tr>" +
+    "<td  >" + item.purchaseId + "</td>" +
     "<td  >" + item.Product + "</td>" +
     "<td  >" + item.Quantity + "</td>" +
     "<td  >" + item.Price + "</td>" +
     "<td  >" + item.Supplier + "</td>" +
+    `<td><button onclick="editStockform(`+ index + `)" class="btn btn-dark">Edit</button>
+    <button onclick = "removeStock(`+ index + `)"class="btn btn-danger">Remove</button></td>`+
   "</tr>"
 ).join(''); 
 table.innerHTML = str2
 }
+function editStockform(index){
+  let workobj = purchase[index]
+  let contentDiv = document.getElementById("main-content");
+  contentDiv.innerHTML = 
+`<h1>New purchase form</h1>
+`+makeinput("Purchase ID","text",workobj.purchaseId,"purchase-id","Enter purchase ID","","readonly")+
+  `<div class="mb-3">Name
+  `+ makeDD(puProd,workobj.Product,"product-name") +
+    `
+  <div class="mb-3">
+    `+ makeinput('Quantity', 'number', workobj.Quantity, 'product-quantity', 'Enter quantity') + `
+  </div>
+  <button onclick="editpurchase(`+index+`)" class="btn btn-dark">Submit</button>`
+}
+function editpurchase(index){
+  let purchaseID = document.getElementById('purchase-id').value
+  let name = document.getElementById('product-name').value
+  let quantity = document.getElementById('product-quantity').value
+
+console.log("Name = ",name)
+let object = products.find(obj=>{
+  return obj.name === name
+})
+if(name && purchaseID && quantity){
+purchase[index].Product = name
+purchase[index].purchaseId = purchaseID
+purchase[index].Quantity = quantity
+stockView()
+}
+else{
+  alert('All fields must be filled')
+  return
+}
+}
+
 // Function to sort 
 function sortTable(index){
   if(index == 1){
