@@ -213,7 +213,7 @@ function makeinput(label, type, value='', id, ph, err='' , wildCard) {
   return str
 }
 
-function editProductForm(index,err='',values={}) {
+function editProductForm(index,err={},values={}) {
       let obj = products[index]
       if((values.price)=='')
         obj.price = ''
@@ -224,7 +224,7 @@ function editProductForm(index,err='',values={}) {
     
     <form id="product-form">
       <div class="mb-3">
-      `+ makeinput('Product name', 'text', obj.name , 'product-name', 'Enter name',errors.product||err.unique||'','disabled') +
+      `+ makeinput('Product name', 'text', obj.name , 'product-name', 'Enter name','','disabled') +
         `
       <div class="mb-3">
         `+ makeinput('Price', 'number', values.price , 'product-price', 'Enter price',err.price||'') + `
@@ -255,8 +255,9 @@ Delivery avilable
     }
 
 //Add product
-function addProductForm(err = '', values = {}) {
+function addProductForm(err ={}, values = {}) {
   let m=[];
+  console.log("err",err);
   console.log("val: ",values)
   for(let i =0;i<disArr.length;i++){
     console.log(i);
@@ -268,7 +269,7 @@ function addProductForm(err = '', values = {}) {
   console.log("Found at m 0 ",m[0]);
   main.innerHTML = `<h1>Add Product</h1>
   <div class="mb-3">` +
-    makeinput('product name', 'text', values.productName || '', 'product-name', 'Enter name', errors.product || err.unique||'') +
+    makeinput('product name', 'text', values.productName || '', 'product-name', 'Enter name', err.product || err.unique||'') +
     `</div>
   <div class="mb-3">` +
     makeinput('Price', 'number', values.productPrice || '', 'product-price', 'Enter price', ''||err.price) +
@@ -369,7 +370,7 @@ if(!isNaN(index)){
   errors.product = (object.name) ? '' : 'Product name is mandatory'
   errors.price = object.price ? '' : 'Enter the correct price'
   errors.discount = object.discount ? '' : 'Choose the discount'
-  errors.supplier = (object.supplier !== 'Select Supplier') ? '' : 'Select supplier'
+  errors.supplier = (object.supplier !== 'Select Suppliers') ? '' : 'Select supplier'
   console.log(errors);
   return !(errors.product || errors.price || errors.discount || errors.supplier)
 }
@@ -383,16 +384,16 @@ console.log(findobj);
   else{
     findobj = { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' }
   }
-  // let flag = true
-  // let checkunique = findobj.name == object.name ? flag = false : flag = true
-  // errors.unique = checkunique ? '' : ' '
+  let flag = true
+  let checkunique = findobj.name == object.name ? flag = false : flag = true
+  errors.unique = checkunique ? '' : 'Product name must me unique '
   errors.product = (object.name) ? '' : 'Product name is mandatory'
   errors.price = object.price ? '' : 'Enter the correct price'
   errors.discount = object.discount ? '' : 'Choose the discount'
-  errors.supplier = (object.supplier !== 'Select Supplier') ? '' : 'Select supplier'
+  errors.supplier = (object.supplier !== 'Select Suppliers') ? '' : 'Select supplier'
   console.log(errors);
-  return !(errors.product || errors.price || errors.discount || errors.supplier)
-  // || errors.unique
+  return !(errors.product || errors.price || errors.discount || errors.supplier|| errors.unique)
+
 }
 }
 
