@@ -17,6 +17,31 @@
     padding: 10px 20px 30px 40px;
     /* box-shadow: 10px 5px 5px red; */
   }
+  select {
+  padding: 1px 20px 3px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  color: #333;
+  width: 300px;
+}
+
+
+select option {
+  padding: 8px;
+} 
+
+ select:hover {
+  border-color: #66afe9;
+} 
+
+
+ select:focus {
+  border-color: #5bc0de;
+  box-shadow: 0 0 5px rgba(91, 192, 222, 0.5);
+}  
+
 
     </style>
 </head>
@@ -79,8 +104,8 @@ const years = [
         "text": "3+ years"
     }
 ]
-
-
+const empExpn = [{name:'John',category:'Local Travel',billId:'NP7561',amount:64,payment:'Self',approved:true},{name:'Anna',category:'Communication',billId:'BN8561',amount:39,payment:'Self',approved:false},{name:'Edwards',category:'Local Travel',billId:'AT5461',amount:58,payment:'Corporate Card',approved:true},{name:'Julia',category:'Local Travel',billId:'RR5492',amount:71,payment:'Self',approved:true},{name:'Julia',category:'Out of City Travel',billId:'KT8785',amount:277,payment:'Bill to Company',approved:true},{name:'Edwards',category:'Others',billId:'UR0400',amount:25,payment:'Corporate Card',approved:false},{name:'Edwards',category:'Out of City Travel',billId:'CC6586',amount:305,payment:'Corporate Card',approved:false},{name:'Julia',category:'Communication',billId:'DL3425',amount:43,payment:'Self',approved:false},{name:'Julia',category:'Out of City Travel',billId:'MW65775',amount:248,payment:'Bill to Company',approved:true},{name:'Edwards',category:'Others',billId:'JR56732',amount:52,payment:'Corporate Card',approved:true},{name:'Julia',category:'Out of City Travel',billId:'BK0074',amount:405,payment:'Bill to Company',approved:false},{name:'Edwards',category:'Communication',billId:'JR56732',amount:72,payment:'Corporate Card',approved:true}]
+const errors = {}
 let isOriginalView = true;
 
 
@@ -94,7 +119,7 @@ function navbar(){
                         <a class="nav-link" href="#" onclick="showEmployees()">Show Employees</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="addEmployee()">Add an Employee</a>
+                        <a class="nav-link" href="#" onclick="addEmployeeForm()">Add an Employee</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="showDepartments()">Departments</a>
@@ -102,10 +127,19 @@ function navbar(){
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="addDepartment()">Add a Dept</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showExpenses()">Expenses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="addExpense()">Add Expense</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>`
+}
+function showExpenses(){
+    contentDiv.innerHTML = 
 }
 
 function showEmployeesAlternate() {
@@ -234,28 +268,42 @@ function submitDepartment() {
     // Go back to the department list
     showDepartments();
 }
-function addEmployee() {
+function addEmployeeForm(err={},values={},index) {
+    console.log(values);
     const contentDiv = document.getElementById("content");
     const departmentOptions = departmentsData.map(department => `<option>${department}</option>`).join("");
-    // const graduationYearOptions = Array.from({ length: 24 }, (_, index) => 2000 + index).map(year => `<option>${year}</option>`).join("");
     let m = []
     for(let i = 2000; i<2024;i++){
         m.push(i)
     }
+    let pos = []
+    for(let i=0;i<Grade.length;i++){
+        if(Grade[i].value == values.gradPerf){
+        pos.push(i)
+        }
+    }
+    let posyr = []
+    for(let i=0;i<years.length;i++){
+        if(years[i].value == values.workEx){
+        posyr.push(i)
+        }
+    }
+    console.log(posyr);
+    console.log(pos);
     contentDiv.innerHTML = `
         <h2>Add Employee</h2>
-       `+makeinput("Employee name","text","","name","Enter name")
-        +makeinput("Emali","email","","email","Enter email-id")
-        +makeinput("Age","number",'',"age","Enter age")+
-        makeDD(departmentsData,"Working depeartment","dept",'Department')+
-        makeinput("Graduation","text","","gradCourse","Which degree did you get in graduation")+
-        makeDD(m,'Year','grad-year',"Year of graduation")
-        +makeRB(Grade,"Grade in graduation")+
+       `+makeinput("Employee name","text",values.name||"","name","Enter name",err.name)
+        +makeinput("Emali","email",values.email||"","email","Enter email-id",err.email)
+        +makeinput("Age","number",values.age||'',"age","Enter age",err.age)+
+        makeDD(departmentsData,values.dept||"Working depeartment","dept",err.dept)+
+        makeinput("Graduation","text",values.gradCourse||"","gradCourse","Which degree did you get in graduation")+
+        makeDD(m,values.gradYear||'Year','grad-year')
+        +makeGrRB(Grade,'',pos[0])+
         makeCB("Are you graduate","cb-1")
         +makeCB("Do you have prior work experience","cb-2")
-        +makeRB(years,"Years of work experience")+    
+        +makeYrRB(years,err.workEx||'',posyr[0])+    
         `<br>
-        <button type="button" class="btn btn-primary" onclick="submitEmployee()">Submit</button>
+        <button type="button" class="btn btn-primary" onclick="submitEmployee(`+index+`)">Submit</button>
     `;
 }
 
@@ -272,7 +320,7 @@ function sortEmployeesByHeader(header) {
 }
 
 
-function submitEmployee() {
+function submitEmployee(index) {
     const nameInput = document.getElementById("name").value;
     const emailInput = document.getElementById("email").value;
     const ageInput = document.getElementById("age").value;
@@ -280,15 +328,23 @@ function submitEmployee() {
     const gradCourse = document.getElementById("gradCourse").value
     const gradYear =  document.getElementById("grad-year").value
     const grade = Grade.map(obj=>{
-        if( document.getElementById(obj.text).checked){
+        if( document.getElementById(obj.value).checked){
             return obj.value
+        }
+        else{
+            return ""
         }
     }).join('')
 
-    const cb1 = document.getElementById("cb-1")  
-    let cb1Val = false
-    if(cb1.checked)
-        cb1Val = true
+    const cb1 = document.getElementById("cb-1");
+let cb1Val = false;
+if (cb1) {
+    if (cb1.checked) {
+        cb1Val = true;
+    }
+} else {
+    console.error("Checkbox cb-1 not found.");
+}
     
     const cb2 =  document.getElementById("cb-2")
     let cb2Val = false
@@ -296,10 +352,13 @@ function submitEmployee() {
         cb2Val = true
 
     const workYear =  years.map(obj=>{
-        if( document.getElementById(obj.text).checked)
+        if( document.getElementById(obj.value).checked)
             return obj.value
+        else{
+            return ""
+        }
     }).join('')
-    if(nameInput&&emailInput&&ageInput&&dept&&gradCourse&&grade&&workYear){
+    
     
     const newEmployee = {
         name: nameInput,
@@ -312,15 +371,25 @@ function submitEmployee() {
         postgrad: cb1Val,
         workBefore: cb2Val,
         workEx: workYear
-        
     };
-    employeesData.push(newEmployee);
-    showEmployees();
-}
-else{
-    alert("Fill all fields")
-    return
-}
+    if(validateObj(newEmployee)){
+        employeesData.push(newEmployee);
+        showEmployees();
+    }
+    else{
+        addEmployeeForm(errors,{
+            name: nameInput,
+            email: emailInput,
+            age: +(ageInput),
+            dept: dept,
+            gradCourse: gradCourse ,
+            gradYear: gradYear,
+            gradPerf: grade,
+            postgrad: cb1Val,
+            workBefore: cb2Val,
+            workEx: workYear
+        })
+    }
 }
 
 function makeCB(label,id){
@@ -331,29 +400,65 @@ function makeCB(label,id){
 
 return str
 }
-function makeRB(arr,label) {
-let str = `<label class="form-label">` + label + `</label><div class="form-check">`
-str+= arr.map(obj=>{
-  return `<input class="form-check-input" type="radio" name="`+label+`" id="`+obj.text+`" value="`+obj.value+`"> 
-  <label class="form-check-label">`+obj.text+`</label>`
-}).join('<br>')
-str+=`</div>`
-console.log(str)
-return str
+
+function makeYrRB(arr, err = {}, index) {
+  let str = `<br>`;
+
+  let radioGroupName = `RadioYr${index || ''}`;
+  str += arr.map(obj => {
+    let isChecked = !isNaN(index) && years[index].value === obj.value ? ' checked' : '';
+    return `<div class="form-check">
+              <input class="form-check-input" type="radio" name="${radioGroupName}" id="${obj.value}" value="${obj.value}"${isChecked}>
+              <label class="form-check-label" for="${obj.value}">${obj.text}</label>
+            </div>`;
+  }).join('');
+
+  str += err ? `<br><span class="text-danger">${err||''}</span><br>` : '';
+
+  return str;
 }
-function makeDD(arr, text,id,label) {
-let str = `<label class="form-label">` + label + `</label>`+
-`<select class="form-select" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
-str += arr.map(obj => {
-  return `<option value="`+ obj + `">` + obj + `</option>`
-})
-str+= `</select>`
-return str
+//MAKE THOSE BUTTONS WORK THEN THE NEXT TASK ❌❌❌
+function makeGrRB(arr, err = {}, index) {
+  let str = `<br>`;
+// ✔✔
+  let radioGroupName = `RadioGr${index || ''}`;
+  str += arr.map(obj => {
+    let isChecked = !isNaN(index) && Grade[index].value === obj.value ? ' checked' : '';
+    return `<div class="form-check">
+              <input class="form-check-input" type="radio" name="${radioGroupName}" id="${obj.value}" value="${obj.value}"${isChecked}>
+              <label class="form-check-label" for="${obj.value}">${obj.text}</label>
+            </div>`;
+  }).join('');
+
+  str += err ? `<br><span class="text-danger">${err}</span><br>` : '';
+
+  return str;
 }
-function makeinput(label, type, value, id, ph) {
-return str = `<label class="form-label">` + label + `</label>
- <input type="` + type + `" value="` + value + `" class="form-control" id="`
-  + id + `" placeholder="` + ph + `" required>`
+
+
+function makeDD(arr, text,id,err='') {
+  let str = `<select class = "" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
+  str += arr.map(obj => {
+    return `<option value="`+ obj + `">` + obj + `</option>`
+  })
+  str+= `</select><br>`
+  str+=  err ? `<br><span class="text-danger">`+err+`</span><br>` : ''
+  return str
+}
+function makeinput(label, type, value, id, ph, err='' , wildCard) {
+  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" ` +wildCard+` required>` 
+  str +=  err ? `<span class="text-danger">`+err+`</span><br>` : ''
+  return str
+}
+
+function validateObj(object){
+  errors.name = (object.name) ? '' : 'Name is not defined'
+  errors.email = (object.email) ? '' : 'Emali is mandatory'
+  errors.age = object.age ? '' : 'Enter correct age'
+  errors.dept = (object.dept != 'Working depeartment') ? '' : 'Select department'
+  errors.workEx = object.workEx ? '' : 'Select work experience'
+  console.log(errors);
+  return !(errors.name|| errors.email  || errors.age ||errors.dept||errors.workEx )
 }
 
 function sortEmployees(index) {

@@ -1,11 +1,18 @@
 {
     "configurations": [
+        {
+            "name": "Attach to Chrome",
+            "port": 9222,
+            "request": "attach",
+            "type": "chrome",
+            "webRoot": "${workspaceFolder}"
+        },
     
         {
-            "type": "msedge",
+            "type": "chrome",
             "name": "http://127.0.0.1:3000/A3_3/Task4.html",
             "request": "launch",
-            "url": "http://127.0.0.1:3000/A5HT3/Task1.html"
+            "url": "http://127.0.0.1:3000/A5HT3/Task2.html"
         }
     ]
 }

@@ -16,6 +16,7 @@
 <body>
   <style>
     #text {
+
       color: rgb(241, 30, 65);
     }
 
@@ -26,13 +27,36 @@
     strong{
       color:rgb(242, 18, 18)
     }
+
+ select {
+  padding: 1px 20px 3px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #fff;
+  color: #333;
+  width: 300px;
+}
+
+
+select option {
+  padding: 8px;
+} 
+
+ select:hover {
+  border-color: #66afe9;
+} 
+
+
+ select:focus {
+  border-color: #5bc0de;
+  box-shadow: 0 0 5px rgba(91, 192, 222, 0.5);
+}  
+
   </style>
-  <!-- Navbar -->
-  <div id="init">
 
-  </div>
+  <div id="init"></div>
 
-  <!-- Sample JSON array -->
   <script >
     init()
 function init(){
@@ -73,47 +97,107 @@ document.getElementById('init').innerHTML = str
 }
 
 const products = [
-  { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' },
-  { name: 'Product B', price: 39.95, discount: '5%', supplier: 'Supplier B', delivery: 'Available' },
-  { name: 'Product C', price: 12.49, discount: '5%', supplier: 'Supplier C', delivery: 'Avilabel' },
-  { name: 'Product E', price: 8.99, discount: '2%', supplier: 'Supplier D', delivery: 'Not Available' },
-  { name: 'Product D', price: 59.00, discount: 'None', supplier: 'Supplier E', delivery: 'Available' },
-];
+    {
+      name: 'Pepsi',
+      price: 25.99,
+      discount: '2%',
+      supplier: 'Supplier A',  
+      delivery: 'Not Available'
+    },
+    {
+      name: 'Colgate',
+      price: 39.95,
+      discount: 'None',
+      supplier: 'Supplier B',  
+      delivery: 'Available'    
+    },
+    {
+      name: 'Snickers',        
+      price: 12.49,
+      discount: '5%',
+      supplier: 'Supplier C',  
+      delivery: 'Available'    
+    },
+    {
+      name: 'Nescafe',
+      price: 8.99,
+      discount: '2%',
+      supplier: 'Supplier D',  
+      delivery: 'Not Available'
+    },
+    {
+      name: 'Dairy Milk',      
+      price: 59,
+      discount: 'None',        
+      supplier: 'Supplier E',  
+      delivery: 'Available'    
+    },
+    {
+      name: 'Maggi',
+      price: 18.75,
+      discount: '2%',
+      supplier: 'Supplier A',
+      delivery: 'Available'
+    },
+    {
+      name: 'Snickers',
+      price: 7.89,
+      discount: '2%',
+      supplier: 'Supplier B',
+      delivery: 'Not Available'
+    },
+    {
+      name: 'Nescafe',
+      price: 29.99,
+      discount: '4%',
+      supplier: 'Supplier C',
+      delivery: 'Available'
+    },
+    {
+      name: 'Dairy Milk',
+      price: 14.5,
+      discount: '5%',
+      supplier: 'Supplier D',
+      delivery: 'Not Available'
+    },
+    {
+      name: 'Pepsi',
+      price: 49.95,
+      discount: '2%',
+      supplier: 'Supplier E',
+      delivery: 'Available'
+    }
+  ]
 const main = document.getElementById('main-content')//main-div
 const disArr = [
   { percentage: '2%', value: 0.02 },
   { percentage: '5%', value: 0.05 },
   { percentage: 'None', value: 0 },
 ];
-const suppliers = ["Supplier A", "Supplier B", "Supplier C", "Supplier D"]
 
-const purchase = [
-  {
-    Product: "Product E",
-    Quantity: 10,
-    Price: 5.99,
-    Supplier: "Supplier A",
-    purchaseId: "PUR001"
-  },
-  {
-    Product: "Product C",
-    Quantity: 25,
-    Price: 12.49,
-    Supplier: "Supplier B",
-    purchaseId: "PUR002"
-  },
-  {
-    Product: "Product A",
-    Quantity: 5,
-    Price: 2.99,
-    Supplier: "Supplier A",
-    purchaseId: "PUR003"
+const suppliers = [];
+const supplierIndex = {};
+
+for (let i = 0; i < products.length; i++) {
+  const supplier = products[i].supplier;
+  if (supplierIndex[supplier] === undefined) {
+    supplierIndex[supplier] = true;
+    suppliers.push(supplier);
   }
-]
+}
+console.log(suppliers)
+const purchase = [{purchaseId:'PUR001',Product:'Pepsi',Quantity:4},{purchaseId:'PUR002',Product:'Colgate',Quantity:3},{purchaseId:'PUR003',Product:'Snickers',Quantity:2},{purchaseId:'PUR005',Product:'Nescafe',Quantity:2},{purchaseId:'PUR008',Product:'Dairy Milk',Quantity:5},{purchaseId:'PUR009',Product:'Maggi',Quantity:5},{purchaseId:'PUR011',Product:'Snickers',Quantity:3},{purchaseId:'PUR016',Product:'Nescafe',Quantity:4},{purchaseId:'PUR017',Product:'Dairy Milk',Quantity:4},{purchaseId:'PUR019',Product:'Pepsi',Quantity:5},{purchaseId:'PUR021',Product:'Colgate',Quantity:4},{purchaseId:'PUR023',Product:'Maggi',Quantity:2}]
 
-const puProd = [
-'Product D','Product E','Product C','Product B','Product A'
-]
+const puProd = [];
+for (let i = 0; i < products.length; i++) {
+  const productName = products[i].name;
+  if (!puProd.includes(productName)) {
+    puProd.push(productName);
+  }
+}
+
+console.log(puProd);
+// const puProd = products.map(obj=>{return obj.name})
 const errors = {}
 var mypr = {}
 const errors1 = {}
@@ -123,27 +207,33 @@ function removeProduct(index) {
   console.log(products)
   showAllProducts()
 }
-function makeinput(label, type, value, id, ph, err='' , wildCard) {
-  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" ` +wildCard+` required>` 
-  str +=  err ? `<span class="text-danger">`+err+`</span>` : ''
+function makeinput(label, type, value='', id, ph, err='' , wildCard) {
+  let str = `<label class="form-label">` + label + `</label> <input type="` + type + `" value="` + value + `" class="form-control" id="` + id + `" placeholder="` + ph + `" ` +wildCard+` >` 
+  str +=  err ? `<span class="text-danger">`+err+`</span><br>` : ''
   return str
 }
-function editProductForm(index) {
+
+function editProductForm(index,err='',values={}) {
       let obj = products[index]
+      if((values.price)=='')
+        obj.price = ''
+      else
+        values.price = obj.price
+      
       let str = `<h1>Update product</h1>
     
     <form id="product-form">
       <div class="mb-3">
-      `+ makeinput('Product name', 'text', obj.name , 'product-name', 'Enter name') +
+      `+ makeinput('Product name', 'text', obj.name , 'product-name', 'Enter name',errors.product||err.unique||'','disabled') +
         `
       <div class="mb-3">
-        `+ makeinput('Price', 'number', obj.price , 'product-price', 'Enter price') + `
+        `+ makeinput('Price', 'number', values.price , 'product-price', 'Enter price',err.price||'') + `
       </div>
       <div class="mb-3">
-        `+makeRB(disArr)+`
+        `+makeRBedit(disArr,err.discount||'',index)+`
       </div>
       <div class="mb-3">
-        `+ makeinput('Supplier', 'text', obj.supplier, 'product-supplier', 'Enter supplier') + `
+        `+ makeDD(suppliers, obj.supplier||"Select Supplier", "supplierDD", err.supplier)+ `
       </div>
       <div class="mb-3">
         `+  `<div class="form-check">
@@ -152,93 +242,138 @@ function editProductForm(index) {
 Delivery avilable
 </label>
 </div>`+ `</div>
-      <button type="submit" class="btn btn-primary" onclick="editProd(`+ index + `)">Submit</button>
+      <button type="submit" class="btn btn-primary" onclick="addNewPro(`+ index + `)">Submit</button>
     </form>`
-      main.innerHTML = str
+
+    let b = products[index].discount
+    console.log(b);
+    let radioElement = document.getElementsByName("flexRadioDefault"+b)
+    radioElement.checked = true
+    console.log(radioElement);
+    // console.log("Selected: ",b)
+    main.innerHTML = str
     }
-function editProd(index) {
-  let productName = document.getElementById('product-name').value
-  let productPrice = document.getElementById('product-price').value
-  let productDiscount = disArr.map(obj=>{
-    if (document.getElementById(obj.percentage).checked)
-    return obj.percentage
-  }).join('')
-  let productSupplier = document.getElementById('product-supplier').value
-  let productDelivery = document.getElementById('product-delivery').value
-
-  products[index].name = productName
-  products[index].price = productPrice
-  products[index].discount = productDiscount
-  products[index].supplier = productSupplier
-  products[index].delivery = productDelivery
-  showAllProducts()
-}
-
 
 //Add product
-function addProductForm(err={}) {
-//   if(newobj){
-//     main.innerHTML = `<h1>Add Product</h1>
-//   <div class="mb-3">`+
-//     makeinput('product name', 'text', '', 'product-name', 'Enter name',err.product + err.unique)
-//     + `</div>
-//   <div class="mb-3">`+
-//     makeinput('Price', 'number', '', 'product-price', 'Enter price',err.price)
-//     + `</div> Discount`+makeRB(disArr,err.discount)
-//     + makeDD(suppliers, "Supplier","supplierDD",err.supplier) + `<div class="form-check">
-// <input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
-// <label class="form-check-label" for="flexCheckDefault">
-// Delivery avilable
-// </label>
-// </div>`+
-//     `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
-//   }
-  // else{
+function addProductForm(err = '', values = {}) {
+  let m=[];
+  console.log("val: ",values)
+  for(let i =0;i<disArr.length;i++){
+    console.log(i);
+    if(disArr[i].percentage===values.productDiscount){
+      console.log("Found at ",i);
+      m.push(i)
+    }
+  }
+  console.log("Found at m 0 ",m[0]);
   main.innerHTML = `<h1>Add Product</h1>
-  <div class="mb-3">`+
-    makeinput('product name', 'text', '', 'product-name', 'Enter name',errors.product+err.unique)
-    + `</div>   
-  <div class="mb-3">`+
-    makeinput('Price', 'number', '', 'product-price', 'Enter price',err.price)
-    + `</div> Discount`+makeRB(disArr,err.discount)
-    + makeDD(suppliers, "Supplier","supplierDD",err.supplier) + `<div class="form-check">
-<input class="form-check-input" type="checkbox" value="Deliver" id="DelCb">
+  <div class="mb-3">` +
+    makeinput('product name', 'text', values.productName || '', 'product-name', 'Enter name', errors.product || err.unique||'') +
+    `</div>
+  <div class="mb-3">` +
+    makeinput('Price', 'number', values.productPrice || '', 'product-price', 'Enter price', ''||err.price) +
+    `</div> Discount` + makeRBadd(disArr,err.discount||'',m[0]) +
+    `<br>` + makeDD(suppliers, values.productSupplier||"Select Suppliers", "supplierDD", ''||err.supplier) +
+    `<div class="form-check">
+<input class="form-check-input" type="checkbox" value="Deliver" id="DelCb" ${values.productDelivery== 'Delivery Available' ? 'checked' : ''}>
 <label class="form-check-label" for="flexCheckDefault">
-Delivery avilable
+Delivery available
 </label>
-</div>`+
+</div>` +
     `<button type="submit" class="btn btn-primary" onclick="addNewPro()">Submit</button>`
+    
 }
-// }
+function makeRBedit(arr, err = {}, index) {
+  let str = `<br>`;//❌
+  let radioGroupName = `RadioGr${index || ''}`;
+  str += arr.map((obj,pos) => {
+    let isChecked = !isNaN(index) && products[index].discount==obj.percentage ? ' checked' : '';
+    return `<div class="form-check">
+              <input class="form-check-input" type="radio" name="${radioGroupName}" id="${obj.percentage}" value="${obj.value}"${isChecked}>
+              <label class="form-check-label" for="${obj.percentage}">${obj.percentage}</label>
+            </div>`;
+  }).join('');
 
-function addNewPro() {
-  let productName = document.getElementById('product-name').value
-  let productPrice = document.getElementById('product-price').value
-  let productSupplier = document.getElementById('supplierDD').value
-  let productDiscount =  disArr.map(obj=>{
-    if(document.getElementById(obj.percentage).checked)
-        return obj.percentage
-  }).join('')
-  let productDelivery = ''
-  if(document.getElementById('DelCb').checked)
+  str += err ? `<br><span class="text-danger">${err}</span><br>` : '';
+
+  return str;
+}
+
+function makeRBadd(arr, err = {}, index) {
+  let str = `<br>`;
+// ✔✔
+  let radioGroupName = `RadioGr${index || ''}`;
+  str += arr.map((obj,pos) => {
+    let isChecked = !isNaN(index) && pos==index ? ' checked' : '';
+    return `<div class="form-check">
+              <input class="form-check-input" type="radio" name="${radioGroupName}" id="${obj.percentage}" value="${obj.value}"${isChecked}>
+              <label class="form-check-label" for="${obj.percentage}">${obj.percentage}</label>
+            </div>`;
+  }).join('');
+
+  str += err ? `<br><span class="text-danger">${err}</span><br>` : '';
+
+  return str;
+}
+
+
+function addNewPro(index){
+  let productName = document.getElementById('product-name').value;
+  let productPrice = document.getElementById('product-price').value;
+  let productSupplier = document.getElementById('supplierDD').value;
+  let productDiscount = disArr.map(obj => {
+  if (document.getElementById(obj.percentage).checked)
+      return obj.percentage;
+  }).join('');
+  if(document.getElementById('DelCb').checked == true)
     productDelivery = 'Delivery Available'
   else 
     productDelivery = 'Not Available'
 
-  let newObj = { name: productName, price: productPrice, discount: productDiscount, supplier: productSupplier, delivery:productDelivery  }
-  if(validateNewProd(newObj)){
-    products.push(newObj)
-    showAllProducts()
+  let newObj = { name: productName, price: productPrice, discount: productDiscount, supplier: productSupplier, delivery: productDelivery }
+  if(!isNaN(index)){
+    if(validateNewProd(newObj,index)){
+    products[index].price = productPrice
+    products[index].discount = productDiscount
+    products[index].supplier = productSupplier
+    products[index].delivery = productDelivery
+    showAllProducts();
+    }
+    else
+    {
+      editProductForm(index,errors,{price: productPrice,supplier: productSupplier})
+    }
+    }
+  else{
+    if (validateNewProd(newObj)) {
+      products.push(newObj);
+      showAllProducts();
+    } 
+    else {
+      addProductForm(errors, {
+        productName,
+        productPrice,
+        productDiscount,
+        productSupplier,
+        productDelivery
+      });
+    }
   }
-  else
-  {
-    addProductForm(errors)
-  }
-  
-  
 }
-function validateNewProd(object){
 
+  
+  
+  
+function validateNewProd(object,index){
+if(!isNaN(index)){
+  errors.product = (object.name) ? '' : 'Product name is mandatory'
+  errors.price = object.price ? '' : 'Enter the correct price'
+  errors.discount = object.discount ? '' : 'Choose the discount'
+  errors.supplier = (object.supplier !== 'Select Supplier') ? '' : 'Select supplier'
+  console.log(errors);
+  return !(errors.product || errors.price || errors.discount || errors.supplier)
+}
+else{
  let findobj = products.find(obj=>{
     return obj.name == object.name
   })
@@ -248,41 +383,32 @@ console.log(findobj);
   else{
     findobj = { name: 'Product A', price: 25.99, discount: '2%', supplier: 'Supplier A', delivery: 'Not Available' }
   }
-  let flag = true
-  let checkunique = findobj.name == object.name ? flag = false : flag = true
-  errors.unique = checkunique ? '' : ' Product name already exists'
+  // let flag = true
+  // let checkunique = findobj.name == object.name ? flag = false : flag = true
+  // errors.unique = checkunique ? '' : ' '
   errors.product = (object.name) ? '' : 'Product name is mandatory'
   errors.price = object.price ? '' : 'Enter the correct price'
   errors.discount = object.discount ? '' : 'Choose the discount'
-  errors.supplier = (object.supplier !== 'Supplier') ? '' : 'Select supplier'
+  errors.supplier = (object.supplier !== 'Select Supplier') ? '' : 'Select supplier'
   console.log(errors);
-  return !(errors.product || errors.price || errors.discount || errors.supplier || errors.unique)
+  return !(errors.product || errors.price || errors.discount || errors.supplier)
+  // || errors.unique
+}
 }
 
-function makeRB(arr,err) {
-  let str = `<div class="form-check">`
-  str+= arr.map(obj=>{
-    return `<input class="form-check-input" type="radio" name="flexRadioDefault" id="`+obj.percentage+`" value="`+obj.value+`"> <label class="form-check-label" for="flexRadioDefault1">`+obj.percentage+`</label>`
-  }).join('<br>')
-  str+=`</div>`
-  str += err ? `<span class="text-danger">`+err+`</span>` : ''
-  return str
-}
+
 
 function makeDD(arr, text,id,err='') {
-  let str = `<select class="form-select" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
+  let str = `<select class = "" aria-label="Default select example" id = "`+id+`"><option selected disabled>` + text + `</option>`
   str += arr.map(obj => {
     return `<option value="`+ obj + `">` + obj + `</option>`
   })
   str+= `</select>`
-  str+=  err ? `<span class="text-danger">`+err+`</span>` : ''
+  str+=  err ? `<br><span class="text-danger">`+err+`</span>` : ''
   return str
   }
 function showAllProducts() {
-  main.innerHTML = ` <h1 id="store-system">Store System</h1>
-<p>Content related to Store System goes here.</p>
-
-<h1 id="show-product">Show a Product</h1>
+  main.innerHTML = ` <h1 id="show-product">Show all Product</h1>
 <div class="table-responsive">
   <table class="table table-bordered ">
     <thead class="table-primary">
@@ -377,149 +503,200 @@ products.map(obj => {
 contentDiv.innerHTML = employeesHtml 
 }
 
-function makePurchaseForm(err={}){
-  console.log(err);
-let contentDiv = document.getElementById("main-content");
-contentDiv.innerHTML = 
-`<h1>New purchase form</h1>
-`+makeinput("Purchase ID","text","","purchase-id","Enter purchase ID",err.purchaseId+errors1.unique)+
-  `<div class="mb-3">Name
-  `+ makeDD(puProd,"Product Name","product-name",err.product) +
-    `
-  <div class="mb-3">
-    `+ makeinput('Quantity', 'number', '', 'product-quantity', 'Enter quantity',err.quantity) + `
-  </div>
-  <button onclick="addmakepurchase()" class="btn btn-dark">Submit</button>`
+function makePurchaseForm( err = {}, values = {},index) {
+  if(!isNaN(index)){
+    console.log(index);
+    console.log("Valuesob",values);
+    let workobj = purchase[index]
+      values.purchaseId = workobj.purchaseId
+      values.product = workobj.Product
+      if((values.quantity)=='')
+        workobj.Quantity = ''
+      else
+        values.quantity = workobj.Quantity
+  let contentDiv = document.getElementById("main-content");
+  contentDiv.innerHTML =
+    `<h1>Update Form</h1>` +
+    makeinput("Purchase ID", "text", values.purchaseId || "", "purchase-id", "", err.purchaseId || errors1.unique,'disabled') +
+    `<div class="mb-3">Name<br>` + makeDD(puProd, values.product||"Product Name", "product-name", err.product) +
+    `<div class="mb-3">` + makeinput('Quantity', 'number', workobj.Quantity||values.quantity || '', 'product-quantity', '', err.quantity) + `</div>
+  <button onclick="addmakepurchase(`+index+`)" class="btn btn-dark">Submit</button>`;   
+  }
+  else{
+  console.log("else",values)
+  console.log("else",err);
+  let contentDiv = document.getElementById("main-content");
+  contentDiv.innerHTML =
+    `<h1>New purchase form</h1>` +
+    makeinput("Purchase ID", "text", values.purchaseId || "", "purchase-id", "Enter purchase ID", err.purchaseId || err.unique||'') +
+    `<div class="mb-3">Name<br>` + makeDD(puProd, values.product||"Product Name", "product-name", err.product||'') +
+    `<div class="mb-3">` + makeinput('Quantity', 'number', values.quantity || '', 'product-quantity', 'Enter quantity', err.quantity||'') + `</div>
+  <button onclick="addmakepurchase(`+index+`)" class="btn btn-dark">Submit</button>`;  
+    }
 }
 
-function addmakepurchase(){
-let name = document.getElementById('product-name').value
-let quantity = document.getElementById('product-quantity').value
-let purchaseId = document.getElementById('purchase-id').value
-console.log("Name = ",name)
-let price = ''
-let supplier = ''
 
+function addmakepurchase(index) {
+  let name = document.getElementById('product-name').value;
+  let quantity = document.getElementById('product-quantity').value;
+  let purchaseId = document.getElementById('purchase-id').value;
+  console.log("Name = ", name);
+  let price = '';
+  let supplier = '';
 
   let newObj = {
-  Product: name,
-  Quantity: quantity,
-  Price: price,
-  Supplier: supplier,
-  purchaseId : purchaseId,
+    Product: name,
+    Quantity: quantity,
+    Price: price,
+    Supplier: supplier,
+    purchaseId: purchaseId,
+  };
+if(!isNaN (index)){
+    if(validateStock(newObj,index)){
+      purchase[index].name = name
+      purchase[index].Quantity = quantity
+      stockView()
+      }
+    else{
+      console.log('errors2: ', errors1);
+      makePurchaseForm(errors1, {
+      purchaseId,
+      product: name,
+      quantity : quantity
+    },index); 
+    }
   }
-if(validateStock(newObj)){
-  let object = products.find(obj=>{
-  return obj.name === name
-})
-price = object.price    
-supplier = object.supplier
-console.log("price = ",price)
-newObj = {
-  Product: name,
-  Quantity: quantity,
-  Price: price,
-  Supplier: supplier,
-  purchaseId : purchaseId,
+else{
+  if (validateStock(newObj)) {
+    let object = products.find(obj => {
+      return obj.name === name;
+    });
+    price = object.price;
+    supplier = object.supplier;
+    console.log("price = ", price);
+    newObj = {
+      Product: name,
+      Quantity: quantity,
+      Price: price,
+      Supplier: supplier,
+      purchaseId: purchaseId,
+    };
+    purchase.push(newObj);
+    stockView();
   }
-  purchase.push(newObj)
-  stockView()
+  else {
+    console.log('errors1: ', errors1);
+    makePurchaseForm(errors1, {
+      purchaseId,
+      product: name,
+      quantity
+    });
   }
-  else
-  {
-    
-    console.log('errors: ',errors1);
-    makePurchaseForm(errors1)
-  }
-
+}
 }
 
-
-function validateStock(object){
-  let findobj = purchase.find(obj=>{
-    return obj.purchaseId == object.purchaseId 
-  })
-  let flag = true
-  let checkunique = findobj ? flag = false : flag = true
-  errors1.unique = (checkunique) ? '' : ' Purchase id must be unique'
+function validateStock(object,index){
+  if(isNaN(index)){
+    
+    let findobj = purchase.find(obj=>{
+      return obj.purchaseId == object.purchaseId 
+    })
+    let flag = true
+    let checkunique = findobj ? flag = false : flag = true
+    errors1.unique = (checkunique) ? '' : ' Purchase id must be unique'
+    errors1.purchaseId = (object.purchaseId) ? '' : 'Purchase id is not defined'
+    errors1.product = (object.Product!='Product Name') ? '' : 'Product name is mandatory'
+    errors1.quantity = object.Quantity ? '' : 'Enter correct quantity'
+    console.log("inner:",errors1);
+    return !(errors1.product || errors1.purchaseId  || errors1.quantity||errors1.unique )
+}
+else{
+  console.log("New data valid");
   errors1.purchaseId = (object.purchaseId) ? '' : 'Purchase id is not defined'
   errors1.product = (object.Product!='Product Name') ? '' : 'Product name is mandatory'
-  errors1.quantity = object.Quantity ? '' : 'Enter correct quantity'
+  errors1.quantity = object.Quantity ? '' : 'Quantity cannot be empty'
   console.log(errors1);
-  return !(errors1.product || errors1.purchaseId  || errors1.quantity )
+  return !(errors1.product || errors1.purchaseId  || errors1.quantity||errors1.unique )
 }
+}
+
 function removeStock(index){
   purchase.splice(index, 1)
   console.log(products)
   stockView()
 }
 
-function stockView(){
-let contentDiv = document.getElementById("main-content");
-let str1 = `<div class="container mt-5">
-<h1>Purchase Table</h1>
-<table class="table">
-  <thead>
-      <th onclick ="sortTable(1)">Product-ID</th>
-      <th onclick ="sortTable(1)">Product</th>
-      <th onclick ='sortTable(2)'>Quantity</th>
-      <th onclick ='sortTable(3)'>Price</th>
-      <th onclick ='sortTable(4)'>Supplier</th>
-      <th>Modify</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody">
-  </tbody>
-</table>
-</div>`
-contentDiv.innerHTML = str1
-let table = document.getElementById("tableBody");
-let str2 = purchase.map((item,index)=>
-  "<tr>" +
-    "<td  >" + item.purchaseId + "</td>" +
-    "<td  >" + item.Product + "</td>" +
-    "<td  >" + item.Quantity + "</td>" +
-    "<td  >" + item.Price + "</td>" +
-    "<td  >" + item.Supplier + "</td>" +
-    `<td><button onclick="editStockform(`+ index + `)" class="btn btn-dark">Edit</button>
-    <button onclick = "removeStock(`+ index + `)"class="btn btn-danger">Remove</button></td>`+
-  "</tr>"
-).join(''); 
-table.innerHTML = str2
-}
-function editStockform(index){
-  let workobj = purchase[index]
+function stockView(array = purchase){
   let contentDiv = document.getElementById("main-content");
-  contentDiv.innerHTML = 
-`<h1>New purchase form</h1>
-`+makeinput("Purchase ID","text",workobj.purchaseId,"purchase-id","Enter purchase ID","","readonly")+
-  `<div class="mb-3">Name
-  `+ makeDD(puProd,workobj.Product,"product-name") +
-    `
-  <div class="mb-3">
-    `+ makeinput('Quantity', 'number', workobj.Quantity, 'product-quantity', 'Enter quantity') + `
-  </div>
-  <button onclick="editpurchase(`+index+`)" class="btn btn-dark">Submit</button>`
-}
-function editpurchase(index){
-  let purchaseID = document.getElementById('purchase-id').value
-  let name = document.getElementById('product-name').value
-  let quantity = document.getElementById('product-quantity').value
 
-console.log("Name = ",name)
-let object = products.find(obj=>{
-  return obj.name === name
-})
-if(name && purchaseID && quantity){
-purchase[index].Product = name
-purchase[index].purchaseId = purchaseID
-purchase[index].Quantity = quantity
-stockView()
+  let str1 = `<div class="container mt-5">
+  <h1>Purchase Table</h1>
+  `+makeDD(puProd,'Select product','prod-name')+
+  makeDD(suppliers,'Select supplier','prod-supplier')+
+  `<button onclick="filtter()" class="btn btn-dark">Filter</button>
+  <table class="table">
+    <thead>
+        <th onclick ="sortTable(1)">Product-ID</th>
+        <th onclick ="sortTable(1)">Product</th>
+        <th onclick ='sortTable(2)'>Quantity</th>
+        <th onclick ='sortTable(3)'>Price</th>
+        <th onclick ='sortTable(4)'>Supplier</th>
+        <th>Modify</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+  </div>`
+  contentDiv.innerHTML = str1
+  let table = document.getElementById("tableBody");
+  let str2 = array.map((item,index)=>
+    "<tr>" +
+      "<td  >" + item.purchaseId + "</td>" +
+      "<td  >" + item.Product + "</td>" +
+      "<td  >" + item.Quantity + "</td>" +
+      "<td  >" + products.find(obj=>obj.name == item.Product).price + "</td>" +
+      "<td  >" + products.find(obj=>obj.name == item.Product).supplier + "</td>" +
+      `<td><button onclick="makePurchaseForm(errors, errors1, ` + index + `)" class="btn btn-dark">Edit</button>
+      <button onclick = "removeStock(`+ index + `)"class="btn btn-danger">Remove</button></td>`+
+    "</tr>"
+  ).join(''); 
+  table.innerHTML = str2
 }
-else{
-  alert('All fields must be filled')
+
+  function filtter(){
+    let prod = document.getElementById('prod-name').value
+    let supplier = document.getElementById('prod-supplier').value
+    console.log(prod);
+    console.log(supplier);
+    console.log(purchase);
+  let purchaseArr = []
+  if(prod && supplier){
+    purchaseArr =  purchase.filter((obj,index)=>{
+      if(prod == obj.Product && supplier == (products.find(o=>{return o.name == obj.Product }).supplier))
+      return obj
+    })
+    console.log('prod and supp: ',purchaseArr);
+}
+if(supplier && prod == 'Select product'){
+  purchaseArr =  purchase.filter(obj=>{
+    if(supplier === products.find(o=>{return o.name == obj.Product }).supplier)
+    return obj
+  })
+  console.log('supplier : ',purchaseArr);
+}
+if(prod && supplier == 'Select supplier'){
+  console.log('filter working prod');
+  purchaseArr =  purchase.filter(obj=>{
+    if (prod === obj.Product)
+    return obj
+  })
+  console.log('prod:',purchaseArr);
+}
+if(prod == 'Select product' && supplier == 'Select supplier'){
   return
 }
+stockView(purchaseArr)
 }
 
 // Function to sort 
